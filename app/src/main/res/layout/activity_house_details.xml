@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="10">
+
+    <ScrollView
+        android:layout_weight="9"
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/roomDetails"
+                android:text="Room Details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.viewpager.widget.ViewPager
+                android:layout_below="@+id/roomDetails"
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="240dp" />
+            <TextView
+                android:text="roomStyle"
+                android:id="@+id/roomStyleDetails"
+                android:layout_below="@id/viewPager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="."
+                android:id="@+id/dot"
+                android:layout_below="@+id/viewPager"
+                android:layout_toRightOf="@+id/roomStyleDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="number"
+                android:id="@+id/numberOfRoomDetails"
+                android:layout_below="@+id/viewPager"
+                android:layout_toRightOf="@+id/dot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/titleOfThePostDetails"
+                android:text="titleOfThePostDetails"
+                android:layout_below="@+id/roomStyleDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/addressDetails"
+                android:text="address"
+                android:layout_below="@id/titleOfThePostDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/rentalPriceDetails"
+                android:layout_below="@+id/addressDetails"
+                android:text="rentalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text=" VND"
+                android:layout_below="@id/addressDetails"
+                android:layout_toRightOf="@+id/rentalPriceDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+    <Button
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+</LinearLayout>

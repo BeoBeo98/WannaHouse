@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+            <ImageView
+                android:scaleType="centerCrop"
+                android:id="@+id/image"
+                android:layout_width="180dp"
+                android:layout_height="120dp" />
+            <TextView
+                android:text="roomStyle"
+                android:id="@+id/roomStyle"
+                android:layout_below="@id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="."
+                android:id="@+id/dot"
+                android:layout_below="@+id/image"
+                android:layout_toRightOf="@+id/roomStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="number"
+                android:id="@+id/numberOfRoom"
+                android:layout_below="@+id/image"
+                android:layout_toRightOf="@+id/dot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/titleOfThePost"
+                android:text="titleOfThePost"
+                android:layout_below="@+id/roomStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/rentalPrice"
+                android:layout_below="@+id/titleOfThePost"
+                android:text="rentalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text=" VND"
+                android:layout_below="@id/titleOfThePost"
+                android:layout_toRightOf="@+id/rentalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/address"
+                android:text="address"
+                android:layout_below="@id/rentalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

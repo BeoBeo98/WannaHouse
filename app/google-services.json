@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "757158457739",
+    "firebase_url": "https://wannahouse-ff628.firebaseio.com",
+    "project_id": "wannahouse-ff628",
+    "storage_bucket": "wannahouse-ff628.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757158457739:android:2dc2e45be7f37817413f8e",
+        "android_client_info": {
+          "package_name": "com.example.wannahouse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757158457739-noluusirdjpcda17i1fpph7er8uu7e2d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wannahouse",
+            "certificate_hash": "ed54ab60b3d08440e3458d877959a8e934f6d693"
+          }
+        },
+        {
+          "client_id": "757158457739-vru3mqu2es273aa3vhfc5tkpkgdo5h9l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_GJF042Ua56szb9GXL-KGtilnbmtuCSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757158457739-vru3mqu2es273aa3vhfc5tkpkgdo5h9l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
