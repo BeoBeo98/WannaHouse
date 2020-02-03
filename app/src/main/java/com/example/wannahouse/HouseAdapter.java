@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +61,8 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.ViewHolder> 
             @Override
             public void onItemClick( int position) {
                 Intent intent = new Intent(context, HouseDetailsActivity.class);
-                intent.putExtra("Position_", (Serializable) Data.arrayListHouse.get(position));
+                intent.putExtra("Position_", (Serializable) listHouse.get(position));
+                intent.putExtra("Position_2", (Serializable) listHouse.get(position));
                 context.startActivity(intent);
             }
         });
@@ -68,7 +70,7 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return Data.arrayListHouse.size();
+        return listHouse.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
