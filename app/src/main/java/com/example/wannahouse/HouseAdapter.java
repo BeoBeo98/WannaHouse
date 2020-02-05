@@ -53,7 +53,14 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.ViewHolder> 
         House house = listHouse.get(position);
         Picasso.get().load( house.getImage().get(0) ).into(holder.imageView);
         holder.roomStyle.setText( String.valueOf(house.getRoomStyle()));
-        holder.numberOfRoom.setText( String.valueOf((house.getNumberOfRoom())));
+
+        String gender = "";
+        switch (house.getGender()) {
+            case 1: gender = " ♂"; break;
+            case 0: gender = " ♂/♀"; break;
+            case -1: gender = " ♀"; break;
+        }
+        holder.capacity.setText(house.getCapacity() + gender );
         holder.rentalPrice.setText( String.valueOf((house.getRentalPrice())));
         holder.address.setText( house.getHouseNumber() + ", " + house.getStreet() + ", " + house.getWard() + ", " + house.getDistrict());
         holder.titleOfTheRoom.setText( house.getTitleOfTheRoom() );
@@ -61,8 +68,7 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.ViewHolder> 
             @Override
             public void onItemClick( int position) {
                 Intent intent = new Intent(context, HouseDetailsActivity.class);
-                intent.putExtra("Position_", (Serializable) listHouse.get(position));
-                intent.putExtra("Position_2", (Serializable) listHouse.get(position));
+                intent.putExtra("Position_", listHouse.get(position));
                 context.startActivity(intent);
             }
         });
@@ -77,7 +83,7 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.ViewHolder> 
 
         ImageView imageView;
         TextView roomStyle;
-        TextView numberOfRoom;
+        TextView capacity;
         TextView rentalPrice;
         TextView address;
         TextView titleOfTheRoom;
@@ -86,12 +92,12 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.ViewHolder> 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             context = itemView.getContext();
-            titleOfTheRoom = (TextView) itemView.findViewById(R.id.titleOfThePost);
-            imageView = (ImageView) itemView.findViewById(R.id.image);
-            roomStyle = (TextView) itemView.findViewById(R.id.roomStyle);
-            numberOfRoom = (TextView) itemView.findViewById(R.id.numberOfRoom);
-            rentalPrice = (TextView) itemView.findViewById(R.id.rentalPrice);
-            address = (TextView) itemView.findViewById(R.id.address);
+            titleOfTheRoom = itemView.findViewById(R.id.titleOfThePost);
+            imageView = itemView.findViewById(R.id.image);
+            roomStyle = itemView.findViewById(R.id.roomStyle);
+            capacity = itemView.findViewById(R.id.capacity);
+            rentalPrice = itemView.findViewById(R.id.rentalPrice);
+            address = itemView.findViewById(R.id.address);
 
             itemView.setOnClickListener(this);
         }

@@ -5,17 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class House implements Serializable {
-    private int roomStyle;
+    private String roomStyle;
     private int numberOfRoom;
     private int capacity;
     private int gender;
     private int roomArea;
     private int rentalPrice;
     private int deposit;
-    private int electricityCost;
+    private float electricityCost;
     private int waterCost;
     private int internetCost;
-    private boolean parkingLot;
     private int parkingCost;
     private String city;
     private String district;
@@ -30,14 +29,35 @@ public class House implements Serializable {
     private String avatar;
     private String postingDate;
 
+    private boolean parkingLot;
+    private boolean privateWC;
+    private boolean window;
+    private boolean security;
+    private boolean internet;
+    private boolean noCurfew;
+    private boolean noOwner;
+    private boolean airConditioner;
+    private boolean waterHeater;
+    private boolean cook;
+    private boolean fridge;
+    private boolean washing;
+    private boolean loft;
+    private boolean bed;
+    private boolean wardrobe;
+    private boolean television;
+
     public House() {
     }
 
-    public House(int roomStyle, int numberOfRoom, int capacity, int gender, int roomArea,
-                 int rentalPrice, int deposit, int electricityCost, int waterCost, int internetCost,
+    public House(String roomStyle, int numberOfRoom, int capacity, int gender, int roomArea,
+                 int rentalPrice, int deposit, float electricityCost, int waterCost, int internetCost,
                  boolean parkingLot, int parkingCost, String city, String district, String ward,
                  String street, String houseNumber, String roomDescription, String titleOfTheRoom,
-                 ArrayList<String> image, String roomOwnerName, String phone, String avatar, String postingDate) {
+                 ArrayList<String> image, String roomOwnerName, String phone, String avatar,
+                 String postingDate, boolean privateWC, boolean window, boolean security,
+                 boolean internet, boolean noCurfew, boolean noOwner, boolean airConditioner,
+                 boolean waterHeater, boolean cook, boolean fridge, boolean washing, boolean loft,
+                 boolean bed, boolean wardrobe, boolean television ) {
         this.roomStyle = roomStyle;
         this.numberOfRoom = numberOfRoom;
         this.capacity = capacity;
@@ -62,13 +82,28 @@ public class House implements Serializable {
         this.phone = phone;
         this.avatar = avatar;
         this.postingDate = postingDate;
+        this.privateWC = privateWC;
+        this.window = window;
+        this.security = security;
+        this.internet = internet;
+        this.noCurfew = noCurfew;
+        this.noOwner = noOwner;
+        this.airConditioner = airConditioner;
+        this.waterHeater = waterHeater;
+        this.cook = cook;
+        this.fridge = fridge;
+        this.washing = washing;
+        this.loft = loft;
+        this.bed = bed;
+        this.wardrobe = wardrobe;
+        this.television = television;
     }
 
-    public int getRoomStyle() {
+    public String getRoomStyle() {
         return roomStyle;
     }
 
-    public void setRoomStyle(int roomStyle) {
+    public void setRoomStyle(String roomStyle) {
         this.roomStyle = roomStyle;
     }
 
@@ -120,11 +155,11 @@ public class House implements Serializable {
         this.deposit = deposit;
     }
 
-    public int getElectricityCost() {
+    public float getElectricityCost() {
         return electricityCost;
     }
 
-    public void setElectricityCost(int electricityCost) {
+    public void setElectricityCost(float electricityCost) {
         this.electricityCost = electricityCost;
     }
 
@@ -254,5 +289,125 @@ public class House implements Serializable {
 
     public void setPostingDate(String postingDate) {
         this.postingDate = postingDate;
+    }
+
+    public boolean isPrivateWC() {
+        return privateWC;
+    }
+
+    public void setPrivateWC(boolean privateWC) {
+        this.privateWC = privateWC;
+    }
+
+    public boolean isWindow() {
+        return window;
+    }
+
+    public void setWindow(boolean window) {
+        this.window = window;
+    }
+
+    public boolean isSecurity() {
+        return security;
+    }
+
+    public void setSecurity(boolean security) {
+        this.security = security;
+    }
+
+    public boolean isInternet() {
+        return internet;
+    }
+
+    public void setInternet(boolean internet) {
+        this.internet = internet;
+    }
+
+    public boolean isNoCurfew() {
+        return noCurfew;
+    }
+
+    public void setNoCurfew(boolean noCurfew) {
+        this.noCurfew = noCurfew;
+    }
+
+    public boolean isNoOwner() {
+        return noOwner;
+    }
+
+    public void setNoOwner(boolean noOwner) {
+        this.noOwner = noOwner;
+    }
+
+    public boolean isAirConditioner() {
+        return airConditioner;
+    }
+
+    public void setAirConditioner(boolean airConditioner) {
+        this.airConditioner = airConditioner;
+    }
+
+    public boolean isWaterHeater() {
+        return waterHeater;
+    }
+
+    public void setWaterHeater(boolean waterHeater) {
+        this.waterHeater = waterHeater;
+    }
+
+    public boolean isCook() {
+        return cook;
+    }
+
+    public void setCook(boolean cook) {
+        this.cook = cook;
+    }
+
+    public boolean isFridge() {
+        return fridge;
+    }
+
+    public void setFridge(boolean fridge) {
+        this.fridge = fridge;
+    }
+
+    public boolean isWashing() {
+        return washing;
+    }
+
+    public void setWashing(boolean washing) {
+        this.washing = washing;
+    }
+
+    public boolean isLoft() {
+        return loft;
+    }
+
+    public void setLoft(boolean loft) {
+        this.loft = loft;
+    }
+
+    public boolean isBed() {
+        return bed;
+    }
+
+    public void setBed(boolean bed) {
+        this.bed = bed;
+    }
+
+    public boolean isWardrobe() {
+        return wardrobe;
+    }
+
+    public void setWardrobe(boolean wardrobe) {
+        this.wardrobe = wardrobe;
+    }
+
+    public boolean isTelevision() {
+        return television;
+    }
+
+    public void setTelevision(boolean television) {
+        this.television = television;
     }
 }

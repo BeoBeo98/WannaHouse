@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         txtName = findViewById(R.id.profile_name);
         txtEmail = findViewById(R.id.profile_email);
         circleImageView = findViewById(R.id.profile_pic);
-        test = (TextView) findViewById(R.id.test);
+        test = findViewById(R.id.test);
 
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions(Arrays.asList("email","public_profile"));
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        button_explore = (Button) findViewById(R.id.button_explore);
+        button_explore = findViewById(R.id.button_explore);
         button_explore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for( DataSnapshot houseSnapshot : dataSnapshot.getChildren() ) {
                     House house = houseSnapshot.getValue(House.class);
-                    s = house.getPostingDate();
                     Data.arrayListHouse.add(house);
                     s = String.valueOf(Data.arrayListHouse.size());
                     test.setText(s);

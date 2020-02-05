@@ -4,10 +4,10 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:paddingBottom="10dp">
+    android:paddingTop="7.5dp"
+    android:paddingLeft="7.5dp"
+    android:paddingRight="7.5dp"
+    android:paddingBottom="7.5dp">
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:orientation="vertical"
@@ -20,48 +20,53 @@
 
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="180dp"
-                android:layout_height="120dp"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
                 android:scaleType="centerCrop" />
             <TextView
+                android:textStyle="italic"
+                android:textSize="12sp"
                 android:text="roomStyle"
                 android:id="@+id/roomStyle"
                 android:layout_below="@id/image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text="."
+                android:textSize="12sp"
+                android:text=" . "
                 android:id="@+id/dot"
                 android:layout_below="@+id/image"
                 android:layout_toRightOf="@+id/roomStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text="number"
-                android:id="@+id/numberOfRoom"
+                android:textSize="12sp"
+                android:text="capacity"
+                android:id="@+id/capacity"
                 android:layout_below="@+id/image"
                 android:layout_toRightOf="@+id/dot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="12sp"
                 android:id="@+id/titleOfThePost"
                 android:text="titleOfThePost"
                 android:layout_below="@+id/roomStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
                 android:id="@+id/rentalPrice"
                 android:layout_below="@+id/titleOfThePost"
                 android:text="rentalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text=" VND"
-                android:layout_below="@id/titleOfThePost"
-                android:layout_toRightOf="@+id/rentalPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
+                android:textSize="12sp"
                 android:id="@+id/address"
                 android:text="address"
                 android:layout_below="@id/rentalPrice"
