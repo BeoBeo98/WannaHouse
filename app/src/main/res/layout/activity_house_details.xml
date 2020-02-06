@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="10">
 
@@ -266,12 +268,12 @@
                                     android:layout_height="wrap_content">
                                     <ImageView
                                         android:layout_gravity="center"
-                                        android:background="@drawable/icons8lighton100"
+                                        android:background="@drawable/idea"
                                         android:layout_width="30dp"
                                         android:layout_height="30dp" />
                                     <TextView
-                                        android:paddingTop="5dp"
                                         android:gravity="center"
+                                        android:layout_marginTop="5dp"
                                         android:id="@+id/electricCost"
                                         android:text="electric cost"
                                         android:layout_width="match_parent"
@@ -284,11 +286,11 @@
                                     android:layout_height="wrap_content">
                                     <ImageView
                                         android:layout_gravity="center"
-                                        android:background="@drawable/icons8dropofblood100"
+                                        android:background="@drawable/drop"
                                         android:layout_width="30dp"
                                         android:layout_height="30dp" />
                                     <TextView
-                                        android:paddingTop="5dp"
+                                        android:layout_marginTop="5dp"
                                         android:gravity="center"
                                         android:id="@+id/waterCost"
                                         android:text="water cost"
@@ -302,11 +304,11 @@
                                     android:layout_height="wrap_content">
                                     <ImageView
                                         android:layout_gravity="center"
-                                        android:background="@drawable/icons8scooter100"
+                                        android:background="@drawable/scooter"
                                         android:layout_width="30dp"
                                         android:layout_height="30dp" />
                                     <TextView
-                                        android:paddingTop="5dp"
+                                        android:layout_marginTop="5dp"
                                         android:gravity="center"
                                         android:id="@+id/parkingCost"
                                         android:text="parkingCost"
@@ -320,7 +322,7 @@
                                     android:layout_height="wrap_content">
                                     <ImageView
                                         android:layout_gravity="center"
-                                        android:background="@drawable/icons8wifi100"
+                                        android:background="@drawable/wifi"
                                         android:layout_width="30dp"
                                         android:layout_height="30dp" />
                                     <TextView
@@ -335,6 +337,14 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_below="@+id/ADDRESS"
+                android:id="@+id/AMENITIES"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include layout="@layout/item_amenities"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -364,7 +374,7 @@
             <RelativeLayout
                 android:layout_marginTop="10dp"
                 android:background="@drawable/customborder"
-                android:layout_below="@+id/ADDRESS"
+                android:layout_below="@+id/AMENITIES"
                 android:id="@+id/OWNER"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >

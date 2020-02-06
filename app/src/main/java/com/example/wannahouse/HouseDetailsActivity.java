@@ -9,11 +9,13 @@ import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +51,8 @@ public class HouseDetailsActivity extends AppCompatActivity {
     private ImageView avatarOwner;
     private ViewGroup vgCall;
 
+    private GridView gridviewItemAmenities;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,7 @@ public class HouseDetailsActivity extends AppCompatActivity {
         final House house = (House) intent.getSerializableExtra("Position_");
         dataLinking(house);
         imageLinking(house);
-
+        itemAmenitiesLinking(house);
     }
 
     @SuppressLint("WrongViewCast")
@@ -203,4 +207,43 @@ public class HouseDetailsActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    private void itemAmenitiesLinking(House house) {
+        ViewGroup AMENITIES = findViewById(R.id.AMENITIES);
+
+        ViewGroup air = findViewById(R.id.amenitiesAir);
+        ViewGroup privateWC = findViewById(R.id.amenitiesPrivateWC);
+        ViewGroup parking = findViewById(R.id.amenitiesParking);
+        ViewGroup internet = findViewById(R.id.amenitiesInternet);
+        ViewGroup security = findViewById(R.id.amenitiesSecurity);
+        ViewGroup noOwner = findViewById(R.id.amenitiesNoOwner);
+        ViewGroup noCurfew = findViewById(R.id.amenitiesNoCurfew);
+        ViewGroup cooking = findViewById(R.id.amenitiesCooking);
+        ViewGroup bed = findViewById(R.id.amenitiesBed);
+        ViewGroup window = findViewById(R.id.amenitiesWindow);
+        ViewGroup waterHeater = findViewById(R.id.amenitiesWaterHeater);
+        ViewGroup washing = findViewById(R.id.amenitiesWashing);
+        ViewGroup wardrobe = findViewById(R.id.amenitiesWardrobe);
+        ViewGroup fridge = findViewById(R.id.amenitiesFridge);
+        ViewGroup loft = findViewById(R.id.amenitiesLoft);
+        ViewGroup television = findViewById(R.id.amenitiesTelevision);
+
+        float alpha = (float) 0.25;
+
+        if( !house.isAirConditioner() ) air.setAlpha(alpha);
+        if( !house.isPrivateWC() ) privateWC.setAlpha(alpha);
+        if( !house.isParkingLot() ) parking.setAlpha(alpha);
+        if( !house.isInternet() ) internet.setAlpha(alpha);
+        if( !house.isSecurity() ) security.setAlpha(alpha);
+        if( !house.isNoOwner() ) noOwner.setAlpha(alpha);
+        if( !house.isNoCurfew() ) noCurfew.setAlpha(alpha);
+        if( !house.isCook() ) cooking.setAlpha(alpha);
+        if( !house.isBed() ) bed.setAlpha(alpha);
+        if( !house.isWindow() ) window.setAlpha(alpha);
+        if( !house.isWaterHeater() ) waterHeater.setAlpha(alpha);
+        if( !house.isWashing() ) washing.setAlpha(alpha);
+        if( !house.isWardrobe() ) wardrobe.setAlpha(alpha);
+        if( !house.isFridge() ) fridge.setAlpha(alpha);
+        if( !house.isLoft() ) loft.setAlpha(alpha);
+        if( !house.isTelevision() ) television.setAlpha(alpha);
+    }
 }
