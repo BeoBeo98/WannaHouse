@@ -44,6 +44,7 @@
         <activity android:name=".ExploreActivity"></activity>
         <activity android:name=".HouseDetailsActivity"></activity>
         <activity android:name=".ImageDetailActivity"></activity>
+        <activity android:name=".ListYourSpaceActivity"></activity>
     </application>
 
 </manifest>

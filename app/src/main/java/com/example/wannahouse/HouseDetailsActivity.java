@@ -102,13 +102,13 @@ public class HouseDetailsActivity extends AppCompatActivity {
         }
         capacity.setText(house.getCapacity() + gender );
         rentalPrice.setText( String.valueOf(house.getRentalPrice()));
-        roomArea.setText( String.valueOf(house.getRoomArea()) + "m2");
-        deposit.setText( String.valueOf(house.getDeposit()) + " month");
-        electricCost.setText( String.valueOf(house.getElectricityCost()) + "k");
+        roomArea.setText(house.getRoomArea() + "m2");
+        deposit.setText(house.getDeposit() + " month");
+        electricCost.setText(house.getElectricityCost() + "k");
 
-        waterCost.setText( String.valueOf(house.getWaterCost()) + "k");
-        parkingCost.setText( String.valueOf(house.getParkingCost() + "k"));
-        internetCost.setText( String.valueOf(house.getInternetCost()) + "k");
+        waterCost.setText(house.getWaterCost() + "k");
+        parkingCost.setText(house.getParkingCost() + "k");
+        internetCost.setText(house.getInternetCost() + "k");
         address.setText( house.getHouseNumber() + ", " + house.getStreet() + ", " + house.getWard() + ", " + house.getDistrict());
         phoneNumber.setText( "✆ " + house.getPhone());
         postingDate.setText( "" + house.getPostingDate());
@@ -227,7 +227,7 @@ public class HouseDetailsActivity extends AppCompatActivity {
         ViewGroup loft = findViewById(R.id.amenitiesLoft);
         ViewGroup television = findViewById(R.id.amenitiesTelevision);
 
-        float alpha = (float) 0.25;
+        float alpha = (float) 0.2;
 
         if( !house.isAirConditioner() ) air.setAlpha(alpha);
         if( !house.isPrivateWC() ) privateWC.setAlpha(alpha);

@@ -101,6 +101,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button listYourSpace = findViewById(R.id.listYourSpace);
+        listYourSpace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,ListYourSpaceActivity.class);
+                startActivity(intent);
+            }
+        });
+
         inputDatFromDatabase();
     }
 
