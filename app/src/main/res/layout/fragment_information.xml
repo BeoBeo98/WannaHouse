@@ -18,35 +18,41 @@
                 android:layout_height="wrap_content"
                 android:text="Room information" />
 
-            <RadioGroup
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_roomStyle"
                 android:background="@drawable/border2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
-                <TextView
+                <RadioGroup
+                    android:id="@+id/radioGroup_roomStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="ROOM STYLE"/>
-                <RadioButton
-                    android:text="Room for rent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <RadioButton
-                    android:text="Room for share"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <RadioButton
-                    android:text="Apartment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <RadioButton
-                    android:text="House"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <RadioButton
-                    android:text="Dormitory"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </RadioGroup>
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ROOM STYLE"/>
+                    <RadioButton
+                        android:text="Room for rent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:text="Room for share"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:text="Apartment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:text="House"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:text="Dormitory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RadioGroup>
+            </com.google.android.material.textfield.TextInputLayout>
             <TextView
                 android:text="NUMBER OF UNITS"
                 android:layout_width="wrap_content"
@@ -62,7 +68,9 @@
                     app:errorEnabled="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
+
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_numberOfRoom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Number of units you're managing"
@@ -84,41 +92,55 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <EditText
-                    android:imeOptions="actionDone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_weight="1"
-                    android:hint="Number of people/unit"
-                    android:inputType="number" />
+                    android:orientation="horizontal"
+                    android:id="@+id/text_input_capacity"
+                    app:errorEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_capacity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Number of people/unit"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
                 <TextView
+                    android:layout_gravity="center"
                     android:textSize="16sp"
                     android:textColor="#000000"
                     android:text="people(s)/unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
-            <RadioGroup
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_gender"
                 android:background="@drawable/border2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
-                <TextView
+                <RadioGroup
+                    android:id="@+id/radioGroup_gender"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="GENDER"/>
-                <RadioButton
-                    android:text="All"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <RadioButton
-                    android:text="Male"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <RadioButton
-                    android:text="Female"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </RadioGroup>
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="GENDER"/>
+                    <RadioButton
+                        android:text="All"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:text="Male"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:text="Female"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </RadioGroup>
+            </com.google.android.material.textfield.TextInputLayout>
             <TextView
                 android:text="ROOM AREA"
                 android:layout_width="wrap_content"
@@ -127,13 +149,22 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_weight="1"
-                    android:hint="Enter the room area"
-                    android:inputType="number" />
+                    android:orientation="horizontal"
+                    android:id="@+id/text_input_roomArea"
+                    app:errorEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_roomArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter the room area"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
                 <TextView
+                    android:layout_gravity="center"
                     android:textSize="16sp"
                     android:textColor="#000000"
                     android:text="m2"
@@ -153,14 +184,22 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <EditText
-                    android:imeOptions="actionDone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_weight="1"
-                    android:hint="Enter the enter price"
-                    android:inputType="number" />
+                    android:orientation="horizontal"
+                    android:id="@+id/text_input_price"
+                    app:errorEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_rentalPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter the enter price"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
                 <TextView
+                    android:layout_gravity="center"
                     android:textSize="16sp"
                     android:textColor="#000000"
                     android:text="VND/unit"
@@ -193,14 +232,22 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <EditText
-                    android:imeOptions="actionDone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_weight="1"
-                    android:hint="Enter the number of months"
-                    android:inputType="number" />
+                    android:orientation="horizontal"
+                    android:id="@+id/text_input_deposit"
+                    app:errorEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_deposit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter the number of months"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
                 <TextView
+                    android:layout_gravity="center"
                     android:textSize="16sp"
                     android:textColor="#000000"
                     android:text="month(s)"
@@ -215,20 +262,29 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <EditText
-                    android:imeOptions="actionDone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_weight="1"
-                    android:hint="The amount of money"
-                    android:inputType="number" />
+                    android:orientation="horizontal"
+                    android:id="@+id/text_input_electricityCost"
+                    app:errorEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_electricityCost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="The amount of money"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
                 <TextView
+                    android:layout_gravity="center"
                     android:textSize="16sp"
                     android:textColor="#000000"
                     android:text="VND"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <CheckBox
+                    android:layout_gravity="center"
                     android:text="FREE"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -242,25 +298,35 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <EditText
-                    android:imeOptions="actionDone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_weight="1"
-                    android:hint="The amount of money"
-                    android:inputType="number" />
+                    android:orientation="horizontal"
+                    android:id="@+id/text_input_waterCost"
+                    app:errorEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_waterCost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="The amount of money"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
                 <TextView
+                    android:layout_gravity="center"
                     android:textSize="16sp"
                     android:textColor="#000000"
                     android:text="VND"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <CheckBox
+                    android:layout_gravity="center"
                     android:text="FREE"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <CheckBox
+                android:id="@+id/checkbox_internet"
                 android:text="Is there a internet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -272,25 +338,35 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <EditText
-                    android:imeOptions="actionDone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_weight="1"
-                    android:hint="The amount of money"
-                    android:inputType="number" />
+                    android:orientation="horizontal"
+                    android:id="@+id/text_input_internetCost"
+                    app:errorEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_internetCost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="The amount of money"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
                 <TextView
+                    android:layout_gravity="center"
                     android:textSize="16sp"
                     android:textColor="#000000"
                     android:text="VND"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <CheckBox
+                    android:layout_gravity="center"
                     android:text="FREE"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <CheckBox
+                android:id="@+id/checkbox_parking"
                 android:text="Is there space for parking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -302,20 +378,29 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <EditText
-                    android:imeOptions="actionDone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_weight="1"
-                    android:hint="The amount of money"
-                    android:inputType="number" />
+                    android:orientation="horizontal"
+                    android:id="@+id/text_input_parkingCost"
+                    app:errorEnabled="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editText_parkingCost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="The amount of money"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
                 <TextView
+                    android:layout_gravity="center"
                     android:textSize="16sp"
                     android:textColor="#000000"
                     android:text="VND"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <CheckBox
+                    android:layout_gravity="center"
                     android:text="FREE"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

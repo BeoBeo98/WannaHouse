@@ -68,7 +68,7 @@
             android:layout_height="match_parent"/>
         <Button
             android:id="@+id/listYourSpace"
-            android:text="List your space"
+            android:text="List"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -78,12 +78,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <Button
+            android:id="@+id/button_account"
             android:text="Account"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-
-
-
 </LinearLayout>

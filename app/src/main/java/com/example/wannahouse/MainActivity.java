@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
     private Button button_explore;
+    private Button button_account;
 
     private DatabaseReference databaseHouse;
 
@@ -107,6 +108,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,ListYourSpaceActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        button_account = findViewById(R.id.button_account);
+        button_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 

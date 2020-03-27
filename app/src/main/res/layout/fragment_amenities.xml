@@ -18,4 +18,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <include layout="@layout/item_amenities"/>
+    <Button
+        android:onClick="next1"
+        android:id="@+id/next1"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/border2"
+        android:gravity="center"
+        android:text="NEXT ➤"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
