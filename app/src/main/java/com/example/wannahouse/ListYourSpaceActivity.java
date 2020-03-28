@@ -35,6 +35,12 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
     private TextInputLayout textInput_deposit;
     private TextInputLayout textInput_electricityCost;
     private TextInputLayout textInput_waterCost;
+    private TextInputLayout textInput_city;
+    private TextInputLayout textInput_district;
+    private TextInputLayout textInput_ward;
+    private TextInputLayout textInput_streetName;
+    private TextInputLayout textInput_houseNumber;
+
 
     private RadioGroup radioGroup_roomStyle;
     private RadioGroup radioGroup_gender;
@@ -195,6 +201,7 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
 
     private boolean validate_roomStyle() {
         textInput_roomStyle = findViewById(R.id.text_input_roomStyle);
+        radioGroup_roomStyle = findViewById(R.id.radioGroup_roomStyle);
         if (radioGroup_roomStyle.getCheckedRadioButtonId() == -1) {
             // no radio buttons are checked
             textInput_roomStyle.setError("Please choose the room style");
@@ -243,8 +250,80 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
         }
     }
 
-    public void next2(View v) {
+    private boolean validate_city() {
+        textInput_city = findViewById(R.id.text_input_city);
+        textView_city = findViewById(R.id.textView_city);
+        String city = textView_city.getText().toString().trim();
+        Log.d("KEYAABB", city);
+        if ( city.isEmpty() ) {
+            textInput_city.setError("Press to choose your city");
+            return false;
+        } else {
+            textInput_city.setError(null);
+            return true;
+        }
+    }
 
+    private boolean validate_district() {
+        textInput_district = findViewById(R.id.text_input_district);
+        textView_district = findViewById(R.id.textView_district);
+        String district = textView_district.getText().toString().trim();
+        //city = "safsd";
+        Log.d("KEYAABB", district);
+        if ( district.isEmpty() ) {
+            textInput_district.setError("Press to choose your district");
+            return false;
+        } else {
+            textInput_district.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validate_ward() {
+        textInput_ward = findViewById(R.id.text_input_ward);
+        String ward = textInput_ward.getEditText().getText().toString().trim();
+        if (ward.isEmpty()) {
+            textInput_ward.setError("Please enter your ward");
+            textInput_ward.setHintEnabled(false);
+            return false;
+        } else {
+            textInput_ward.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validate_streetName() {
+        textInput_streetName = findViewById(R.id.text_input_streetName);
+        String streetName = textInput_streetName.getEditText().getText().toString().trim();
+        if (streetName.isEmpty()) {
+            textInput_streetName.setError("Please enter your ward");
+            textInput_streetName.setHintEnabled(false);
+            return false;
+        } else {
+            textInput_streetName.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validate_houseNumber() {
+        textInput_houseNumber = findViewById(R.id.text_input_houseNumber);
+        String houseNumber = textInput_houseNumber.getEditText().getText().toString().trim();
+        if (houseNumber.isEmpty()) {
+            textInput_houseNumber.setError("Please enter your ward");
+            textInput_houseNumber.setHintEnabled(false);
+            return false;
+        } else {
+            textInput_houseNumber.setError(null);
+            return true;
+        }
+    }
+
+    public void next2(View v) {
+        if( !validate_city() | !validate_district() | !validate_ward() |
+                !validate_streetName() | !validate_houseNumber() ) return;
+        else {
+            addFragment(lysAmenities);
+        }
     }
 
     @Override
