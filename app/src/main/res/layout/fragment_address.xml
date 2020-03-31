@@ -111,6 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" >
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editText_ward"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Enter your ward here" />
@@ -137,6 +138,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" >
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editText_streetName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Ex: Trần Duy Hưng" />
@@ -163,6 +165,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" >
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editText_houseNumber"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Ex: số 18 ngõ 192" />

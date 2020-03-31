@@ -4,28 +4,53 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Images and Amenities" />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Images and Amenities" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp" >
+                <GridView
+                    android:id="@+id/gridView_imageChoose"
+                    android:numColumns="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/button_takePicture"
+                android:layout_gravity="center"
+                android:text="Take a picture"
+                android:background="@drawable/border2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Images" />
-    <TextView
-        android:text="Amenities"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <include layout="@layout/item_amenities"/>
-    <Button
-        android:onClick="next1"
-        android:id="@+id/next1"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/border2"
-        android:gravity="center"
-        android:text="NEXT ➤"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Images" />
+            <TextView
+                android:text="Amenities"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <include layout="@layout/item_amenities"/>
+            <Button
+                android:onClick="next3"
+                android:id="@+id/next3"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/border2"
+                android:gravity="center"
+                android:text="NEXT ➤"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

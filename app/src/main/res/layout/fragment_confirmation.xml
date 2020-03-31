@@ -33,7 +33,8 @@
         android:hint="Mô tả chi tiết căn phòng, giờ đóng mở cửa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <TextView
+    <Button
+        android:onClick="next4"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/border2"

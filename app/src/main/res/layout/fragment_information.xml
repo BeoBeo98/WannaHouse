@@ -406,7 +406,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <Button
-                android:onClick="next1"
+                android:onClick="next11"
                 android:id="@+id/next1"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
