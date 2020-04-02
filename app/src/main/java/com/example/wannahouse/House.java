@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class House implements Serializable {
+    private String owner_id;
     private String roomStyle;
     private int numberOfRoom;
     private int capacity;
@@ -24,7 +25,8 @@ public class House implements Serializable {
     private String roomDescription;
     private String titleOfTheRoom;
     private ArrayList<String> image = new ArrayList<>();
-    private String roomOwnerName;
+    private ArrayList<String> report = new ArrayList<>();
+    private String name;
     private String phone;
     private String avatar;
     private String postingDate;
@@ -47,56 +49,6 @@ public class House implements Serializable {
     private boolean television;
 
     public House() {
-    }
-
-    public House(String roomStyle, int numberOfRoom, int capacity, int gender, int roomArea,
-                 int rentalPrice, int deposit, float electricityCost, int waterCost, int internetCost,
-                 boolean parkingLot, int parkingCost, String city, String district, String ward,
-                 String street, String houseNumber, String roomDescription, String titleOfTheRoom,
-                 ArrayList<String> image, String roomOwnerName, String phone, String avatar,
-                 String postingDate, boolean privateWC, boolean window, boolean security,
-                 boolean internet, boolean noCurfew, boolean noOwner, boolean airConditioner,
-                 boolean waterHeater, boolean cook, boolean fridge, boolean washing, boolean loft,
-                 boolean bed, boolean wardrobe, boolean television ) {
-        this.roomStyle = roomStyle;
-        this.numberOfRoom = numberOfRoom;
-        this.capacity = capacity;
-        this.gender = gender;
-        this.roomArea = roomArea;
-        this.rentalPrice = rentalPrice;
-        this.deposit = deposit;
-        this.electricityCost = electricityCost;
-        this.waterCost = waterCost;
-        this.internetCost = internetCost;
-        this.parkingLot = parkingLot;
-        this.parkingCost = parkingCost;
-        this.city = city;
-        this.district = district;
-        this.ward = ward;
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.roomDescription = roomDescription;
-        this.titleOfTheRoom = titleOfTheRoom;
-        this.image = image;
-        this.roomOwnerName = roomOwnerName;
-        this.phone = phone;
-        this.avatar = avatar;
-        this.postingDate = postingDate;
-        this.privateWC = privateWC;
-        this.window = window;
-        this.security = security;
-        this.internet = internet;
-        this.noCurfew = noCurfew;
-        this.noOwner = noOwner;
-        this.airConditioner = airConditioner;
-        this.waterHeater = waterHeater;
-        this.cook = cook;
-        this.fridge = fridge;
-        this.washing = washing;
-        this.loft = loft;
-        this.bed = bed;
-        this.wardrobe = wardrobe;
-        this.television = television;
     }
 
     public String getRoomStyle() {
@@ -259,14 +211,6 @@ public class House implements Serializable {
         this.image = image;
     }
 
-    public String getRoomOwnerName() {
-        return roomOwnerName;
-    }
-
-    public void setRoomOwnerName(String roomOwnerName) {
-        this.roomOwnerName = roomOwnerName;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -409,5 +353,29 @@ public class House implements Serializable {
 
     public void setTelevision(boolean television) {
         this.television = television;
+    }
+
+    public ArrayList<String> getReport() {
+        return report;
+    }
+
+    public void setReport(ArrayList<String> report) {
+        this.report = report;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getOwner_id() {
+        return owner_id;
+    }
+
+    public void setOwner_id(String owner_id) {
+        this.owner_id = owner_id;
     }
 }

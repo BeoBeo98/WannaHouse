@@ -4,8 +4,13 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,14 +18,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class FragmentAmenities extends Fragment {
@@ -31,6 +40,8 @@ public class FragmentAmenities extends Fragment {
     private ImageChooseAdapter imageChooseAdapter;
     private Context context;
 
+    private ImageView imageViewTest;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,6 +50,9 @@ public class FragmentAmenities extends Fragment {
         gridView_imageChoose = view.findViewById(R.id.gridView_imageChoose);
 
         context = view.getContext();
+
+        imageViewTest = view.findViewById(R.id.imageViewTest);
+
         button_takePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,11 +65,9 @@ public class FragmentAmenities extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             openCamera();
-                        }
-                        else if( which == 1) {
+                        } else if (which == 1) {
                             pickFromGallery();
-                        }
-                        else {
+                        } else {
                             dialog.dismiss();
                         }
                     }
@@ -71,24 +83,26 @@ public class FragmentAmenities extends Fragment {
         getActivity().startActivityForResult(intent, CAMERA_REQUEST_CODE);
     }
 
-    private void pickFromGallery(){
+    private void pickFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
-        getActivity().startActivityForResult(intent,PICK_IMAGE_REQUEST_CODE);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        getActivity().startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE);
     }
 
     public void showImageInGridView(Intent data) {
-        ArrayList<Uri> arrayList = new ArrayList<Uri>();
+        final ArrayList<Uri> arrayList = new ArrayList<>();
         ClipData clipData = data.getClipData();
         Log.d("KEYAA", clipData.getItemCount() + " abc");
-        for(int i = 0 ; i<clipData.getItemCount(); i++ ) {
-            ClipData.Item item = clipData.getItemAt(i);
-            Uri uri = item.getUri();
-            Log.d("KEYAA", uri + "");
-            arrayList.add(uri);
+        if (clipData != null) {
+            for (int i = 0; i < clipData.getItemCount(); i++) {
+                Uri uri = clipData.getItemAt(i).getUri();
+                arrayList.add(uri);
+                Log.d("KEYAA", uri + " " + arrayList.size());
+            }
         }
         imageChooseAdapter = new ImageChooseAdapter(context, arrayList);
+        Log.d("KEYAA", imageChooseAdapter.toString() + " " + imageChooseAdapter.getCount());
         gridView_imageChoose.setAdapter(imageChooseAdapter);
     }
 }

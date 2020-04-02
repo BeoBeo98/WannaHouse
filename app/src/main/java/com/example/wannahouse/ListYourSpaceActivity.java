@@ -113,7 +113,7 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
                 fragment = confirmation;
                 break;
         }
-        fragmentTransaction.replace(R.id.lysContent, fragment);
+        fragmentTransaction.replace(R.id.lysContent, fragment, "FRAGMENT_TAG");
         fragmentTransaction.commit();
     }
 
@@ -154,13 +154,13 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         Log.d("KEYAA", "done" + resultCode + " " + requestCode);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE_REQUEST_CODE) {
             Log.d("KEYAA", "123");
             FragmentManager fm = getSupportFragmentManager();
-            FragmentAmenities fragment = (FragmentAmenities) fm.findFragmentById(R.id.fragment_amenities);
-//            fragment.showImageInGridView(data);
+            FragmentAmenities fragment = (FragmentAmenities) fm.findFragmentByTag("FRAGMENT_TAG");
+            fragment.showImageInGridView(data);
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }

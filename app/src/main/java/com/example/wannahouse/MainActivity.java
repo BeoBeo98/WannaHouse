@@ -39,6 +39,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -71,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions(Arrays.asList("email","public_profile"));
-        databaseHouse = FirebaseDatabase.getInstance().getReference("house");
 
         checkLoginStatus();
 
@@ -195,11 +196,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inputDatFromDatabase() {
+        databaseHouse = FirebaseDatabase.getInstance().getReference().child("house");
         databaseHouse.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for( DataSnapshot houseSnapshot : dataSnapshot.getChildren() ) {
-                    House house = houseSnapshot.getValue(House.class);
+                    final House house = houseSnapshot.getValue(House.class);
+
+                    String key = house.getOwner_id();
+                    Log.d("KEYID", key);
+                    DatabaseReference databaseAccount = FirebaseDatabase.getInstance().getReference().child("account").child("roomOwner");
+
+                    databaseAccount.orderByKey().equalTo(key).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for( DataSnapshot temp : dataSnapshot.getChildren() ) {
+                                final Account account = temp.getValue(Account.class);
+                                house.setName(account.getName());
+                                house.setPhone(account.getPhone());
+                                house.setAvatar(account.getAvatar());
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+
                     Data.arrayListHouse.add(house);
                     s = String.valueOf(Data.arrayListHouse.size());
                     test.setText(s);
@@ -209,7 +231,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
         int length = Data.arrayListHouse.size();

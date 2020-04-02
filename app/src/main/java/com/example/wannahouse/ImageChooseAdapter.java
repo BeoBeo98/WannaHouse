@@ -1,6 +1,7 @@
 package com.example.wannahouse;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 public class ImageChooseAdapter extends BaseAdapter {
@@ -41,7 +43,7 @@ public class ImageChooseAdapter extends BaseAdapter {
         convertView = LayoutInflater.from(context).inflate(R.layout.image_detail, parent,false);
 
         ImageView imageView = convertView.findViewById(R.id.imageDetail);
-        Picasso.get().load(arrayList.get(position)).into(imageView);
+        imageView.setImageURI(arrayList.get(position));
         return convertView;
     }
 }

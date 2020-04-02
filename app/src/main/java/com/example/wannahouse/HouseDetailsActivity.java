@@ -114,7 +114,7 @@ public class HouseDetailsActivity extends AppCompatActivity {
         postingDate.setText( "" + house.getPostingDate());
         roomDescription.setText(( "" + house.getRoomDescription()));
 
-        roomOwnerName.setText( house.getRoomOwnerName() );
+        roomOwnerName.setText( house.getName() );
         numberOfRoom.setText( house.getNumberOfRoom() + " room(s)");
 
         Glide.with(HouseDetailsActivity.this).load( house.getAvatar()).into(avatarOwner);

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.ViewHolder> {
+public class HouseAdapter extends BaseAdapter {
+
     private List<House> listHouse;
     private Context context;
 
@@ -41,78 +43,63 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.ViewHolder> 
         this.context = context;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_house_layout, parent, false);
-        return  new ViewHolder(view);
+    public int getCount() {
+        return listHouse.size();
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        House house = listHouse.get(position);
-        Picasso.get().load( house.getImage().get(0) ).into(holder.imageView);
-        holder.roomStyle.setText( String.valueOf(house.getRoomStyle()));
+    public Object getItem(int position) {
+        return listHouse.get(position);
+    }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        final ViewHolder viewHolder;
+        if ( convertView == null ) {
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_house_layout, parent, false);
+            viewHolder = new ViewHolder();
+            viewHolder.titleOfTheRoom = convertView.findViewById(R.id.titleOfThePost);
+            viewHolder.imageView = convertView.findViewById(R.id.image);
+            viewHolder.roomStyle = convertView.findViewById(R.id.roomStyle);
+            viewHolder.capacity = convertView.findViewById(R.id.capacity);
+            viewHolder.rentalPrice = convertView.findViewById(R.id.rentalPrice);
+            viewHolder.address = convertView.findViewById(R.id.address);
+
+            convertView.setTag(viewHolder);
+        }
+        else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        House house = listHouse.get(position);
+        Picasso.get().load( house.getImage().get(0) ).into(viewHolder.imageView);
+        viewHolder.roomStyle.setText( String.valueOf(house.getRoomStyle()));
         String gender = "";
         switch (house.getGender()) {
             case 1: gender = " ♂"; break;
             case 0: gender = " ♂/♀"; break;
             case -1: gender = " ♀"; break;
         }
-        holder.capacity.setText(house.getCapacity() + gender );
-        holder.rentalPrice.setText( String.valueOf((house.getRentalPrice())));
-        holder.address.setText( house.getHouseNumber() + ", " + house.getStreet() + ", " + house.getWard() + ", " + house.getDistrict());
-        holder.titleOfTheRoom.setText( house.getTitleOfTheRoom() );
-        holder.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onItemClick( int position) {
-                Intent intent = new Intent(context, HouseDetailsActivity.class);
-                intent.putExtra("Position_", listHouse.get(position));
-                context.startActivity(intent);
-            }
-        });
+        viewHolder.capacity.setText(house.getCapacity() + gender );
+        viewHolder.rentalPrice.setText( String.valueOf((house.getRentalPrice())));
+        viewHolder.address.setText( house.getHouseNumber() + ", " + house.getStreet() + ", " + house.getWard() + ", " + house.getDistrict());
+        viewHolder.titleOfTheRoom.setText( house.getTitleOfTheRoom() );
+
+        return convertView;
     }
 
-    @Override
-    public int getItemCount() {
-        return listHouse.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
+    static class ViewHolder{
         ImageView imageView;
         TextView roomStyle;
         TextView capacity;
         TextView rentalPrice;
         TextView address;
         TextView titleOfTheRoom;
-        ItemClickListener mItemClickListener;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            context = itemView.getContext();
-            titleOfTheRoom = itemView.findViewById(R.id.titleOfThePost);
-            imageView = itemView.findViewById(R.id.image);
-            roomStyle = itemView.findViewById(R.id.roomStyle);
-            capacity = itemView.findViewById(R.id.capacity);
-            rentalPrice = itemView.findViewById(R.id.rentalPrice);
-            address = itemView.findViewById(R.id.address);
-
-            itemView.setOnClickListener(this);
-        }
-
-        public void setItemClickListener( ItemClickListener itemClickListener) {
-            mItemClickListener = itemClickListener;
-        }
-
-        @Override
-        public void onClick(View v) {
-            mItemClickListener.onItemClick( getAdapterPosition());
-        }
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(int position);
     }
 }
