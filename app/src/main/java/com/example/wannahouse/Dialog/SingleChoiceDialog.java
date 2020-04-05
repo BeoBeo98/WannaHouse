@@ -1,4 +1,4 @@
-package com.example.wannahouse;
+package com.example.wannahouse.Dialog;
 
 import android.app.Dialog;
 import android.content.Context;

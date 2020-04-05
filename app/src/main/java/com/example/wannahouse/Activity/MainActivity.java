@@ -1,4 +1,4 @@
-package com.example.wannahouse;
+package com.example.wannahouse.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,14 +10,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.wannahouse.Class_Java.Account;
+import com.example.wannahouse.Class_Java.Data;
+import com.example.wannahouse.Class_Java.House;
+import com.example.wannahouse.R;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -32,15 +34,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -52,9 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
     private Button button_explore;
-    private Button button_account;
+    private Button button_home;
 
     private DatabaseReference databaseHouse;
+    public static Account accountNew = new Account();
 
     private TextView test;
     private String s;
@@ -67,12 +66,11 @@ public class MainActivity extends AppCompatActivity {
 
         loginButton = findViewById(R.id.login_button);
         txtName = findViewById(R.id.profile_name);
-        txtEmail = findViewById(R.id.profile_email);
         circleImageView = findViewById(R.id.profile_pic);
         test = findViewById(R.id.test);
 
         callbackManager = CallbackManager.Factory.create();
-        loginButton.setReadPermissions(Arrays.asList("email","public_profile"));
+        loginButton.setReadPermissions(Arrays.asList("public_profile"));
 
         checkLoginStatus();
 
@@ -107,16 +105,17 @@ public class MainActivity extends AppCompatActivity {
         listYourSpace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,ListYourSpaceActivity.class);
+                Intent intent = new Intent(MainActivity.this, ListYourSpaceActivity.class);
                 startActivity(intent);
             }
         });
 
-        button_account = findViewById(R.id.button_account);
-        button_account.setOnClickListener(new View.OnClickListener() {
+        button_home = findViewById(R.id.button_home);
+        button_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -127,7 +126,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -143,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
             if(currentAccessToken==null)
             {
                 txtName.setText("");
-                txtEmail.setText("");
                 circleImageView.setImageResource(0);
                 Toast.makeText(MainActivity.this,"User Logged out",Toast.LENGTH_LONG).show();
             }
@@ -161,11 +163,13 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     String first_name = object.getString("first_name");
                     String last_name = object.getString("last_name");
-                    String email = object.getString("email");
                     String id = object.getString("id");
                     String image_url = "https://graph.facebook.com/"+id+ "/picture?type=normal";
 
-                    txtEmail.setText(email);
+                    accountNew.setId(id);
+                    accountNew.setName(first_name + " " + last_name);
+                    accountNew.setAvatar(image_url);
+
                     txtName.setText(first_name +" "+last_name);
                     RequestOptions requestOptions = new RequestOptions();
                     requestOptions.dontAnimate();
@@ -181,10 +185,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Bundle parameters = new Bundle();
-        parameters.putString("fields","first_name,last_name,email,id");
+        parameters.putString("fields","first_name,last_name,id");
         request.setParameters(parameters);
         request.executeAsync();
-
+        Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
+        startActivity(intent);
     }
 
     private void checkLoginStatus()

@@ -1,33 +1,23 @@
-package com.example.wannahouse;
+package com.example.wannahouse.Activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
+import com.example.wannahouse.Class_Java.House;
+import com.example.wannahouse.R;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.w3c.dom.Text;
-
-import java.io.Serializable;
 
 public class HouseDetailsActivity extends AppCompatActivity {
 
@@ -208,7 +198,6 @@ public class HouseDetailsActivity extends AppCompatActivity {
     }
 
     private void itemAmenitiesLinking(House house) {
-        ViewGroup AMENITIES = findViewById(R.id.AMENITIES);
 
         ViewGroup air = findViewById(R.id.amenitiesAir);
         ViewGroup privateWC = findViewById(R.id.amenitiesPrivateWC);
@@ -227,7 +216,7 @@ public class HouseDetailsActivity extends AppCompatActivity {
         ViewGroup loft = findViewById(R.id.amenitiesLoft);
         ViewGroup television = findViewById(R.id.amenitiesTelevision);
 
-        float alpha = (float) 0.2;
+        float alpha = (float) 0.15;
 
         if( !house.isAirConditioner() ) air.setAlpha(alpha);
         if( !house.isPrivateWC() ) privateWC.setAlpha(alpha);

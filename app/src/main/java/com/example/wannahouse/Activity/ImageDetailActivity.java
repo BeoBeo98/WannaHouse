@@ -1,11 +1,14 @@
-package com.example.wannahouse;
+package com.example.wannahouse.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
+
+import com.example.wannahouse.Class_Java.House;
+import com.example.wannahouse.Adapter.ImageViewPagerAdapter;
+import com.example.wannahouse.R;
 
 public class ImageDetailActivity extends AppCompatActivity {
 

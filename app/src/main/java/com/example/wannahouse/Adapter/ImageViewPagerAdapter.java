@@ -1,4 +1,4 @@
-package com.example.wannahouse;
+package com.example.wannahouse.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.example.wannahouse.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.wannahouse;
+package com.example.wannahouse.Fragment;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.example.wannahouse.Activity.ListYourSpaceActivity;
+import com.example.wannahouse.R;
+import com.example.wannahouse.Dialog.SingleChoiceDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import static com.example.wannahouse.Activity.ListYourSpaceActivity.houseNew;
 
 public class FragmentAddress extends Fragment {
     private ViewGroup viewGroup_district;
@@ -66,9 +71,20 @@ public class FragmentAddress extends Fragment {
         viewGroup_district.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment singleChoiceDialog = new SingleChoiceDialog(R.array.choose_district_HaNoi);
-                singleChoiceDialog.setCancelable(false);
-                singleChoiceDialog.show(getFragmentManager(), "Choose District");
+                if( textView_city.getText().equals( null )) {
+                    textInput_city.setError("Press to choose your city");
+                }
+                else if ( "Hà Nội".equals(textView_city.getText()) ) {
+                    DialogFragment singleChoiceDialog = new SingleChoiceDialog(R.array.choose_district_HaNoi);
+                    singleChoiceDialog.setCancelable(false);
+                    singleChoiceDialog.show(getFragmentManager(), "Choose District");
+                }
+                else if ( "Hồ Chí Minh".equals(textView_city.getText() )) {
+                    DialogFragment singleChoiceDialog = new SingleChoiceDialog(R.array.choose_district_HCM);
+                    singleChoiceDialog.setCancelable(false);
+                    singleChoiceDialog.show(getFragmentManager(), "Choose District");
+                }
+
             }
         });
 
@@ -78,6 +94,7 @@ public class FragmentAddress extends Fragment {
                 next2(v);
             }
         });
+
         return view;
     }
 
@@ -150,8 +167,17 @@ public class FragmentAddress extends Fragment {
         if (!validate_city() | !validate_district() | !validate_ward() |
                 !validate_streetName() | !validate_houseNumber()) return;
         else {
+            savingData();
             ((ListYourSpaceActivity) getActivity()).next22(v);
         }
+    }
+
+    private void savingData() {
+        houseNew.setCity(textView_city.getText().toString());
+        houseNew.setDistrict(textView_district.getText().toString());
+        houseNew.setWard(  textInput_ward.getEditText().getText().toString().trim() );
+        houseNew.setStreet(  textInput_streetName.getEditText().getText().toString().trim() );
+        houseNew.setHouseNumber(  textInput_houseNumber.getEditText().getText().toString().trim() );
     }
 
 }

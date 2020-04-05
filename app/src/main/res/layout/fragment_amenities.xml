@@ -1,61 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Images and Amenities" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp" >
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Images" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_Image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
                 <GridView
+                    android:numColumns="6"
                     android:id="@+id/gridView_imageChoose"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:numColumns="2" />
-            </LinearLayout>
+                    android:layout_height="210dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 android:id="@+id/button_takePicture"
-                android:layout_gravity="center"
-                android:text="Take a picture"
-                android:background="@drawable/border2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/border2"
+                android:text="Take a picture" />
+
             <ImageView
                 android:id="@+id/imageViewTest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amenities" />
+
+            <include layout="@layout/item_amenities" />
+
+            <Button
+                android:id="@+id/button_next3"
+                android:onClick="next3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Images" />
-            <TextView
-                android:text="Amenities"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <include layout="@layout/item_amenities"/>
-            <Button
-                android:onClick="next3"
-                android:id="@+id/next3"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/border2"
                 android:gravity="center"
-                android:text="NEXT ➤"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:text="NEXT ➤" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

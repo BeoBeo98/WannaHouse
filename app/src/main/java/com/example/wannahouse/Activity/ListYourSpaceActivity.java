@@ -1,15 +1,12 @@
-package com.example.wannahouse;
+package com.example.wannahouse.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.GridView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,10 +14,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.wannahouse.Class_Java.House;
+import com.example.wannahouse.Fragment.FragmentAddress;
+import com.example.wannahouse.Fragment.FragmentAmenities;
+import com.example.wannahouse.Fragment.FragmentConfirmation;
+import com.example.wannahouse.Fragment.FragmentInformation;
+import com.example.wannahouse.R;
+import com.example.wannahouse.Dialog.SingleChoiceDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import static com.example.wannahouse.FragmentAmenities.PICK_IMAGE_REQUEST_CODE;
 
 public class ListYourSpaceActivity extends AppCompatActivity implements SingleChoiceDialog.SingleChoiceListener {
 
@@ -72,7 +74,7 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
     private TextInputEditText editText_streetName;
     private TextInputEditText editText_houseNumber;
 
-    public static House houseNew;
+    public static House houseNew = new House();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +98,7 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
     }
 
     public void addFragment(View view) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment fragment = null;
         switch (view.getId()) {
             case R.id.lysInformation:
@@ -114,6 +115,8 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
                 break;
         }
         fragmentTransaction.replace(R.id.lysContent, fragment, "FRAGMENT_TAG");
+        fragmentTransaction.detach(fragment);
+        fragmentTransaction.attach(fragment);
         fragmentTransaction.commit();
     }
 
@@ -141,6 +144,7 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
 //        Log.d("LISTAABB", listTemp.equals(list) ? "True":"False" );
         if ("Hà Nội".equals(list[0])) {
             textView_city.setText(list[position]);
+            textView_district.setText(null);
         } else {
             textView_district.setText(list[position]);
         }
@@ -156,7 +160,7 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("KEYAA", "done" + resultCode + " " + requestCode);
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE_REQUEST_CODE) {
+        if (resultCode == RESULT_OK && data != null ) {
             Log.d("KEYAA", "123");
             FragmentManager fm = getSupportFragmentManager();
             FragmentAmenities fragment = (FragmentAmenities) fm.findFragmentByTag("FRAGMENT_TAG");

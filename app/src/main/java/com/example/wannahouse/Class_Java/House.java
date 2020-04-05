@@ -1,4 +1,4 @@
-package com.example.wannahouse;
+package com.example.wannahouse.Class_Java;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,6 +49,90 @@ public class House implements Serializable {
     private boolean television;
 
     public House() {
+        owner_id = "";
+        roomStyle = "";
+        numberOfRoom = 0;
+        capacity = 0;
+        gender = 0;
+        roomArea = 0;
+        rentalPrice = 0;
+        deposit = 0;
+        electricityCost = 0;
+        waterCost = 0;
+        parkingCost = 0;
+        city = "";
+        district = "";
+        ward = "";
+        street = "";
+        houseNumber = "";
+        roomDescription = "";
+        titleOfTheRoom = "";
+        image = null;
+        report = null;
+        name = "";
+        phone = "";
+        avatar = "";
+        postingDate = "";
+        parkingLot = false;
+        privateWC = false;
+        window = false;
+        security = false;
+        internet = false;
+        noCurfew = false;
+        noOwner = false;
+        airConditioner = false;
+        waterHeater = false;
+        cook = false;
+        fridge = false;
+        washing =false;
+        loft = false;
+        bed = false;
+        wardrobe = false;
+        television = false;
+    }
+
+    public House(String owner_id, String roomStyle, int numberOfRoom, int capacity, int gender, int roomArea, int rentalPrice, int deposit, float electricityCost, int waterCost, int internetCost, int parkingCost, String city, String district, String ward, String street, String houseNumber, String roomDescription, String titleOfTheRoom, ArrayList<String> image, ArrayList<String> report, String name, String phone, String avatar, String postingDate, boolean parkingLot, boolean privateWC, boolean window, boolean security, boolean internet, boolean noCurfew, boolean noOwner, boolean airConditioner, boolean waterHeater, boolean cook, boolean fridge, boolean washing, boolean loft, boolean bed, boolean wardrobe, boolean television) {
+        this.owner_id = owner_id;
+        this.roomStyle = roomStyle;
+        this.numberOfRoom = numberOfRoom;
+        this.capacity = capacity;
+        this.gender = gender;
+        this.roomArea = roomArea;
+        this.rentalPrice = rentalPrice;
+        this.deposit = deposit;
+        this.electricityCost = electricityCost;
+        this.waterCost = waterCost;
+        this.internetCost = internetCost;
+        this.parkingCost = parkingCost;
+        this.city = city;
+        this.district = district;
+        this.ward = ward;
+        this.street = street;
+        this.houseNumber = houseNumber;
+        this.roomDescription = roomDescription;
+        this.titleOfTheRoom = titleOfTheRoom;
+        this.image = image;
+        this.report = report;
+        this.name = name;
+        this.phone = phone;
+        this.avatar = avatar;
+        this.postingDate = postingDate;
+        this.parkingLot = parkingLot;
+        this.privateWC = privateWC;
+        this.window = window;
+        this.security = security;
+        this.internet = internet;
+        this.noCurfew = noCurfew;
+        this.noOwner = noOwner;
+        this.airConditioner = airConditioner;
+        this.waterHeater = waterHeater;
+        this.cook = cook;
+        this.fridge = fridge;
+        this.washing = washing;
+        this.loft = loft;
+        this.bed = bed;
+        this.wardrobe = wardrobe;
+        this.television = television;
     }
 
     public String getRoomStyle() {

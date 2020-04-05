@@ -1,11 +1,23 @@
-package com.example.wannahouse;
+package com.example.wannahouse.Class_Java;
 
 public class Account {
+    private String id;
     private String name;
     private String phone;
     private String avatar;
 
     public Account() {
+        id = "";
+        name = "";
+        phone = "";
+        avatar = "";
+    }
+
+    public Account(String id, String name, String phone, String avatar) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.avatar = avatar;
     }
 
     public String getName() {
@@ -30,5 +42,13 @@ public class Account {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

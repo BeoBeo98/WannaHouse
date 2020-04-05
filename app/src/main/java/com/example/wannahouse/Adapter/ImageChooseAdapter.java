@@ -1,4 +1,4 @@
-package com.example.wannahouse;
+package com.example.wannahouse.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.example.wannahouse.R;
 import com.squareup.picasso.Picasso;
 
 import java.net.URI;
@@ -17,8 +18,8 @@ import java.util.ArrayList;
 public class ImageChooseAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<Uri> arrayList;
-    public ImageChooseAdapter(Context context, ArrayList<Uri> arrayList) {
+    ArrayList<Bitmap> arrayList;
+    public ImageChooseAdapter(Context context, ArrayList<Bitmap> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
     }
@@ -40,10 +41,10 @@ public class ImageChooseAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.image_detail, parent,false);
+        convertView = LayoutInflater.from(context).inflate(R.layout.image_choose, parent,false);
 
-        ImageView imageView = convertView.findViewById(R.id.imageDetail);
-        imageView.setImageURI(arrayList.get(position));
+        ImageView imageView = convertView.findViewById(R.id.imageChoose);
+        imageView.setImageBitmap(arrayList.get(position));
         return convertView;
     }
 }

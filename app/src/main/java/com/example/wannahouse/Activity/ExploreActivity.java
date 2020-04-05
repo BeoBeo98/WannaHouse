@@ -1,27 +1,22 @@
-package com.example.wannahouse;
+package com.example.wannahouse.Activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.Serializable;
+import com.example.wannahouse.Class_Java.Data;
+import com.example.wannahouse.Adapter.HouseAdapter;
+import com.example.wannahouse.R;
 
 public class ExploreActivity extends AppCompatActivity {
 
@@ -47,14 +42,13 @@ public class ExploreActivity extends AppCompatActivity {
         gridViewHouse.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent( ExploreActivity.this ,HouseDetailsActivity.class);
+                Intent intent = new Intent( ExploreActivity.this , HouseDetailsActivity.class);
                 intent.putExtra("Position_", Data.arrayListHouse.get(position));
                 startActivity(intent);
             }
         });
 
         setGridViewHeightBasedOnChildren(houseAdapter, gridViewHouse);
-        gridViewHouse.setFocusable(false);
     }
 
     private void setGridViewHeightBasedOnChildren(HouseAdapter matchAdapter, GridView gridView) {

@@ -30,6 +30,7 @@
             android:layout_height="wrap_content" />
 
         <GridView
+            android:focusable="false"
             android:id="@+id/gridView_house"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
