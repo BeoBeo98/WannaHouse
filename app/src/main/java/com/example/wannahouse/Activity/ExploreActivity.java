@@ -49,6 +49,7 @@ public class ExploreActivity extends AppCompatActivity {
         });
 
         setGridViewHeightBasedOnChildren(houseAdapter, gridViewHouse);
+        gridViewHouse.setFocusable(false);
     }
 
     private void setGridViewHeightBasedOnChildren(HouseAdapter matchAdapter, GridView gridView) {

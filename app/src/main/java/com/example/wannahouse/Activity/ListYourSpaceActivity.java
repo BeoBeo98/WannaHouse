@@ -1,6 +1,7 @@
 package com.example.wannahouse.Activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,8 +22,15 @@ import com.example.wannahouse.Fragment.FragmentConfirmation;
 import com.example.wannahouse.Fragment.FragmentInformation;
 import com.example.wannahouse.R;
 import com.example.wannahouse.Dialog.SingleChoiceDialog;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
+
+import static com.example.wannahouse.Fragment.FragmentAmenities.CAMERA_REQUEST_CODE;
+import static com.example.wannahouse.Fragment.FragmentAmenities.PICK_IMAGE_REQUEST_CODE;
+import static com.example.wannahouse.Fragment.FragmentAmenities.UPLOAD_IMAGE_REQUEST_CODE;
+import static com.example.wannahouse.Fragment.FragmentAmenities.photoPath;
 
 public class ListYourSpaceActivity extends AppCompatActivity implements SingleChoiceDialog.SingleChoiceListener {
 
@@ -35,46 +43,11 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
     FragmentAmenities amenities = new FragmentAmenities();
     FragmentConfirmation confirmation = new FragmentConfirmation();
 
-    private TextInputLayout textInput_numberOfRoom;
-    private TextInputLayout textInput_capacity;
-    private TextInputLayout textInput_roomArea;
-    private TextInputLayout textInput_rentalPrice;
-    private TextInputLayout textInput_deposit;
-    private TextInputLayout textInput_electricityCost;
-    private TextInputLayout textInput_waterCost;
-    private TextInputLayout textInput_city;
-    private TextInputLayout textInput_district;
-    private TextInputLayout textInput_ward;
-    private TextInputLayout textInput_streetName;
-    private TextInputLayout textInput_houseNumber;
-
-
-    private RadioGroup radioGroup_roomStyle;
-    private RadioGroup radioGroup_gender;
-
-    private TextInputLayout textInput_roomStyle;
-    private TextInputLayout textInput_gender;
-
     private TextView textView_city;
     private TextView textView_district;
 
-    private TextInputEditText editText_numberOfRoom;
-    private TextInputEditText editText_capacity;
-    private TextInputEditText editText_roomArea;
-    private TextInputEditText editText_rentalPrice;
-    private TextInputEditText editText_deposit;
-    private TextInputEditText editText_electricityCost;
-    private TextInputEditText editText_waterCost;
-    private boolean internet;
-    private TextInputEditText editText_internetCost;
-    private boolean parkingLot;
-    private TextInputEditText editText_parkingCost;
-
-    private TextInputEditText editText_ward;
-    private TextInputEditText editText_streetName;
-    private TextInputEditText editText_houseNumber;
-
     public static House houseNew = new House();
+    public static StorageReference foder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +56,8 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
 
         mapping();
         addFragment(lysInformation);
+
+        foder = FirebaseStorage.getInstance().getReference().child("ImageHouse");
     }
 
     @Override
@@ -159,12 +134,24 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("KEYAA", "done" + resultCode + " " + requestCode);
-        if (resultCode == RESULT_OK && data != null ) {
+
+        if (resultCode == RESULT_OK) {
+//                Log.d("KEYAA", "done" + resultCode + " " + requestCode + " " + data.toString());
             Log.d("KEYAA", "123");
             FragmentManager fm = getSupportFragmentManager();
             FragmentAmenities fragment = (FragmentAmenities) fm.findFragmentByTag("FRAGMENT_TAG");
+            if (requestCode == PICK_IMAGE_REQUEST_CODE) {
+                ArrayList<Uri> arrayList = data.getParcelableArrayListExtra("LISTURI");
+                Log.d("KEYAA", arrayList.toString() + " " + arrayList.size());
+                fragment.uploadImageToCloud(arrayList);
+            }
+            else if (requestCode == CAMERA_REQUEST_CODE) {
+                ArrayList<Uri> arrayList = new ArrayList<>();
+                arrayList.add(photoPath);
+                fragment.uploadImageToCloud(arrayList);
+            }
             fragment.showImageInGridView(data);
         }
+        Log.d("KEYAA", "temp");
     }
 }

@@ -41,9 +41,6 @@ public class HouseDetailsActivity extends AppCompatActivity {
     private ImageView avatarOwner;
     private ViewGroup vgCall;
 
-    private GridView gridviewItemAmenities;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -6,69 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity"
-    android:orientation="vertical"
-    android:weightSum="10"
-    >
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_weight="10"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/profile_pic" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:layout_marginTop="20dp"
-            android:id="@+id/profile_name" />
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="25dp" />
-        <TextView
-            android:layout_gravity="center_horizontal"
-            android:text="TEST"
-            android:id="@+id/test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager_home"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-        <Button
-            android:id="@+id/button_explore"
-            android:text="Exlore"
-            android:layout_weight="1"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-        <Button
-            android:id="@+id/listYourSpace"
-            android:text="List"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="home" />
+
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:text="location"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/button_home"
-            android:text="Home"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="Account" />
+    </com.google.android.material.tabs.TabLayout>
+
+
 </LinearLayout>

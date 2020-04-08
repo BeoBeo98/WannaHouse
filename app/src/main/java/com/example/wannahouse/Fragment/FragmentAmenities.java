@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,10 +26,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import com.example.wannahouse.Activity.EditHouseActivity;
 import com.example.wannahouse.Adapter.ImageChooseAdapter;
 import com.example.wannahouse.Activity.ListYourSpaceActivity;
 import com.example.wannahouse.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.example.wannahouse.Activity.ListYourSpaceActivity.foder;
 import static com.example.wannahouse.Activity.ListYourSpaceActivity.houseNew;
 
 public class FragmentAmenities extends Fragment {
@@ -47,16 +54,34 @@ public class FragmentAmenities extends Fragment {
     private Button button_next3;
     public static int CAMERA_REQUEST_CODE = 1000;
     public static int PICK_IMAGE_REQUEST_CODE = 1001;
+    public static int UPLOAD_IMAGE_REQUEST_CODE = 1002;
     private GridView gridView_imageChoose;
     private ImageChooseAdapter imageChooseAdapter;
     private Context context;
 
     private ImageView imageViewTest;
 
-    private String currentPhotoPath;
-
     public ArrayList<Bitmap> arrayListBitmap = new ArrayList<>();
     public ArrayList<Uri> arrayListUri = new ArrayList<>();
+    private ArrayList<String> urlImage = new ArrayList<>();
+
+    ViewGroup air;
+    ViewGroup privateWC;
+    ViewGroup parking;
+    ViewGroup internet;
+    ViewGroup security;
+    ViewGroup noOwner;
+    ViewGroup noCurfew;
+    ViewGroup cooking;
+    ViewGroup bed;
+    ViewGroup window;
+    ViewGroup waterHeater;
+    ViewGroup washing;
+    ViewGroup wardrobe;
+    ViewGroup fridge;
+    ViewGroup loft;
+    ViewGroup television;
+
     View view;
 
     @Nullable
@@ -65,9 +90,19 @@ public class FragmentAmenities extends Fragment {
         view = inflater.inflate(R.layout.fragment_amenities, container, false);
         button_takePicture = view.findViewById(R.id.button_takePicture);
         gridView_imageChoose = view.findViewById(R.id.gridView_imageChoose);
+
+        gridView_imageChoose.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                arrayListBitmap.remove(position);
+                urlImage.remove(position);
+                imageChooseAdapter.notifyDataSetChanged();
+            }
+        });
+
         layoutImage = view.findViewById(R.id.layout_Image);
 
-        context = view.getContext();
+        context = getContext();
 
         button_takePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,12 +135,53 @@ public class FragmentAmenities extends Fragment {
                 next3(v);
             }
         });
+
         return view;
     }
 
+    public static Uri photoPath;
+    String currentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        Log.d("KEYAA", image.toString() + " image");
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
     private void openCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        getActivity().startActivityForResult(intent, CAMERA_REQUEST_CODE);
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Log.d("KEYAA", photoFile.toString() + " error");
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(getActivity(),
+                        "com.example.android.fileprovider",
+                        photoFile);
+                photoPath = photoURI;
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                getActivity().startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
+                Log.d("KEYAA", photoURI.toString() + " uri");
+            }
+        }
     }
 
     private void pickFromGallery() {
@@ -116,131 +192,173 @@ public class FragmentAmenities extends Fragment {
     }
 
     public void showImageInGridView(Intent data) {
-        ClipData clipData = data.getClipData();
-        if (clipData != null) {
-            Log.d("KEYAA", clipData.getItemCount() + " abc");
+        if (data != null) {
+            ClipData clipData = data.getClipData();
             for (int i = 0; i < clipData.getItemCount(); i++) {
                 Uri selectedImage = clipData.getItemAt(i).getUri();
                 arrayListUri.add(selectedImage);
                 try {
                     InputStream is = context.getContentResolver().openInputStream(selectedImage);
                     Bitmap bitmap = BitmapFactory.decodeStream(is);
-                    int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
-                    Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-                    arrayListBitmap.add(scaled);
+                    arrayListBitmap.add(bitmap);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
             }
+            data.putParcelableArrayListExtra("LISTURI", arrayListUri);
         } else {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
-            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-            arrayListBitmap.add(scaled);
- //           saveImage();
+            Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+            arrayListBitmap.add(bitmap);
         }
-        Log.d("KEYAA", arrayListBitmap.toString() + " " + arrayListBitmap.size());
         imageChooseAdapter = new ImageChooseAdapter(context, arrayListBitmap);
         gridView_imageChoose.setAdapter(imageChooseAdapter);
     }
 
     public void next3(View v) {
-        if ( arrayListUri.size() < 4 ) {
+    //    Log.d("KEYAA", arrayListUri.toString() + " " + arrayListUri.size() + "Uri");
+    //    Log.d("KEYAA", arrayListBitmap.toString() + " " + arrayListBitmap.size() + "bitmap");
+        if (arrayListUri.size() < 4) {
             layoutImage.setError("you must take more than 4 picture");
             return;
-        }
-        else {
+        } else {
             savingData();
             ((ListYourSpaceActivity) getActivity()).next33(v);
         }
-    }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
 
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-    private void saveImage() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File photoFile = null;
-        try {
-            photoFile = createImageFile();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        // Continue only if the File was successfully created
-        if (photoFile != null) {
-            Uri photoURI = FileProvider.getUriForFile(context,
-                    "com.example.wannahouse.fileprovider",
-                    photoFile);
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-            getActivity().startActivityForResult(takePictureIntent, 0);
-        }
     }
 
     private void savingData() {
-
+        houseNew.setImage(urlImage);
+        if (air.getAlpha() == 1) {
+            houseNew.setAirConditioner(true);
+        } else {
+            houseNew.setAirConditioner(false);
+        }
+        if (privateWC.getAlpha() == 1) {
+            houseNew.setPrivateWC(true);
+        } else {
+            houseNew.setPrivateWC(false);
+        }
+        if (parking.getAlpha() == 1) {
+            houseNew.setParkingLot(true);
+        } else {
+            houseNew.setParkingLot(false);
+        }
+        if (internet.getAlpha() == 1) {
+            houseNew.setInternet(true);
+        } else {
+            houseNew.setInternet(false);
+        }
+        if (security.getAlpha() == 1) {
+            houseNew.setSecurity(true);
+        } else {
+            houseNew.setSecurity(false);
+        }
+        if (noOwner.getAlpha() == 1) {
+            houseNew.setNoOwner(true);
+        } else {
+            houseNew.setNoOwner(false);
+        }
+        if (noCurfew.getAlpha() == 1) {
+            houseNew.setNoCurfew(true);
+        } else {
+            houseNew.setNoCurfew(false);
+        }
+        if (cooking.getAlpha() == 1) {
+            houseNew.setCook(true);
+        } else {
+            houseNew.setCook(false);
+        }
+        if (bed.getAlpha() == 1) {
+            houseNew.setBed(true);
+        } else {
+            houseNew.setBed(false);
+        }
+        if (window.getAlpha() == 1) {
+            houseNew.setWindow(true);
+        } else {
+            houseNew.setWindow(false);
+        }
+        if (waterHeater.getAlpha() == 1) {
+            houseNew.setWaterHeater(true);
+        } else {
+            houseNew.setWaterHeater(false);
+        }
+        if (washing.getAlpha() == 1) {
+            houseNew.setWashing(true);
+        } else {
+            houseNew.setWashing(false);
+        }
+        if (wardrobe.getAlpha() == 1) {
+            houseNew.setWardrobe(true);
+        } else {
+            houseNew.setWardrobe(false);
+        }
+        if (fridge.getAlpha() == 1) {
+            houseNew.setFridge(true);
+        } else {
+            houseNew.setFridge(false);
+        }
+        if (loft.getAlpha() == 1) {
+            houseNew.setLoft(true);
+        } else {
+            houseNew.setLoft(false);
+        }
+        if (television.getAlpha() == 1) {
+            houseNew.setTelevision(true);
+        } else {
+            houseNew.setTelevision(false);
+        }
     }
 
     private void iconViewGroupClick(final ViewGroup viewGroup) {
         viewGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( viewGroup.getAlpha() == 1 ) {
+                if (viewGroup.getAlpha() == 1) {
                     viewGroup.setAlpha(alpha);
-                }
-                else {
+                } else {
                     viewGroup.setAlpha(1);
                 }
             }
         });
     }
-    
-    private void setIconViewGroupClick() {
-        ViewGroup air = view.findViewById(R.id.amenitiesAir);
-        ViewGroup privateWC = view.findViewById(R.id.amenitiesPrivateWC);
-        ViewGroup parking = view.findViewById(R.id.amenitiesParking);
-        ViewGroup internet = view.findViewById(R.id.amenitiesInternet);
-        ViewGroup security = view.findViewById(R.id.amenitiesSecurity);
-        ViewGroup noOwner = view.findViewById(R.id.amenitiesNoOwner);
-        ViewGroup noCurfew = view.findViewById(R.id.amenitiesNoCurfew);
-        ViewGroup cooking = view.findViewById(R.id.amenitiesCooking);
-        ViewGroup bed = view.findViewById(R.id.amenitiesBed);
-        ViewGroup window = view.findViewById(R.id.amenitiesWindow);
-        ViewGroup waterHeater = view.findViewById(R.id.amenitiesWaterHeater);
-        ViewGroup washing = view.findViewById(R.id.amenitiesWashing);
-        ViewGroup wardrobe = view.findViewById(R.id.amenitiesWardrobe);
-        ViewGroup fridge = view.findViewById(R.id.amenitiesFridge);
-        ViewGroup loft = view.findViewById(R.id.amenitiesLoft);
-        ViewGroup television = view.findViewById(R.id.amenitiesTelevision);
 
-        if( !houseNew.isAirConditioner() ) air.setAlpha(alpha);
-        if( !houseNew.isPrivateWC() ) privateWC.setAlpha(alpha);
-        if( !houseNew.isParkingLot() ) parking.setAlpha(alpha);
-        if( !houseNew.isInternet() ) internet.setAlpha(alpha);
-        if( !houseNew.isSecurity() ) security.setAlpha(alpha);
-        if( !houseNew.isNoOwner() ) noOwner.setAlpha(alpha);
-        if( !houseNew.isNoCurfew() ) noCurfew.setAlpha(alpha);
-        if( !houseNew.isCook() ) cooking.setAlpha(alpha);
-        if( !houseNew.isBed() ) bed.setAlpha(alpha);
-        if( !houseNew.isWindow() ) window.setAlpha(alpha);
-        if( !houseNew.isWaterHeater() ) waterHeater.setAlpha(alpha);
-        if( !houseNew.isWashing() ) washing.setAlpha(alpha);
-        if( !houseNew.isWardrobe() ) wardrobe.setAlpha(alpha);
-        if( !houseNew.isFridge() ) fridge.setAlpha(alpha);
-        if( !houseNew.isLoft() ) loft.setAlpha(alpha);
-        if( !houseNew.isTelevision() ) television.setAlpha(alpha);
+    private void setIconViewGroupClick() {
+        air = view.findViewById(R.id.amenitiesAir);
+        privateWC = view.findViewById(R.id.amenitiesPrivateWC);
+        parking = view.findViewById(R.id.amenitiesParking);
+        internet = view.findViewById(R.id.amenitiesInternet);
+        security = view.findViewById(R.id.amenitiesSecurity);
+        noOwner = view.findViewById(R.id.amenitiesNoOwner);
+        noCurfew = view.findViewById(R.id.amenitiesNoCurfew);
+        cooking = view.findViewById(R.id.amenitiesCooking);
+        bed = view.findViewById(R.id.amenitiesBed);
+        window = view.findViewById(R.id.amenitiesWindow);
+        waterHeater = view.findViewById(R.id.amenitiesWaterHeater);
+        washing = view.findViewById(R.id.amenitiesWashing);
+        wardrobe = view.findViewById(R.id.amenitiesWardrobe);
+        fridge = view.findViewById(R.id.amenitiesFridge);
+        loft = view.findViewById(R.id.amenitiesLoft);
+        television = view.findViewById(R.id.amenitiesTelevision);
+
+        if (!houseNew.isAirConditioner()) air.setAlpha(alpha);
+        if (!houseNew.isPrivateWC()) privateWC.setAlpha(alpha);
+        if (!houseNew.isParkingLot()) parking.setAlpha(alpha);
+        if (!houseNew.isInternet()) internet.setAlpha(alpha);
+        if (!houseNew.isSecurity()) security.setAlpha(alpha);
+        if (!houseNew.isNoOwner()) noOwner.setAlpha(alpha);
+        if (!houseNew.isNoCurfew()) noCurfew.setAlpha(alpha);
+        if (!houseNew.isCook()) cooking.setAlpha(alpha);
+        if (!houseNew.isBed()) bed.setAlpha(alpha);
+        if (!houseNew.isWindow()) window.setAlpha(alpha);
+        if (!houseNew.isWaterHeater()) waterHeater.setAlpha(alpha);
+        if (!houseNew.isWashing()) washing.setAlpha(alpha);
+        if (!houseNew.isWardrobe()) wardrobe.setAlpha(alpha);
+        if (!houseNew.isFridge()) fridge.setAlpha(alpha);
+        if (!houseNew.isLoft()) loft.setAlpha(alpha);
+        if (!houseNew.isTelevision()) television.setAlpha(alpha);
 
         iconViewGroupClick(air);
         iconViewGroupClick(privateWC);
@@ -258,6 +376,22 @@ public class FragmentAmenities extends Fragment {
         iconViewGroupClick(fridge);
         iconViewGroupClick(loft);
         iconViewGroupClick(television);
+    }
+
+    public void uploadImageToCloud(ArrayList<Uri> arrayList) {
+        Log.d("KEYAA", "uploading");
+        for(int i = 0 ; i < arrayList.size() ; i++) {
+            Uri temp = arrayList.get(i);
+            final StorageReference imageName = foder.child( "image" + temp.getLastPathSegment());
+            imageName.putFile(temp).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.d("KEYAA", "upload done");
+                    urlImage.add(imageName.getDownloadUrl().toString());
+                }
+            });
+        }
+        Toast.makeText(getActivity(),"Upload Done",Toast.LENGTH_SHORT).show();
     }
 }
 

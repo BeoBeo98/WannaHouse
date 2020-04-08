@@ -179,5 +179,4 @@ public class FragmentAddress extends Fragment {
         houseNew.setStreet(  textInput_streetName.getEditText().getText().toString().trim() );
         houseNew.setHouseNumber(  textInput_houseNumber.getEditText().getText().toString().trim() );
     }
-
 }

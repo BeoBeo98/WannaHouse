@@ -1,5 +1,7 @@
 package com.example.wannahouse.Class_Java;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -461,5 +463,19 @@ public class House implements Serializable {
 
     public void setOwner_id(String owner_id) {
         this.owner_id = owner_id;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+//        String result = getOwner_id() + " " + getName() + " " + getPhone() + " " + getAvatar() + " "
+//                + getRoomStyle() + " " + getNumberOfRoom() + " "
+//                + getCapacity() + " " + getGender() + " " + getRoomArea() + " " + getRentalPrice() + " "
+//                + getDeposit() + " " + getElectricityCost() + " " + getWaterCost() + " "
+//                + getInternetCost() + " " + getParkingCost() + " " + getImage().toString() + " "
+//                + getCity() + " " + getDistrict() + " " + getWard() + " " + getStreet() + " "
+//                + getHouseNumber();
+//        return result;
+        return super.toString();
     }
 }
