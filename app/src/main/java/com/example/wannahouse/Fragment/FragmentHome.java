@@ -16,6 +16,14 @@ import com.example.wannahouse.Activity.ExploreActivity;
 import com.example.wannahouse.Activity.ListYourSpaceActivity;
 import com.example.wannahouse.Activity.MainActivity;
 import com.example.wannahouse.R;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.auth.api.Auth;
+import com.google.api.Authentication;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.example.wannahouse.Activity.MainActivity.isLogin;
 
@@ -31,7 +39,7 @@ public class FragmentHome extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_home,container,false);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
 
         button_explore = view.findViewById(R.id.button_explore);
         button_explore.setOnClickListener(new View.OnClickListener() {
@@ -46,13 +54,8 @@ public class FragmentHome extends Fragment {
         viewGroup_listYourSpace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( isLogin == true ) {
-                    Intent intent = new Intent(getActivity(), ListYourSpaceActivity.class);
-                    getActivity().startActivity(intent);
-                }
-                else {
-                    Toast.makeText(getActivity(),"You must login",Toast.LENGTH_SHORT).show();
-                }
+                Intent intent = new Intent(getActivity(), ListYourSpaceActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 

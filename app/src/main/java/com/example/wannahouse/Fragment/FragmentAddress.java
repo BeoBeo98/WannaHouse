@@ -172,11 +172,12 @@ public class FragmentAddress extends Fragment {
         }
     }
 
-    private void savingData() {
+    void savingData() {
         houseNew.setCity(textView_city.getText().toString());
         houseNew.setDistrict(textView_district.getText().toString());
         houseNew.setWard(  textInput_ward.getEditText().getText().toString().trim() );
         houseNew.setStreet(  textInput_streetName.getEditText().getText().toString().trim() );
         houseNew.setHouseNumber(  textInput_houseNumber.getEditText().getText().toString().trim() );
+        Log.d("KEYAA", " ?? " + houseNew.getStreet());
     }
 }

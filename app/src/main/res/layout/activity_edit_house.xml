@@ -24,17 +24,24 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-            <TextView
-                android:textColor="@color/colorAccent"
-                android:background="@drawable/border2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Delete" />
             <LinearLayout
                 android:clickable="true"
-                android:id="@+id/viewGroupCall"
+                android:id="@+id/viewGroup_delete"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <TextView
+                    android:textColor="@color/colorAccent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Delete" />
+            </LinearLayout>
+            <LinearLayout
+                android:clickable="true"
+                android:id="@+id/viewGroup_edit"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >

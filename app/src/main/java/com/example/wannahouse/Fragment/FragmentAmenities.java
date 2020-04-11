@@ -205,6 +205,7 @@ public class FragmentAmenities extends Fragment {
                     e.printStackTrace();
                 }
             }
+            Log.d("KEYAA", "uri");
             data.putParcelableArrayListExtra("LISTURI", arrayListUri);
         } else {
             Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
@@ -386,8 +387,14 @@ public class FragmentAmenities extends Fragment {
             imageName.putFile(temp).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.d("KEYAA", "upload done");
-                    urlImage.add(imageName.getDownloadUrl().toString());
+                    imageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            urlImage.add(( uri.toString()));
+                            Log.d("KEYAA", "url " + urlImage.size() +  " " + uri.toString());
+
+                        }
+                    });
                 }
             });
         }

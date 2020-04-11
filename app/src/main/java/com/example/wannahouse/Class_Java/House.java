@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class House implements Serializable {
+    private String room_id;
     private String owner_id;
     private String roomStyle;
     private int numberOfRoom;
@@ -50,7 +52,11 @@ public class House implements Serializable {
     private boolean wardrobe;
     private boolean television;
 
+    private boolean verify;
+    private boolean publicRoom;
+
     public House() {
+        room_id= "";
         owner_id = "";
         roomStyle = "";
         numberOfRoom = 0;
@@ -91,9 +97,63 @@ public class House implements Serializable {
         bed = false;
         wardrobe = false;
         television = false;
+
+        verify = false;
+        publicRoom = true;
     }
 
-    public House(String owner_id, String roomStyle, int numberOfRoom, int capacity, int gender, int roomArea, int rentalPrice, int deposit, float electricityCost, int waterCost, int internetCost, int parkingCost, String city, String district, String ward, String street, String houseNumber, String roomDescription, String titleOfTheRoom, ArrayList<String> image, ArrayList<String> report, String name, String phone, String avatar, String postingDate, boolean parkingLot, boolean privateWC, boolean window, boolean security, boolean internet, boolean noCurfew, boolean noOwner, boolean airConditioner, boolean waterHeater, boolean cook, boolean fridge, boolean washing, boolean loft, boolean bed, boolean wardrobe, boolean television) {
+    public House(int abc) {
+        room_id = "house00999";
+        owner_id = "2562885550667569";
+        roomStyle = "ROOM FOR RENT";
+        numberOfRoom = 2;
+        capacity = 2;
+        gender = 2;
+        roomArea = 3;
+        rentalPrice = 3;
+        deposit = 3;
+        electricityCost = 3;
+        waterCost = 3;
+        parkingCost = 3;
+        city = "Hà Nội";
+        district = "Cầu Giấy";
+        ward = "Dịch Vọng Hậu";
+        street = "Xuân Thủy";
+        houseNumber = "số 999 ngõ 999";
+        roomDescription = "đéo care nhà test";
+        titleOfTheRoom = "đéo care nhà test title";
+        image.add("https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/3_1.jpg?alt=media&token=be12f2e5-3849-481c-99d7-04e927942c13");
+        image.add("https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/3_1.jpg?alt=media&token=be12f2e5-3849-481c-99d7-04e927942c13");
+        image.add("https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/3_1.jpg?alt=media&token=be12f2e5-3849-481c-99d7-04e927942c13");
+        image.add("https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/3_1.jpg?alt=media&token=be12f2e5-3849-481c-99d7-04e927942c13");
+        report = null;
+        name = "Quân Hồng";
+        phone = "0359217728";
+        avatar = "https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/avatar_quan.JPG?alt=media&token=e468e241-27fc-4823-b370-53c0906676a9";
+        postingDate = "Thứ hai là ngày đầu tuần";
+        parkingLot = true;
+        privateWC = false;
+        window = false;
+        security = false;
+        internet = true;
+        noCurfew = false;
+        noOwner = false;
+        airConditioner = false;
+        waterHeater = false;
+        cook = false;
+        fridge = true;
+        washing =false;
+        loft = false;
+        bed = false;
+        wardrobe = true;
+        television = false;
+
+        verify = false;
+        publicRoom = true;
+    }
+
+    public House(String room_id, String owner_id, String roomStyle, int numberOfRoom, int capacity, int gender, int roomArea, int rentalPrice, int deposit, float electricityCost, int waterCost, int internetCost, int parkingCost, String city, String district, String ward, String street, String houseNumber, String roomDescription, String titleOfTheRoom, ArrayList<String> image, ArrayList<String> report, String name, String phone, String avatar, String postingDate, boolean parkingLot, boolean privateWC, boolean window, boolean security, boolean internet, boolean noCurfew, boolean noOwner, boolean airConditioner, boolean waterHeater, boolean cook, boolean fridge, boolean washing, boolean loft, boolean bed, boolean wardrobe, boolean television, boolean verify, boolean publicRoom) {
+        this.room_id = room_id;
         this.owner_id = owner_id;
         this.roomStyle = roomStyle;
         this.numberOfRoom = numberOfRoom;
@@ -135,6 +195,8 @@ public class House implements Serializable {
         this.bed = bed;
         this.wardrobe = wardrobe;
         this.television = television;
+        this.verify = verify;
+        this.publicRoom = publicRoom;
     }
 
     public String getRoomStyle() {
@@ -463,6 +525,30 @@ public class House implements Serializable {
 
     public void setOwner_id(String owner_id) {
         this.owner_id = owner_id;
+    }
+
+    public boolean isVerify() {
+        return verify;
+    }
+
+    public void setVerify(boolean verify) {
+        this.verify = verify;
+    }
+
+    public boolean isPublicRoom() {
+        return publicRoom;
+    }
+
+    public void setPublicRoom(boolean publicRoom) {
+        this.publicRoom = publicRoom;
+    }
+
+    public String getRoom_id() {
+        return room_id;
+    }
+
+    public void setRoom_id(String room_id) {
+        this.room_id = room_id;
     }
 
     @NonNull

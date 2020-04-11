@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/com_facebook_blue</item>
     </style>
 
+    <style name="MyTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
 </resources>

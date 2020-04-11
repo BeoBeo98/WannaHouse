@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">WannaHouse</string>
-    <string name="facebook_app_id">678793092652481</string>
-    <string name="fb_login_protocol_scheme">fb678793092652481</string>
+    <string name="facebook_application_id" translatable="false">678793092652481</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb678793092652481</string>
     <string-array name="choose_city">
         <item>Hà Nội</item>
         <item>Hồ Chí Minh</item>

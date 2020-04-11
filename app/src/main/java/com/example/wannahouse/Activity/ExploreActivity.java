@@ -3,6 +3,7 @@ package com.example.wannahouse.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -10,21 +11,36 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wannahouse.Class_Java.Account;
 import com.example.wannahouse.Class_Java.Data;
 import com.example.wannahouse.Adapter.HouseAdapter;
+import com.example.wannahouse.Class_Java.House;
+import com.example.wannahouse.Class_Java.HouseViewModel;
 import com.example.wannahouse.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
+import static com.example.wannahouse.Activity.LoginActivity.liveDataHouse;
+import static com.example.wannahouse.Activity.LoginActivity.valueEventListener;
 
 public class ExploreActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerViewHouse;
     private GridView gridViewHouse;
     private HouseAdapter houseAdapter;
     private TextView numberHouse;
-    private ImageView imageView;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -32,18 +48,29 @@ public class ExploreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.explore_activity);
 
-        numberHouse = findViewById(R.id.numberHouse);
-        numberHouse.setText( String.valueOf( Data.arrayListHouse.size() ));
+        Query query = FirebaseDatabase.getInstance().getReference().child("house")
+                .orderByChild("verify").equalTo(true);
+        query.addValueEventListener(valueEventListener);
 
-        // show list house in Explore
         gridViewHouse = findViewById(R.id.gridView_house);
-        houseAdapter = new HouseAdapter( Data.arrayListHouse, this);
+        houseAdapter = new HouseAdapter( liveDataHouse.getValue() , this);
         gridViewHouse.setAdapter(houseAdapter);
+
+        numberHouse = findViewById(R.id.numberHouse);
+        numberHouse.setText( liveDataHouse.getValue().size() + "" );
+
+        liveDataHouse.observe(this, new Observer<ArrayList<House>>() {
+            @Override
+            public void onChanged(ArrayList<House> houses) {
+                houseAdapter.notifyDataSetChanged();
+            }
+        });
+
         gridViewHouse.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent( ExploreActivity.this , HouseDetailsActivity.class);
-                intent.putExtra("Position_", Data.arrayListHouse.get(position));
+                intent.putExtra("Position_", liveDataHouse.getValue().get(position));
                 startActivity(intent);
             }
         });

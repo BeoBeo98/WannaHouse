@@ -4,5 +4,5 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Data {
-    public static List<House> arrayListHouse = new ArrayList();
+    public static ArrayList<House> arrayListHouse = new ArrayList();
 }

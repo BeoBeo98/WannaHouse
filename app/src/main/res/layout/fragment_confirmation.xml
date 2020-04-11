@@ -42,8 +42,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tự đi mà đặt title"
-            android:inputType="number" />
+            android:hint="Tự đi mà đặt title" />
     </com.google.android.material.textfield.TextInputLayout>
     <TextView
         android:layout_width="match_parent"
@@ -59,8 +58,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Detailed description, opening and closing hours"
-            android:inputType="number" />
+            android:hint="Detailed description, opening and closing hours" />
     </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:id="@+id/button_next4"
@@ -70,6 +68,17 @@
         android:background="@drawable/border2"
         android:gravity="center"
         android:text="FINISH ➤"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_marginTop="50dp"
+        android:id="@+id/button_testList"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/border2"
+        android:gravity="center"
+        android:text="test ➤"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

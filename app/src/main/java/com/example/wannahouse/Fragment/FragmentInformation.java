@@ -330,8 +330,12 @@ public class FragmentInformation extends Fragment {
 
         radioGroup_gender.check( radioGroup_gender.getCheckedRadioButtonId() );
         int selected2 = radioGroup_roomStyle.getCheckedRadioButtonId();
-        RadioButton radioButton_gender = (RadioButton) view.findViewById(selected2);
-        houseNew.setRoomStyle(radioButton_gender.getText().toString());
+
+        switch (selected2) {
+            case 1: houseNew.setGender(0);
+            case 2: houseNew.setGender(1);
+            case 3: houseNew.setGender(-1);
+        }
 
         houseNew.setRoomArea( Integer.valueOf(textInput_roomArea.getEditText().getText().toString().trim()) );
         houseNew.setRentalPrice( Integer.valueOf(textInput_rentalPrice.getEditText().getText().toString().trim()) );

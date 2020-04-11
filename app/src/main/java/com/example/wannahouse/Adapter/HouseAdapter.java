@@ -12,16 +12,19 @@ import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HouseAdapter extends BaseAdapter {
 
-    private List<House> listHouse;
+    private ArrayList<House> listHouse;
     private Context context;
+    LayoutInflater inflater;
 
-    public HouseAdapter(List<House> listHouse, Context context) {
+    public HouseAdapter(ArrayList<House> listHouse, Context context) {
         this.listHouse = listHouse;
         this.context = context;
+        inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override

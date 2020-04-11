@@ -48,13 +48,14 @@ public class HouseDetailsActivity extends AppCompatActivity {
         mapping();
         Intent intent = getIntent();
         final House house = (House) intent.getSerializableExtra("Position_");
-        dataLinking(house);
         imageLinking(house);
         itemAmenitiesLinking(house);
+        dataLinking(house);
+        setVgCall(house);
     }
 
     @SuppressLint("WrongViewCast")
-    protected void mapping() {
+    void mapping() {
 //        imageView = (ImageView) findViewById(R.id.viewPager);
         titleOfTheRoom = findViewById(R.id.titleOfThePostDetails);
         capacity = findViewById(R.id.capacity);
@@ -78,7 +79,7 @@ public class HouseDetailsActivity extends AppCompatActivity {
         vgCall = findViewById(R.id.viewGroupCall);
     }
 
-    protected void dataLinking(final House house) {
+    void dataLinking(final House house) {
         titleOfTheRoom.setText( house.getTitleOfTheRoom() );
         roomStyle.setText( house.getRoomStyle() );
         String gender = "";
@@ -105,6 +106,9 @@ public class HouseDetailsActivity extends AppCompatActivity {
         numberOfRoom.setText( house.getNumberOfRoom() + " room(s)");
 
         Glide.with(HouseDetailsActivity.this).load( house.getAvatar()).into(avatarOwner);
+    }
+
+    void setVgCall(final House house) {
         vgCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,7 +119,7 @@ public class HouseDetailsActivity extends AppCompatActivity {
     }
 
 
-    protected void imageLinking(final House house) {
+     void imageLinking(final House house) {
         TextView count = findViewById(R.id.count);
         count.setText("+" + (house.getImage().size() - 4));
         if( house.getImage().size()-4 == 0 ) {
@@ -173,7 +177,7 @@ public class HouseDetailsActivity extends AppCompatActivity {
         });
     }
 
-    protected void call(final House house) {
+     void call(final House house) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Confirmation");
         alertDialog.setMessage("You want to call " + house.getPhone() );
@@ -194,7 +198,7 @@ public class HouseDetailsActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void itemAmenitiesLinking(House house) {
+    void itemAmenitiesLinking(House house) {
 
         ViewGroup air = findViewById(R.id.amenitiesAir);
         ViewGroup privateWC = findViewById(R.id.amenitiesPrivateWC);
