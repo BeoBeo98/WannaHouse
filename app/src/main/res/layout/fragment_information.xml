@@ -37,26 +37,31 @@
                         android:text="ROOM STYLE" />
 
                     <RadioButton
+                        android:id="@+id/rb_roomStyle1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Room for rent" />
 
                     <RadioButton
+                        android:id="@+id/rb_roomStyle2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Room for share" />
 
                     <RadioButton
+                        android:id="@+id/rb_roomStyle3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Apartment" />
 
                     <RadioButton
+                        android:id="@+id/rb_roomStyle4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="House" />
 
                     <RadioButton
+                        android:id="@+id/rb_roomStyle5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Dormitory" />
@@ -150,16 +155,19 @@
                         android:text="GENDER" />
 
                     <RadioButton
+                        android:id="@+id/rb_gender1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="All" />
 
                     <RadioButton
+                        android:id="@+id/rb_gender2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Male" />
 
                     <RadioButton
+                        android:id="@+id/rb_gender3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Female" />

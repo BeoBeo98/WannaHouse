@@ -63,6 +63,7 @@ public class ExploreActivity extends AppCompatActivity {
             @Override
             public void onChanged(ArrayList<House> houses) {
                 houseAdapter.notifyDataSetChanged();
+                numberHouse.setText( liveDataHouse.getValue().size() + "" );
             }
         });
 

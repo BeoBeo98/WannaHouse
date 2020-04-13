@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,8 @@ import com.bumptech.glide.Glide;
 import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
 import com.squareup.picasso.Picasso;
+
+import static com.example.wannahouse.Activity.EditHouseActivity.progressDialog;
 
 public class HouseDetailsActivity extends AppCompatActivity {
 
@@ -39,7 +42,9 @@ public class HouseDetailsActivity extends AppCompatActivity {
     private TextView capacity;
     private TextView roomOwnerName;
     private ImageView avatarOwner;
+
     private ViewGroup vgCall;
+    private ImageButton imageButton_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,12 @@ public class HouseDetailsActivity extends AppCompatActivity {
         itemAmenitiesLinking(house);
         dataLinking(house);
         setVgCall(house);
+        back();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     @SuppressLint("WrongViewCast")
@@ -77,6 +88,8 @@ public class HouseDetailsActivity extends AppCompatActivity {
         avatarOwner = findViewById(R.id.avatarOwner);
         numberOfRoom = findViewById(R.id.numberOfRoomDetails);
         vgCall = findViewById(R.id.viewGroupCall);
+
+        imageButton_back = findViewById(R.id.imageButton_back);
     }
 
     void dataLinking(final House house) {
@@ -196,6 +209,15 @@ public class HouseDetailsActivity extends AppCompatActivity {
         });
 
         alertDialog.show();
+    }
+
+    void back() {
+        imageButton_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     void itemAmenitiesLinking(House house) {

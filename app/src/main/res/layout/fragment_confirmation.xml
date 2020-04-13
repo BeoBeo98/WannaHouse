@@ -72,13 +72,12 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:layout_marginTop="50dp"
-        android:id="@+id/button_testList"
+        android:id="@+id/button_save"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/border2"
         android:gravity="center"
-        android:text="test ➤"
+        android:text="SAVE ➤"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

@@ -19,6 +19,8 @@ import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,9 +32,11 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.wannahouse.Activity.ListYourSpaceActivity.houseNew;
 import static com.example.wannahouse.Activity.MainActivity.accountNew;
+import static com.example.wannahouse.Fragment.FragmentInformation.houseEdit;
 
 public class FragmentConfirmation extends Fragment {
 
@@ -41,7 +45,7 @@ public class FragmentConfirmation extends Fragment {
     private TextInputLayout textInput_roomDescription;
 
     private Button button_next4;
-    private Button button_testList;
+    private Button button_save;
 
     public static int FINISH_REQUEST_CODE = 1003;
     long maxID = 0;
@@ -57,6 +61,7 @@ public class FragmentConfirmation extends Fragment {
         textInput_titleOfThePost.getEditText().setText( houseNew.getRoomStyle() + " " + houseNew.getWard() + " " + houseNew.getDistrict() );
         textInput_roomDescription = view.findViewById(R.id.text_input_roomDescription);
         button_next4 = view.findViewById(R.id.button_next4);
+        button_save = view.findViewById(R.id.button_save);
 
         takeTotalItem();
         button_next4.setOnClickListener(new View.OnClickListener() {
@@ -66,18 +71,23 @@ public class FragmentConfirmation extends Fragment {
             }
         });
 
-        button_testList = view.findViewById(R.id.button_testList);
-        button_testList.setOnClickListener(new View.OnClickListener() {
+        button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                upNewOwnerToDatabase(accountNew);
-                upNewHosueToDatabase(houseNew);
-                Intent intent = new Intent( getActivity(), EditHouseActivity.class);
-                intent.putExtra("Position_", houseNew);
-                getActivity().startActivityForResult(intent, FINISH_REQUEST_CODE );
-                getActivity().finish();
+                next4(v);
             }
         });
+
+        if( houseEdit != null ) {
+            Log.d("QWE", "Result confirm " + houseEdit.getRoom_id());
+            button_save.setVisibility(View.VISIBLE);
+            button_next4.setVisibility(View.GONE);
+            editConfirmation(houseEdit);
+        }
+        else {
+            button_next4.setVisibility(View.VISIBLE);
+            button_save.setVisibility(View.GONE);
+        }
 
         return view;
     }
@@ -123,19 +133,32 @@ public class FragmentConfirmation extends Fragment {
             return;
         }
         else {
-            savingData();
-            upNewOwnerToDatabase(accountNew);
-            upNewHosueToDatabase(houseNew);
-            Intent intent = new Intent( getActivity(), EditHouseActivity.class);
-            intent.putExtra("Position_", houseNew);
-            getActivity().startActivityForResult(intent, FINISH_REQUEST_CODE );
-            getActivity().finish();
-            Log.d("KEYBB", houseNew.toString());
+            if( houseEdit == null) {
+                savingData(houseNew);
+                upNewOwner(accountNew);
+                upNewHouse(houseNew);
+                Intent intent = new Intent(getActivity(), EditHouseActivity.class);
+                intent.putExtra("Position_", houseNew);
+                getActivity().startActivityForResult(intent, FINISH_REQUEST_CODE);
+                getActivity().finish();
+                Log.d("KEYBB", houseNew.toString());
+            }
+            else {
+                savingData(houseEdit);
+                updateHouse(houseEdit);
+                Intent intent = new Intent(getActivity(), EditHouseActivity.class);
+                intent.putExtra("Position_", houseEdit);
+                getActivity().startActivityForResult(intent, FINISH_REQUEST_CODE);
+                getActivity().finish();
+                Log.d("KEYBB", houseEdit.toString());
+            }
         }
     }
 
-    private void savingData(){
-        houseNew.setRoom_id("house00" + Long.valueOf(maxID + 1));
+    private void savingData(House houseNew){
+        if( houseNew.getRoom_id().isEmpty() ) {
+            houseNew.setRoom_id("house00" + Long.valueOf(maxID+1));
+        }
         houseNew.setPhone(  textInput_phoneNumber.getEditText().getText().toString().trim() );
         houseNew.setTitleOfTheRoom(  textInput_titleOfThePost.getEditText().getText().toString().trim() );
         Log.d("KEYAA", houseNew.getTitleOfTheRoom());
@@ -144,9 +167,12 @@ public class FragmentConfirmation extends Fragment {
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
         houseNew.setPostingDate( currentDate );
+
+        Log.d("ZZZ", "maxId " + houseNew.getOwner_id() );
+        Log.d("ZZZ", "maxId " + houseNew.getName() );
     }
 
-    void upNewOwnerToDatabase(final Account account) {
+    void upNewOwner(final Account account) {
         final DatabaseReference databaseAccount = FirebaseDatabase.getInstance().getReference().child("account").child("roomOwner");
         databaseAccount.addValueEventListener(new ValueEventListener() {
             @Override
@@ -173,12 +199,58 @@ public class FragmentConfirmation extends Fragment {
         });
     }
 
-    void upNewHosueToDatabase(final House house) {
-        final DatabaseReference houseDB = FirebaseDatabase.getInstance().getReference().child("house");
-        Log.d("KEYQQ", "maxId " + maxID );
-        houseDB.child(maxID+1+"").setValue(house);
-        Log.d("KEYQQ", "maxId " + maxID );
-        houseDB.child(maxID+1+"").setValue(house);
+    void upNewHouse(final House house) {
+        final DatabaseReference houseDB = FirebaseDatabase.getInstance().getReference().child("house").child(house.getRoom_id());
+        Map<String, Object> postValues = house.toMap();
+        houseDB.setValue(postValues);
+//        houseDB.child("room_id").setValue(houseNew.getRoom_id());
+//        houseDB.child("owner_id").setValue(houseNew.getOwner_id());
+//        houseDB.child("roomStyle").setValue(houseNew.getRoomStyle());
+//        houseDB.child("numberOfRoom").setValue(houseNew.getNumberOfRoom());
+//        houseDB.child("capacity").setValue(houseNew.getCapacity());
+//        houseDB.child("gender").setValue(houseNew.getGender());
+//        houseDB.child("roomArea").setValue(houseNew.getRoomArea());
+//        houseDB.child("rentalPrice").setValue(houseNew.getRentalPrice());
+//        houseDB.child("deposit").setValue(houseNew.getDeposit());
+//        houseDB.child("electricityCost").setValue(houseNew.getElectricityCost());
+//        houseDB.child("waterCost").setValue(houseNew.getWaterCost());
+//        houseDB.child("internetCost").setValue(houseNew.getInternetCost());
+//        houseDB.child("parkingCost").setValue(houseNew.getParkingCost());
+//        houseDB.child("city").setValue(houseNew.getCity());
+//        houseDB.child("district").setValue(houseNew.getDistrict());
+//        houseDB.child("ward").setValue(houseNew.getWard());
+//        houseDB.child("street").setValue(houseNew.getStreet());
+//        houseDB.child("houseNumber").setValue(houseNew.getHouseNumber());
+//        houseDB.child("roomDescription").setValue(houseNew.getRoomDescription());
+//        houseDB.child("titleOfTheRoom").setValue(houseNew.getTitleOfTheRoom());
+//        houseDB.child("image").setValue(houseNew.getImage());
+//        houseDB.child("privateWC").setValue(houseNew.isPrivateWC());
+//        houseDB.child("parkingLot").setValue(houseNew.isParkingLot());
+//        houseDB.child("window").setValue(houseNew.isWindow());
+//        houseDB.child("security").setValue(houseNew.isSecurity());
+//        houseDB.child("internet").setValue(houseNew.isInternet());
+//        houseDB.child("noCurfew").setValue(houseNew.isNoCurfew());
+//        houseDB.child("noOwner").setValue(houseNew.isNoOwner());
+//        houseDB.child("airConditioner").setValue(houseNew.isAirConditioner());
+//        houseDB.child("waterHeater").setValue(houseNew.isWaterHeater());
+//        houseDB.child("cook").setValue(houseNew.isCook());
+//        houseDB.child("fridge").setValue(houseNew.isFridge());
+//        houseDB.child("washing").setValue(houseNew.isWashing());
+//        houseDB.child("loft").setValue(houseNew.isLoft());
+//        houseDB.child("bed").setValue(houseNew.isBed());
+//        houseDB.child("wardrobe").setValue(houseNew.isWardrobe());
+//        houseDB.child("television").setValue(houseNew.isTelevision());
+//        houseDB.child("postingDate").setValue(houseNew.getPostingDate());
+//        houseDB.child("report").setValue(houseNew.getReport());
+//        houseDB.child("verify").setValue(houseNew.isVerify());
+//        houseDB.child("publicRoom").setValue(houseNew.isPublicRoom());
+    }
+
+    void updateHouse(House house) {
+        Log.d("QWE", house.getRoom_id() );
+        final DatabaseReference houseDB = FirebaseDatabase.getInstance().getReference().child("house").child(house.getRoom_id());
+        Map<String, Object> postValues = house.toMap();
+        houseDB.updateChildren(postValues);
     }
 
     void takeTotalItem() {
@@ -194,5 +266,11 @@ public class FragmentConfirmation extends Fragment {
 
             }
         });
+    }
+
+    void editConfirmation(House houseEdit) {
+        textInput_phoneNumber.getEditText().setText(houseEdit.getPhone() + "");
+        textInput_titleOfThePost.getEditText().setText(houseEdit.getTitleOfTheRoom() + "");
+        textInput_roomDescription.getEditText().setText(houseEdit.getRoomDescription() + "");
     }
 }

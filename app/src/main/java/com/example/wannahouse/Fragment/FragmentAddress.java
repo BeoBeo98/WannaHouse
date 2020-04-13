@@ -14,12 +14,14 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.example.wannahouse.Activity.ListYourSpaceActivity;
+import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
 import com.example.wannahouse.Dialog.SingleChoiceDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import static com.example.wannahouse.Activity.ListYourSpaceActivity.houseNew;
+import static com.example.wannahouse.Fragment.FragmentInformation.houseEdit;
 
 public class FragmentAddress extends Fragment {
     private ViewGroup viewGroup_district;
@@ -95,6 +97,11 @@ public class FragmentAddress extends Fragment {
             }
         });
 
+        if (houseEdit != null) {
+            Log.d("TTT", "Result " + houseEdit.getRoom_id());
+            editAddress(houseEdit);
+        }
+
         return view;
     }
 
@@ -167,17 +174,29 @@ public class FragmentAddress extends Fragment {
         if (!validate_city() | !validate_district() | !validate_ward() |
                 !validate_streetName() | !validate_houseNumber()) return;
         else {
-            savingData();
+            if (houseEdit == null) {
+                savingData(houseNew);
+            } else {
+                savingData(houseEdit);
+            }
             ((ListYourSpaceActivity) getActivity()).next22(v);
         }
     }
 
-    void savingData() {
+    void savingData(House houseNew) {
         houseNew.setCity(textView_city.getText().toString());
         houseNew.setDistrict(textView_district.getText().toString());
         houseNew.setWard(  textInput_ward.getEditText().getText().toString().trim() );
         houseNew.setStreet(  textInput_streetName.getEditText().getText().toString().trim() );
         houseNew.setHouseNumber(  textInput_houseNumber.getEditText().getText().toString().trim() );
         Log.d("KEYAA", " ?? " + houseNew.getStreet());
+    }
+
+    void editAddress(House houseEdit) {
+        textView_city.setText(houseEdit.getCity() + "");
+        textView_district.setText(houseEdit.getDistrict() + "");
+        textInput_ward.getEditText().setText(houseEdit.getWard() + "");
+        textInput_streetName.getEditText().setText(houseEdit.getStreet() + "");
+        textInput_houseNumber.getEditText().setText(houseEdit.getHouseNumber() + "");
     }
 }

@@ -67,7 +67,8 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.wannahouse.Activity.ListYourSpaceActivity.houseNew;
-import static com.example.wannahouse.Fragment.FragmentAccount.profile;
+import static com.example.wannahouse.Activity.LoginActivity.isOwner;
+import static com.example.wannahouse.Fragment.Fragment_Profile.changeImageToHighQuality;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button_home;
 
     private DatabaseReference databaseHouse;
-    public static Account accountNew = new Account(9999);
+    public static Account accountNew = new Account();
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -118,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        takeAccountLogin();
     }
 
 
@@ -135,6 +137,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    void takeAccountLogin() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        accountNew.setId(user.getUid());
+        accountNew.setName(user.getDisplayName());
+        accountNew.setAvatar(changeImageToHighQuality(user.getPhotoUrl()).toString());
+
+        houseNew.setOwner_id( user.getUid());
+        houseNew.setAvatar(accountNew.getAvatar());
+        houseNew.setName(accountNew.getName());
     }
 
     void inputDataFromDatabase() {

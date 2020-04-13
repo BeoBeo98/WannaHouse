@@ -1,8 +1,10 @@
 package com.example.wannahouse.Fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -41,6 +43,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.example.wannahouse.Activity.LoginActivity.isOwner;
 import static com.example.wannahouse.Activity.MainActivity.accountNew;
 import static com.example.wannahouse.Activity.MainActivity.callbackManager;
 import static com.example.wannahouse.Activity.MainActivity.isLogin;
@@ -59,6 +62,7 @@ public class FragmentAccount extends Fragment {
     public FragmentAccount() {
     }
 
+    @SuppressLint("WrongConstant")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,15 +70,23 @@ public class FragmentAccount extends Fragment {
 
         tabLayout = view.findViewById(R.id.tabLayout_account);
         viewPager = view.findViewById(R.id.viewPager_account);
-        ViewPagerAdapter adapter = new ViewPagerAdapter( getActivity().getSupportFragmentManager(),1000);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), 1000);
 
-        adapter.addFragment( profile, "PROFILE");
-        adapter.addFragment( approved, "APPROVED");
-        adapter.addFragment( pending, "PENDING");
-        Log.d("KEYBB", adapter.toString()+"");
+        adapter.addFragment(profile, "PROFILE");
+        adapter.addFragment(approved, "APPROVED");
+        adapter.addFragment(pending, "PENDING");
+        Log.d("KEYBB", adapter.toString() + "");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
+
+        final View touchView = view.findViewById(R.id.viewPager_account);
+        touchView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
 
         return view;
     }

@@ -18,9 +18,30 @@
                 android:id="@+id/picture"
                 android:layout_width="match_parent"
                 android:layout_height="280dp" >
+
                 <LinearLayout
+                    android:id="@+id/detailBack"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content" >
+                    <ImageButton
+                        android:id="@+id/imageButton_back"
+                        android:layout_gravity="center"
+                        android:background="@drawable/icons8arrow64"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+                    <TextView
+                        android:textSize="18sp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_below="@+id/detailBack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                     <LinearLayout
                         android:paddingBottom="2dp"
                         android:paddingTop="2dp"

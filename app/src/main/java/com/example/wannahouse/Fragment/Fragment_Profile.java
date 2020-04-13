@@ -90,7 +90,7 @@ public class Fragment_Profile extends Fragment {
         return view;
     }
 
-    private Uri changeImageToHighQuality(Uri photoUri) {
+    public static Uri changeImageToHighQuality(Uri photoUri) {
         //workaround to get higer res profile picture
         if (photoUri != null) {
             String str = photoUri.toString();

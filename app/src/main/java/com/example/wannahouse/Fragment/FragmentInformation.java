@@ -1,6 +1,7 @@
 package com.example.wannahouse.Fragment;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,39 +17,48 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.wannahouse.Activity.ListYourSpaceActivity;
+import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import static com.example.wannahouse.Activity.ListYourSpaceActivity.houseNew;
+import static com.example.wannahouse.Fragment.FragmentAmenities.alpha;
+import static com.example.wannahouse.Fragment.FragmentAmenities.internet;
+import static com.example.wannahouse.Fragment.FragmentAmenities.parking;
 
 public class FragmentInformation extends Fragment {
-    private TextInputLayout textInput_numberOfRoom;
-    private TextInputLayout textInput_capacity;
-    private TextInputLayout textInput_roomArea;
-    private TextInputLayout textInput_rentalPrice;
-    private TextInputLayout textInput_deposit;
-    private TextInputLayout textInput_electricityCost;
-    private TextInputLayout textInput_waterCost;
-    private TextInputLayout textInput_roomStyle;
-    private TextInputLayout textInput_gender;
-    private TextInputLayout textInput_internet;
-    private TextInputLayout textInput_parking;
+    TextInputLayout textInput_numberOfRoom;
+    TextInputLayout textInput_capacity;
+    TextInputLayout textInput_roomArea;
+    TextInputLayout textInput_rentalPrice;
+    TextInputLayout textInput_deposit;
+    TextInputLayout textInput_electricityCost;
+    TextInputLayout textInput_waterCost;
+    TextInputLayout textInput_roomStyle;
+    TextInputLayout textInput_gender;
+    TextInputLayout textInput_internet;
+    TextInputLayout textInput_parking;
 
-    private RadioGroup radioGroup_roomStyle;
-    private RadioGroup radioGroup_gender;
+    RadioGroup radioGroup_roomStyle;
+    RadioGroup radioGroup_gender;
 
-    private CheckBox checkBox_free_electricity;
-    private CheckBox checkBox_free_water;
-    private CheckBox checkBox_free_internet;
-    private CheckBox checkBox_free_parking;
-    private CheckBox checkBox_internet;
-    private CheckBox checkBox_parking;
+    CheckBox checkBox_free_electricity;
+    CheckBox checkBox_free_water;
+    CheckBox checkBox_free_internet;
+    CheckBox checkBox_free_parking;
+    CheckBox checkBox_internet;
+    CheckBox checkBox_parking;
 
-    private ViewGroup viewGroup_internet;
-    private ViewGroup viewGroup_parking;
+    ViewGroup viewGroup_internet;
+    ViewGroup viewGroup_parking;
 
-    private Button button_next1;
+    Button button_next1;
+
+    float value = (float) 0.15;
     View view;
+    public static House houseEdit;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,8 +88,6 @@ public class FragmentInformation extends Fragment {
         viewGroup_internet = view.findViewById(R.id.viewGroup_internet);
         viewGroup_parking = view.findViewById(R.id.viewGroup_parking);
 
-        isClickCheckBox();
-
         button_next1 = view.findViewById(R.id.next1);
         button_next1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,10 +95,18 @@ public class FragmentInformation extends Fragment {
                 next1(v);
             }
         });
+
+        houseEdit = (House) getActivity().getIntent().getSerializableExtra("Position_edit");
+        if (houseEdit != null) {
+            Log.d("QWE", "Result " + houseEdit.getRoom_id());
+            editInfomation(houseEdit);
+        }
+
+        isClickCheckBox();
         return view;
     }
 
-    private boolean validate_numberOfRoom() {
+    boolean validate_numberOfRoom() {
         String numberOfRoom = textInput_numberOfRoom.getEditText().getText().toString().trim();
         if (numberOfRoom.isEmpty()) {
             textInput_numberOfRoom.setError("Please enter the number of unit/address");
@@ -102,7 +118,7 @@ public class FragmentInformation extends Fragment {
         }
     }
 
-    private boolean validate_capacity() {
+    boolean validate_capacity() {
         String capacity = textInput_capacity.getEditText().getText().toString().trim();
         if (capacity.isEmpty()) {
             textInput_capacity.setError("Please enter the number of unit/address");
@@ -114,7 +130,7 @@ public class FragmentInformation extends Fragment {
         }
     }
 
-    private boolean validate_roomArea() {
+    boolean validate_roomArea() {
 
         String roomArea = textInput_roomArea.getEditText().getText().toString().trim();
         if (roomArea.isEmpty()) {
@@ -127,7 +143,7 @@ public class FragmentInformation extends Fragment {
         }
     }
 
-    private boolean validate_rentalPrice() {
+    boolean validate_rentalPrice() {
         String rentalPrice = textInput_rentalPrice.getEditText().getText().toString().trim();
         if (rentalPrice.isEmpty()) {
             textInput_rentalPrice.setError("Please enter the rental price");
@@ -152,7 +168,7 @@ public class FragmentInformation extends Fragment {
         }
     }
 
-    private boolean validate_electricityCost() {
+    boolean validate_electricityCost() {
 
         String electricityCost = textInput_electricityCost.getEditText().getText().toString().trim();
         if (electricityCost.isEmpty()) {
@@ -165,7 +181,7 @@ public class FragmentInformation extends Fragment {
         }
     }
 
-    private boolean validate_waterCost() {
+    boolean validate_waterCost() {
         String waterCost = textInput_waterCost.getEditText().getText().toString().trim();
         if (waterCost.isEmpty()) {
             textInput_waterCost.setError("Please enter the water cost");
@@ -177,11 +193,11 @@ public class FragmentInformation extends Fragment {
         }
     }
 
-    private  boolean validate_internet() {
-        if( checkBox_internet.isChecked() == false ) return true;
+    boolean validate_internet() {
+        if (checkBox_internet.isChecked() == false) return true;
         else {
             String internet = textInput_internet.getEditText().getText().toString().trim();
-            if( internet.isEmpty() ) {
+            if (internet.isEmpty()) {
                 textInput_internet.setError("Please enter the water cost");
                 textInput_internet.setHintEnabled(false);
                 return false;
@@ -192,11 +208,11 @@ public class FragmentInformation extends Fragment {
         }
     }
 
-    private  boolean validate_parking() {
-        if( checkBox_parking.isChecked() == false ) return true;
+    boolean validate_parking() {
+        if (checkBox_parking.isChecked() == false) return true;
         else {
             String internet = textInput_parking.getEditText().getText().toString().trim();
-            if( internet.isEmpty() ) {
+            if (internet.isEmpty()) {
                 textInput_parking.setError("Please enter the water cost");
                 textInput_parking.setHintEnabled(false);
                 return false;
@@ -213,14 +229,14 @@ public class FragmentInformation extends Fragment {
             textInput_roomStyle.setError("Please choose the room style");
             return false;
         } else {
-            radioGroup_roomStyle.check( radioGroup_roomStyle.getCheckedRadioButtonId() );
+            radioGroup_roomStyle.check(radioGroup_roomStyle.getCheckedRadioButtonId());
             // one of the radio buttons is checked
             textInput_roomStyle.setError(null);
             return true;
         }
     }
 
-    private boolean validate_gender() {
+    boolean validate_gender() {
         if (radioGroup_gender.getCheckedRadioButtonId() == -1) {
             // no radio buttons are checked
             textInput_gender.setError("Please choose the gender");
@@ -236,21 +252,24 @@ public class FragmentInformation extends Fragment {
         if (!validate_numberOfRoom() | !validate_capacity() | !validate_roomArea() |
                 !validate_rentalPrice() | !validate_deposit() | !validate_electricityCost() |
                 !validate_waterCost() | !validate_roomStyle() | !validate_gender() |
-                !validate_internet() | !validate_parking() ) return;
+                !validate_internet() | !validate_parking()) return;
         else {
+            if (houseEdit == null) {
+                savingData(houseNew);
+            } else {
+                savingData(houseEdit);
+            }
             ((ListYourSpaceActivity) getActivity()).next11(v);
-            savingData();
         }
     }
 
-    private void isClickCheckBox() {
+    void isClickCheckBox() {
         checkBox_free_electricity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( checkBox_free_electricity.isChecked() ) {
+                if (checkBox_free_electricity.isChecked()) {
                     textInput_electricityCost.getEditText().setText("0");
-                }
-                else {
+                } else {
                     textInput_electricityCost.getEditText().setText(null);
                 }
             }
@@ -259,10 +278,9 @@ public class FragmentInformation extends Fragment {
         checkBox_free_water.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( checkBox_free_water.isChecked() ) {
+                if (checkBox_free_water.isChecked()) {
                     textInput_waterCost.getEditText().setText("0");
-                }
-                else {
+                } else {
                     textInput_waterCost.getEditText().setText(null);
                 }
             }
@@ -271,22 +289,28 @@ public class FragmentInformation extends Fragment {
         checkBox_internet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( checkBox_internet.isChecked() ) {
+                if (checkBox_internet.isChecked()) {
                     viewGroup_internet.setVisibility(View.VISIBLE);
-                }
-                else {
+                    internet.setAlpha(1);
+                } else {
+                    internet.setAlpha(value);
                     viewGroup_internet.setVisibility(View.GONE);
                 }
             }
         });
 
+        if (checkBox_internet.isChecked()) {
+            viewGroup_internet.setVisibility(View.VISIBLE);
+        } else {
+            viewGroup_internet.setVisibility(View.GONE);
+        }
+
         checkBox_free_internet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( checkBox_free_internet.isChecked() ) {
+                if (checkBox_free_internet.isChecked()) {
                     textInput_internet.getEditText().setText("0");
-                }
-                else {
+                } else {
                     textInput_internet.getEditText().setText(null);
                 }
             }
@@ -295,29 +319,35 @@ public class FragmentInformation extends Fragment {
         checkBox_parking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( checkBox_parking.isChecked() ) {
+                if (checkBox_parking.isChecked()) {
                     viewGroup_parking.setVisibility(View.VISIBLE);
-                }
-                else {
+                    parking.setAlpha(1);
+                } else {
                     viewGroup_parking.setVisibility(View.GONE);
+                    parking.setAlpha(value);
                 }
             }
         });
 
+        if (checkBox_parking.isChecked()) {
+            viewGroup_parking.setVisibility(View.VISIBLE);
+        } else {
+            viewGroup_parking.setVisibility(View.GONE);
+        }
+
         checkBox_free_parking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( checkBox_free_parking.isChecked() ) {
+                if (checkBox_free_parking.isChecked()) {
                     textInput_parking.getEditText().setText("0");
-                }
-                else {
+                } else {
                     textInput_parking.getEditText().setText(null);
                 }
             }
         });
     }
 
-    private void savingData() {
+    void savingData(House houseNew) {
         Log.d("AAA", "" + radioGroup_roomStyle.getCheckedRadioButtonId());
 
         int selected = radioGroup_roomStyle.getCheckedRadioButtonId();
@@ -326,40 +356,101 @@ public class FragmentInformation extends Fragment {
         radioButton_roomStyle.setChecked(true);
 
         houseNew.setNumberOfRoom(Integer.valueOf(textInput_numberOfRoom.getEditText().getText().toString().trim()));
-        houseNew.setCapacity( Integer.valueOf(textInput_capacity.getEditText().getText().toString()) );
+        houseNew.setCapacity(Integer.valueOf(textInput_capacity.getEditText().getText().toString()));
 
-        radioGroup_gender.check( radioGroup_gender.getCheckedRadioButtonId() );
+        radioGroup_gender.check(radioGroup_gender.getCheckedRadioButtonId());
         int selected2 = radioGroup_roomStyle.getCheckedRadioButtonId();
 
         switch (selected2) {
-            case 1: houseNew.setGender(0);
-            case 2: houseNew.setGender(1);
-            case 3: houseNew.setGender(-1);
+            case 1:
+                houseNew.setGender(0);
+            case 2:
+                houseNew.setGender(1);
+            case 3:
+                houseNew.setGender(-1);
         }
 
-        houseNew.setRoomArea( Integer.valueOf(textInput_roomArea.getEditText().getText().toString().trim()) );
-        houseNew.setRentalPrice( Integer.valueOf(textInput_rentalPrice.getEditText().getText().toString().trim()) );
-        houseNew.setDeposit( Integer.valueOf(textInput_deposit.getEditText().getText().toString().trim()) );
-        houseNew.setElectricityCost( Integer.valueOf(textInput_electricityCost.getEditText().getText().toString().trim()) );
-        houseNew.setWaterCost( Integer.valueOf(textInput_waterCost.getEditText().getText().toString().trim()) );
+        houseNew.setRoomArea(Integer.valueOf(textInput_roomArea.getEditText().getText().toString().trim()));
+        houseNew.setRentalPrice(Integer.valueOf(textInput_rentalPrice.getEditText().getText().toString().trim()));
+        houseNew.setDeposit(Integer.valueOf(textInput_deposit.getEditText().getText().toString().trim()));
+        houseNew.setElectricityCost(Float.valueOf(textInput_electricityCost.getEditText().getText().toString().trim()));
+        houseNew.setWaterCost(Integer.valueOf(textInput_waterCost.getEditText().getText().toString().trim()));
 
-        if( checkBox_internet.isChecked() ) {
+        if (checkBox_internet.isChecked()) {
             houseNew.setInternet(true);
-            houseNew.setInternetCost( Integer.valueOf(textInput_internet.getEditText().getText().toString().trim()) );
-        }
-        else {
+            houseNew.setInternetCost(Integer.valueOf(textInput_internet.getEditText().getText().toString().trim()));
+        } else {
             houseNew.setInternet(false);
             houseNew.setInternetCost(0);
         }
 
-        if( checkBox_parking.isChecked() ) {
+        if (checkBox_parking.isChecked()) {
             houseNew.setParkingLot(true);
-            houseNew.setParkingCost( Integer.valueOf(textInput_parking.getEditText().getText().toString().trim()) );
-        }
-        else {
+            houseNew.setParkingCost(Integer.valueOf(textInput_parking.getEditText().getText().toString().trim()));
+        } else {
             houseNew.setParkingLot(false);
             houseNew.setParkingCost(0);
         }
         Log.d("AAA", "" + radioGroup_roomStyle.getCheckedRadioButtonId() + "" + houseNew.toString());
+    }
+
+
+    void editInfomation(House houseEdit) {
+        RadioButton b1 = view.findViewById(R.id.rb_roomStyle1);
+        RadioButton b2 = view.findViewById(R.id.rb_roomStyle2);
+        RadioButton b3 = view.findViewById(R.id.rb_roomStyle3);
+        RadioButton b4 = view.findViewById(R.id.rb_roomStyle4);
+        RadioButton b5 = view.findViewById(R.id.rb_roomStyle5);
+        switch (houseEdit.getRoomStyle()) {
+            case "ROOM FOR RENT":
+                b1.setChecked(true);
+                break;
+            case "ROOM FOR SHARE":
+                b2.setChecked(true);
+                break;
+            case "APARTMENT":
+                b3.setChecked(true);
+                break;
+            case "HOUSE":
+                b4.setChecked(true);
+                break;
+            case "DORMITORY":
+                b5.setChecked(true);
+                break;
+        }
+        textInput_numberOfRoom.getEditText().setText(houseEdit.getNumberOfRoom() + "");
+        textInput_capacity.getEditText().setText(houseEdit.getCapacity() + "");
+        RadioButton g1 = view.findViewById(R.id.rb_gender1);
+        RadioButton g2 = view.findViewById(R.id.rb_gender2);
+        RadioButton g3 = view.findViewById(R.id.rb_gender3);
+        switch (houseEdit.getGender()) {
+            case 0:
+                g1.setChecked(true);
+                break;
+            case 1:
+                g2.setChecked(true);
+                break;
+            case -1:
+                g3.setChecked(true);
+                break;
+        }
+        textInput_roomArea.getEditText().setText(houseEdit.getRoomArea() + "");
+        textInput_rentalPrice.getEditText().setText(houseEdit.getRentalPrice() + "");
+        textInput_deposit.getEditText().setText(houseEdit.getDeposit() + "");
+        textInput_electricityCost.getEditText().setText(houseEdit.getElectricityCost() + "");
+        textInput_waterCost.getEditText().setText(houseEdit.getWaterCost() + "");
+
+        if (houseEdit.getElectricityCost() == 0) checkBox_free_electricity.isChecked();
+        if (houseEdit.getWaterCost() == 0) checkBox_free_water.isChecked();
+        if (houseEdit.isInternet() == true) {
+            checkBox_internet.setChecked(true);
+            textInput_internet.getEditText().setText(houseEdit.getWaterCost() + "");
+            if (houseEdit.getInternetCost() == 0) checkBox_free_internet.setChecked(true);
+        }
+        if (houseEdit.isParkingLot() == true) {
+            checkBox_parking.setChecked(true);
+            textInput_parking.getEditText().setText(houseEdit.getParkingCost() + "");
+            if (houseEdit.getParkingCost() == 0) checkBox_free_parking.setChecked(true);
+        }
     }
 }

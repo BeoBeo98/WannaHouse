@@ -5,7 +5,9 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class House implements Serializable {
     private String room_id;
@@ -563,5 +565,51 @@ public class House implements Serializable {
 //                + getHouseNumber();
 //        return result;
         return super.toString();
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("room_id", room_id);
+        result.put("owner_id", owner_id);
+        result.put("roomStyle", roomStyle);
+        result.put("numberOfRoom", numberOfRoom);
+        result.put("capacity", capacity);
+        result.put("gender", gender);
+        result.put("roomArea", roomArea);
+        result.put("rentalPrice", rentalPrice);
+        result.put("deposit", deposit);
+        result.put("electricityCost", electricityCost);
+        result.put("waterCost", waterCost);
+        result.put("internetCost", internetCost);
+        result.put("parkingCost", parkingCost);
+        result.put("city", city);
+        result.put("district", district);
+        result.put("ward", ward);
+        result.put("street", street);
+        result.put("houseNumber", houseNumber);
+        result.put("roomDescription", roomDescription);
+        result.put("titleOfTheRoom", titleOfTheRoom);
+        result.put("image", image);
+        result.put("privateWC", privateWC);
+        result.put("parkingLot", parkingLot);
+        result.put("window", window);
+        result.put("security", security);
+        result.put("internet", internet);
+        result.put("noCurfew", noCurfew);
+        result.put("noOwner", noOwner);
+        result.put("airConditioner", airConditioner);
+        result.put("waterHeater", waterHeater);
+        result.put("cook", cook);
+        result.put("fridge", fridge);
+        result.put("washing", washing);
+        result.put("loft", loft);
+        result.put("bed", bed);
+        result.put("wardrobe", wardrobe);
+        result.put("television", television);
+        result.put("postingDate", postingDate);
+        result.put("report", report);
+        result.put("verify", verify);
+        result.put("publicRoom", publicRoom);
+        return result;
     }
 }

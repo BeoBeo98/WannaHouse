@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import androidx.fragment.app.Fragment;
 import com.example.wannahouse.Activity.EditHouseActivity;
 import com.example.wannahouse.Adapter.ImageChooseAdapter;
 import com.example.wannahouse.Activity.ListYourSpaceActivity;
+import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -39,15 +41,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import static com.example.wannahouse.Activity.ListYourSpaceActivity.foder;
 import static com.example.wannahouse.Activity.ListYourSpaceActivity.houseNew;
+import static com.example.wannahouse.Fragment.FragmentInformation.houseEdit;
 
 public class FragmentAmenities extends Fragment {
-    float alpha = (float) 0.15;
+    public static float alpha = (float) 0.15;
 
     private TextInputLayout layoutImage;
     private Button button_takePicture;
@@ -59,16 +64,14 @@ public class FragmentAmenities extends Fragment {
     private ImageChooseAdapter imageChooseAdapter;
     private Context context;
 
-    private ImageView imageViewTest;
-
-    public ArrayList<Bitmap> arrayListBitmap = new ArrayList<>();
-    public ArrayList<Uri> arrayListUri = new ArrayList<>();
-    private ArrayList<String> urlImage = new ArrayList<>();
+    public ArrayList<Bitmap> arrayListBitmap;
+    public ArrayList<Uri> arrayListUri;
+    private ArrayList<String> urlImage;
 
     ViewGroup air;
     ViewGroup privateWC;
-    ViewGroup parking;
-    ViewGroup internet;
+    public static ViewGroup parking;
+    public static ViewGroup internet;
     ViewGroup security;
     ViewGroup noOwner;
     ViewGroup noCurfew;
@@ -88,8 +91,24 @@ public class FragmentAmenities extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_amenities, container, false);
+
+        arrayListBitmap = new ArrayList<>();
+        arrayListUri = new ArrayList<>();
+        urlImage = new ArrayList<>();
+
         button_takePicture = view.findViewById(R.id.button_takePicture);
         gridView_imageChoose = view.findViewById(R.id.gridView_imageChoose);
+        layoutImage = view.findViewById(R.id.layout_Image);
+        context = getContext();
+
+        if( houseEdit == null ) {
+            setIconViewGroupClick(houseNew);
+        }
+        else {
+            setIconViewGroupClick(houseEdit);
+            Log.d("TTT", "Result " + houseEdit.getRoom_id());
+            editAmenities(houseEdit);
+        }
 
         gridView_imageChoose.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,10 +118,6 @@ public class FragmentAmenities extends Fragment {
                 imageChooseAdapter.notifyDataSetChanged();
             }
         });
-
-        layoutImage = view.findViewById(R.id.layout_Image);
-
-        context = getContext();
 
         button_takePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +141,6 @@ public class FragmentAmenities extends Fragment {
                 builder.show();
             }
         });
-        setIconViewGroupClick();
 
         button_next3 = view.findViewById(R.id.button_next3);
         button_next3.setOnClickListener(new View.OnClickListener() {
@@ -218,18 +232,23 @@ public class FragmentAmenities extends Fragment {
     public void next3(View v) {
     //    Log.d("KEYAA", arrayListUri.toString() + " " + arrayListUri.size() + "Uri");
     //    Log.d("KEYAA", arrayListBitmap.toString() + " " + arrayListBitmap.size() + "bitmap");
-        if (arrayListUri.size() < 4) {
+        if (urlImage.size() < 4) {
             layoutImage.setError("you must take more than 4 picture");
             return;
         } else {
-            savingData();
+            if( houseEdit == null ) {
+                savingData(houseNew);
+            }
+            else{
+                savingData(houseEdit);
+            }
             ((ListYourSpaceActivity) getActivity()).next33(v);
         }
 
 
     }
 
-    private void savingData() {
+    private void savingData(House houseNew) {
         houseNew.setImage(urlImage);
         if (air.getAlpha() == 1) {
             houseNew.setAirConditioner(true);
@@ -326,7 +345,7 @@ public class FragmentAmenities extends Fragment {
         });
     }
 
-    private void setIconViewGroupClick() {
+    private void setIconViewGroupClick(House houseNew) {
         air = view.findViewById(R.id.amenitiesAir);
         privateWC = view.findViewById(R.id.amenitiesPrivateWC);
         parking = view.findViewById(R.id.amenitiesParking);
@@ -399,6 +418,29 @@ public class FragmentAmenities extends Fragment {
             });
         }
         Toast.makeText(getActivity(),"Upload Done",Toast.LENGTH_SHORT).show();
+    }
+
+    void editAmenities(House houseEdit) {
+        urlImage = houseEdit.getImage();
+        for(int i = 0 ; i < houseEdit.getImage().size() ; i++) {
+            try {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+                StrictMode.setThreadPolicy(policy);
+                URL url = new URL(houseEdit.getImage().get(i));
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                Log.d("QWE", "url" + url.toString());
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(input);
+                arrayListBitmap.add(bitmap);
+            } catch (IOException e) {
+                Toast.makeText(getActivity(),"Load Error",Toast.LENGTH_SHORT).show();
+            }
+        }
+        imageChooseAdapter = new ImageChooseAdapter(context, arrayListBitmap);
+        gridView_imageChoose.setAdapter(imageChooseAdapter);
     }
 }
 

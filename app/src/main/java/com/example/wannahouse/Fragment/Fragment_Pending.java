@@ -20,9 +20,7 @@ import androidx.lifecycle.Observer;
 import com.example.wannahouse.Activity.EditHouseActivity;
 import com.example.wannahouse.Adapter.HouseAdapter;
 import com.example.wannahouse.Class_Java.Account;
-import com.example.wannahouse.Class_Java.Data;
 import com.example.wannahouse.Class_Java.House;
-import com.example.wannahouse.Class_Java.HouseViewModel;
 import com.example.wannahouse.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,7 +29,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -95,7 +92,7 @@ public class Fragment_Pending extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), EditHouseActivity.class);
                 intent.putExtra("Position_", liveDataHouses.getValue().get(position));
-                getActivity().startActivityForResult(intent, 1);
+                getActivity().startActivity(intent);
             }
         });
     }
@@ -103,11 +100,33 @@ public class Fragment_Pending extends Fragment {
     ChildEventListener childEventListener = new ChildEventListener() {
         @Override
         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            DatabaseReference account = FirebaseDatabase.getInstance().getReference().child("account").child("roomOwner");
-            Log.d("KEYHH", "user " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
             final House house = dataSnapshot.getValue(House.class);
+            final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+            DatabaseReference accountDB = FirebaseDatabase.getInstance().getReference().child("account").child("roomOwner");
+            accountDB.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for( DataSnapshot accountSnapshot : dataSnapshot.getChildren()) {
+                        Account account = accountSnapshot.getValue(Account.class);
+                        if( account.getId().equals(user.getUid())) {
+                            house.setPhone( account.getPhone());
+                            house.setName( account.getName());
+                            house.setAvatar( account.getAvatar());
+                            house.setOwner_id(user.getUid());
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            Log.d("ZZZ", "house " + house.getRoom_id() + " " + house.isVerify() + " " + house.getOwner_id());
+
             if (house.isVerify() == false && house.getOwner_id().equals(user.getUid())) {
+                Log.d("KEYPP", "add" + house.getRoom_id());
                 listHouse.add(house);
             }
             Log.d("KEYHH", "add khi them phan tu");
@@ -130,6 +149,16 @@ public class Fragment_Pending extends Fragment {
 
         @Override
         public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            final House house = dataSnapshot.getValue(House.class);
+            for (int i = 0; i < listHouse.size(); i++) {
+                if ( house.getOwner_id().equals(user.getUid()) && house.getRoom_id().equals(listHouse.get(i).getRoom_id())) {
+                    listHouse.remove(i);
+                    Log.d("KEYHH", "remove done, listhouse " + listHouse.size());
+                }
+                Log.d("KEYHH", "remove khi thay doi phan tu");
+            }
+            liveDataHouses.postValue(listHouse);
         }
 
         @Override

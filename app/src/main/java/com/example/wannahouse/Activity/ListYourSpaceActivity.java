@@ -1,5 +1,6 @@
 package com.example.wannahouse.Activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,11 +28,13 @@ import com.example.wannahouse.Fragment.FragmentInformation;
 import com.example.wannahouse.R;
 import com.example.wannahouse.Dialog.SingleChoiceDialog;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+import static com.example.wannahouse.Activity.EditHouseActivity.EDIT_ROOM_CODE;
 import static com.example.wannahouse.Fragment.FragmentAmenities.CAMERA_REQUEST_CODE;
 import static com.example.wannahouse.Fragment.FragmentAmenities.PICK_IMAGE_REQUEST_CODE;
 import static com.example.wannahouse.Fragment.FragmentAmenities.UPLOAD_IMAGE_REQUEST_CODE;
@@ -51,7 +54,7 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
     private TextView textView_city;
     private TextView textView_district;
 
-    public static House houseNew = new House(9999);
+    public static House houseNew = new House();
     public static StorageReference foder;
 
     public TabLayout tabLayout;
@@ -64,13 +67,13 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
 
         tabLayout = findViewById(R.id.tabLayout_listYourSpace);
         viewPager = findViewById(R.id.viewPager_listYourSpace);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),1000);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), 1000);
 
-        adapter.addFragment( information, "INFORMATION");
-        adapter.addFragment( address, "ADDRESS");
-        adapter.addFragment( amenities, "AMENITIES");
-        adapter.addFragment( confirmation, "CONFIRMATION");
-        Log.d("KEYBB", adapter.toString()+"");
+        adapter.addFragment(information, "INFORMATION");
+        adapter.addFragment(address, "ADDRESS");
+        adapter.addFragment(amenities, "AMENITIES");
+        adapter.addFragment(confirmation, "CONFIRMATION");
+        Log.d("KEYBB", adapter.toString() + "");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
@@ -120,10 +123,11 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
 
     }
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if( requestCode == PICK_IMAGE_REQUEST_CODE ) {
+        if (requestCode == PICK_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
 //                Log.d("KEYAA", "done" + resultCode + " " + requestCode + " " + data.toString());
                 Log.d("KEYAA", "123");
@@ -137,8 +141,8 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
             }
         }
 
-        if( requestCode == CAMERA_REQUEST_CODE ) {
-            if( resultCode == RESULT_OK ) {
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
                 Log.d("KEYAA", "123");
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentAmenities fragment = (FragmentAmenities) fm.findFragmentByTag("android:switcher:" + R.id.viewPager_listYourSpace + ":" + viewPager.getCurrentItem());
@@ -149,6 +153,14 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
                 fragment.uploadImageToCloud(arrayList);
             }
         }
-        Log.d("KEYAA", "temp");
+
+        if (requestCode == EDIT_ROOM_CODE) {
+            House houseEdit = (House) getIntent().getSerializableExtra("Position_edit");
+            Log.d("TTT", "Result " + houseEdit.getRoom_id());
+            RadioGroup radioGroup_roomStyle = findViewById(R.id.radioGroup_roomStyle);
+            radioGroup_roomStyle.check(2);
+            TextInputLayout textInput_numberOfRoom = findViewById(R.id.text_input_numberOfRoom);
+            textInput_numberOfRoom.getEditText().setText(houseEdit.getNumberOfRoom());
+        }
     }
 }

@@ -38,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     public static MutableLiveData<ArrayList<House>> liveDataHouse = new MutableLiveData<>();
     public static DatabaseReference databaseHouse = FirebaseDatabase.getInstance().getReference().child("house");
 
+    public static boolean isOwner = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +97,11 @@ public class LoginActivity extends AppCompatActivity {
                             house.setName(account.getName());
                             house.setPhone(account.getPhone());
                             house.setAvatar(account.getAvatar());
+
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            if( user != null && user.getUid().equals(account.getId())) {
+                                isOwner = true;
+                            }
                         }
                     }
 
