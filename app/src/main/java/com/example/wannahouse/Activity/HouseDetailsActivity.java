@@ -314,7 +314,8 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
         notifyReport.setReason(list[position]);
         notifyReport.setHouse_id(house.getRoom_id());
         final DatabaseReference notifyAdmin = FirebaseDatabase.getInstance().getReference()
-                .child("notify").child("odVJNPmzGHXSdjX7jpkxTf2ipfA2").child(notifyReport.getNotify_id());
+                .child("notify").child("odVJNPmzGHXSdjX7jpkxTf2ipfA2")
+                .child(notifyReport.getNotify_id().replace("notify00",""));
         notifyAdmin.setValue(notifyReport);
     }
 

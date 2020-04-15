@@ -201,7 +201,8 @@ public class FragmentConfirmation extends Fragment {
     }
 
     void upNewHouse(final House house) {
-        final DatabaseReference houseDB = FirebaseDatabase.getInstance().getReference().child("house").child(house.getRoom_id());
+        final DatabaseReference houseDB = FirebaseDatabase.getInstance().getReference().child("house")
+                .child(house.getRoom_id().replace("house00",""));
         Map<String, Object> postValues = house.toMap();
         houseDB.setValue(postValues);
 //        houseDB.child("room_id").setValue(houseNew.getRoom_id());
@@ -249,7 +250,8 @@ public class FragmentConfirmation extends Fragment {
 
     void updateHouse(House house) {
         Log.d("QWE", house.getRoom_id() );
-        final DatabaseReference houseDB = FirebaseDatabase.getInstance().getReference().child("house").child(house.getRoom_id());
+        final DatabaseReference houseDB = FirebaseDatabase.getInstance().getReference().child("house")
+                .child(house.getRoom_id().replace("house00",""));
         Map<String, Object> postValues = house.toMap();
         houseDB.updateChildren(postValues);
     }
@@ -291,7 +293,8 @@ public class FragmentConfirmation extends Fragment {
         notifyNew.setType(1);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference notifyAdmin = FirebaseDatabase.getInstance().getReference()
-                .child("notify").child("odVJNPmzGHXSdjX7jpkxTf2ipfA2").child(notifyNew.getNotify_id());
+                .child("notify").child("odVJNPmzGHXSdjX7jpkxTf2ipfA2")
+                .child(notifyNew.getNotify_id().replace("notify00", ""));
         notifyAdmin.setValue(notifyNew);
     }
 
