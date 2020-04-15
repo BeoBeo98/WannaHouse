@@ -71,4 +71,6 @@ public class SingleChoiceDialog extends DialogFragment {
 
         return alertDialog;
     }
+
+
 }

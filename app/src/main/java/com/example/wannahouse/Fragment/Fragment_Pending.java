@@ -66,6 +66,8 @@ public class Fragment_Pending extends Fragment {
             }
         });
 
+        Log.d("WWW", "button size " + liveDataHouses.getValue().size());
+
         return view;
     }
 

@@ -14,11 +14,8 @@ import com.example.wannahouse.Class_Java.Account;
 import com.example.wannahouse.Class_Java.Data;
 import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
-import com.facebook.appevents.AppEventsConstants;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,9 +31,8 @@ import static com.example.wannahouse.Activity.MainActivity.AUTHENTICATION_REQUES
 public class LoginActivity extends AppCompatActivity {
     List<AuthUI.IdpConfig> listProviders;
 
-    public static ArrayList<House> arrayListHouse = new ArrayList<>();
-    public static MutableLiveData<ArrayList<House>> liveDataHouse = new MutableLiveData<>();
     public static DatabaseReference databaseHouse = FirebaseDatabase.getInstance().getReference().child("house");
+    public static DatabaseReference databaseAccount = FirebaseDatabase.getInstance().getReference().child("account").child("roomOwner");
 
     public static boolean isOwner = false;
 
@@ -44,6 +40,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Data.arrayListHouse = new ArrayList<>();
+        Data.arrayOwner = new ArrayList<>();
+        Data.liveDataHouse = new MutableLiveData<>();
+        Data.liveDataOwner = new MutableLiveData<>();
 
         listProviders = Arrays.asList(
                 new AuthUI.IdpConfig.FacebookBuilder().build(),
@@ -53,7 +54,10 @@ public class LoginActivity extends AppCompatActivity {
 
         showSignInOption();
         databaseHouse.addValueEventListener(valueEventListener);
-        liveDataHouse.setValue(arrayListHouse);
+        Data.liveDataHouse.setValue(Data.arrayListHouse);
+
+        databaseAccount.addValueEventListener(valueAccount);
+        Data.liveDataOwner.setValue(Data.arrayOwner);
     }
 
     public void showSignInOption() {
@@ -80,8 +84,8 @@ public class LoginActivity extends AppCompatActivity {
     public static ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            arrayListHouse.clear();
-            liveDataHouse.getValue().clear();
+            Data.arrayListHouse.clear();
+            Data.liveDataHouse.getValue().clear();
             for (DataSnapshot houseSnapshot : dataSnapshot.getChildren()) {
                 final House house = houseSnapshot.getValue(House.class);
 
@@ -92,16 +96,12 @@ public class LoginActivity extends AppCompatActivity {
                 databaseAccount.orderByKey().equalTo(key).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot temp : dataSnapshot.getChildren()) {
-                            final Account account = temp.getValue(Account.class);
+                        for( DataSnapshot accountSnapshot : dataSnapshot.getChildren() ) {
+                            final Account account = accountSnapshot.getValue(Account.class);
                             house.setName(account.getName());
                             house.setPhone(account.getPhone());
                             house.setAvatar(account.getAvatar());
-
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            if( user != null && user.getUid().equals(account.getId())) {
-                                isOwner = true;
-                            }
+                            Log.d("KEYNAME", account.getName());
                         }
                     }
 
@@ -109,10 +109,27 @@ public class LoginActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
-                arrayListHouse.add(house);
-                Log.d( "RRR", "size " + arrayListHouse.size());
+                Data.arrayListHouse.add(house);
+                Log.d("RRR", "size " + Data.arrayListHouse.size());
             }
-            liveDataHouse.postValue(arrayListHouse);
+            Data.liveDataHouse.postValue(Data.arrayListHouse);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
+    ValueEventListener valueAccount = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            Data.arrayOwner.clear();
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                Account account = snapshot.getValue(Account.class);
+                Data.arrayOwner.add(account);
+            }
+            Data.liveDataOwner.postValue(Data.arrayOwner);
         }
 
         @Override

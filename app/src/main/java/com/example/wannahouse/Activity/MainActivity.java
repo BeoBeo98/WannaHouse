@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -30,9 +31,11 @@ import com.example.wannahouse.Class_Java.Account;
 import com.example.wannahouse.Class_Java.Data;
 import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.Class_Java.HouseViewModel;
+import com.example.wannahouse.Class_Java.Notify;
 import com.example.wannahouse.Fragment.FragmentAccount;
 import com.example.wannahouse.Fragment.FragmentAmenities;
 import com.example.wannahouse.Fragment.FragmentHome;
+import com.example.wannahouse.Fragment.FragmentListAccount;
 import com.example.wannahouse.Fragment.FragmentNotification;
 import com.example.wannahouse.Fragment.Fragment_Profile;
 import com.example.wannahouse.R;
@@ -47,6 +50,8 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -77,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference databaseHouse;
     public static Account accountNew = new Account();
+    public static Notify notifyNew = new Notify();
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -91,8 +97,9 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentHome home = new FragmentHome();
     FragmentAccount account = new FragmentAccount();
+    FragmentListAccount listAccount = new FragmentListAccount();
     FragmentNotification notification = new FragmentNotification();
-
+    ViewPagerAdapter adapter;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -106,23 +113,30 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.addFragment(home, "HOME");
         adapter.addFragment(account, "ACCOUNT");
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if( user.getUid().equals("odVJNPmzGHXSdjX7jpkxTf2ipfA2")) {
+            adapter.addFragment(listAccount, "LISTACCOUNT");
+        }
+
         adapter.addFragment(notification, "NOTIFICATION");
         Log.d("KEYBB", adapter.toString() + "");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(2);
-        final View touchView = findViewById(R.id.viewPager_home);
-        touchView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
+//        final View touchView = findViewById(R.id.viewPager_home);
+//        touchView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return true;
+//            }
+//        });
 
-        takeAccountLogin();
+        writeAccountToDatabase();
     }
 
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onStart() {
         super.onStart();
@@ -139,15 +153,37 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    void takeAccountLogin() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    void writeAccountToDatabase() {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         accountNew.setId(user.getUid());
         accountNew.setName(user.getDisplayName());
         accountNew.setAvatar(changeImageToHighQuality(user.getPhotoUrl()).toString());
 
         houseNew.setOwner_id( user.getUid());
-        houseNew.setAvatar(accountNew.getAvatar());
         houseNew.setName(accountNew.getName());
+        houseNew.setAvatar(accountNew.getAvatar());
+        Log.d("ABC", user.getUid() + " " + user.getDisplayName() + " " + user.getPhotoUrl());
+        final DatabaseReference guestDB = FirebaseDatabase.getInstance().getReference().child("account").child("guest");
+        guestDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if( !dataSnapshot.hasChild( user.getUid())) {
+                    DatabaseReference guestNew = guestDB.child(user.getUid());
+                    guestNew.setValue(accountNew).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Log.d("XXX", "guest " + user.getUid() );
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     void inputDataFromDatabase() {

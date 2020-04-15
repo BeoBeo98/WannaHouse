@@ -1,13 +1,16 @@
 package com.example.wannahouse.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -17,12 +20,23 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.wannahouse.Class_Java.House;
+import com.example.wannahouse.Class_Java.Notify;
+import com.example.wannahouse.Dialog.SingleChoiceDialog;
 import com.example.wannahouse.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import static com.example.wannahouse.Activity.EditHouseActivity.progressDialog;
+import static com.example.wannahouse.Fragment.FragmentConfirmation.maxID_notify;
+import static com.example.wannahouse.Fragment.FragmentConfirmation.takeTotalNotify;
 
-public class HouseDetailsActivity extends AppCompatActivity {
+public class HouseDetailsActivity extends AppCompatActivity implements SingleChoiceDialog.SingleChoiceListener {
 
     private TextView roomStyle;
     private TextView numberOfRoom;
@@ -44,7 +58,11 @@ public class HouseDetailsActivity extends AppCompatActivity {
     private ImageView avatarOwner;
 
     private ViewGroup vgCall;
+    private ViewGroup vgReport;
+    private ViewGroup vgVerify;
     private ImageButton imageButton_back;
+    private House house = new House();
+    private Notify notifyReport = new Notify();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +70,16 @@ public class HouseDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_house_details);
         mapping();
         Intent intent = getIntent();
-        final House house = (House) intent.getSerializableExtra("Position_");
+        house = (House) intent.getSerializableExtra("Position_");
         imageLinking(house);
         itemAmenitiesLinking(house);
         dataLinking(house);
         setVgCall(house);
         back();
+
+        takeTotalNotify();
+        setUpVerify();
+        setVgReport(house);
     }
 
     @Override
@@ -88,6 +110,8 @@ public class HouseDetailsActivity extends AppCompatActivity {
         avatarOwner = findViewById(R.id.avatarOwner);
         numberOfRoom = findViewById(R.id.numberOfRoomDetails);
         vgCall = findViewById(R.id.viewGroupCall);
+        vgReport = findViewById(R.id.viewGroup_report);
+        vgVerify = findViewById(R.id.viewGroup_verify);
 
         imageButton_back = findViewById(R.id.imageButton_back);
     }
@@ -257,5 +281,45 @@ public class HouseDetailsActivity extends AppCompatActivity {
         if( !house.isFridge() ) fridge.setAlpha(alpha);
         if( !house.isLoft() ) loft.setAlpha(alpha);
         if( !house.isTelevision() ) television.setAlpha(alpha);
+    }
+
+    void setUpVerify() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if( user.getUid().equals("odVJNPmzGHXSdjX7jpkxTf2ipfA2")) {
+            vgVerify.setVisibility(View.VISIBLE);
+        }
+        else {
+            vgVerify.setVisibility(View.GONE);
+        }
+    }
+
+    void setVgReport(final House house) {
+        vgReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment singleChoiceDialog = new SingleChoiceDialog(R.array.report_house);
+                singleChoiceDialog.setCancelable(false);
+                singleChoiceDialog.show(getSupportFragmentManager(), "Why don't you like this room");
+            }
+        });
+    }
+
+    @Override
+    public void onPositiveButtonClicked(String[] list, int position) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        notifyReport.setNotify_id("notify00" + Long.valueOf(maxID_notify+1));
+        notifyReport.setType(0);
+        notifyReport.setOwner_id(house.getOwner_id());
+        notifyReport.setReport_id(user.getUid());
+        notifyReport.setReason(list[position]);
+        notifyReport.setHouse_id(house.getRoom_id());
+        final DatabaseReference notifyAdmin = FirebaseDatabase.getInstance().getReference()
+                .child("notify").child("odVJNPmzGHXSdjX7jpkxTf2ipfA2").child(notifyReport.getNotify_id());
+        notifyAdmin.setValue(notifyReport);
+    }
+
+    @Override
+    public void onNegativeButtonClicked() {
+
     }
 }

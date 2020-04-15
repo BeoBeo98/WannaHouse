@@ -7,7 +7,6 @@ public class Account {
     private String name;
     private String phone;
     private String avatar;
-    private ArrayList<String> listNotification;
     private int report;
 
     public Account() {
@@ -23,25 +22,15 @@ public class Account {
         name = "DDitj mej mayu";
         phone = "9999";
         avatar = "adfhasdflpsafhnlnasdfddfb;s";
-        listNotification = null;
         report = 0;
     }
 
-    public Account(String id, String name, String phone, String avatar, ArrayList<String> listNotification, int report) {
+    public Account(String id, String name, String phone, String avatar, int report) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.avatar = avatar;
-        this.listNotification = listNotification;
         this.report = report;
-    }
-
-    public ArrayList<String> getListNotification() {
-        return listNotification;
-    }
-
-    public void setListNotification(ArrayList<String> listNotification) {
-        this.listNotification = listNotification;
     }
 
     public String getName() {

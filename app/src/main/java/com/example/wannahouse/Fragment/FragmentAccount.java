@@ -18,6 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.wannahouse.Activity.MainActivity;
 import com.example.wannahouse.Adapter.ViewPagerAdapter;
 import com.example.wannahouse.R;
 import com.facebook.AccessToken;
@@ -75,18 +76,19 @@ public class FragmentAccount extends Fragment {
         adapter.addFragment(profile, "PROFILE");
         adapter.addFragment(approved, "APPROVED");
         adapter.addFragment(pending, "PENDING");
-        Log.d("KEYBB", adapter.toString() + "");
+
+        Log.d("KEYBB", adapter.getCount() + "");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
 
-        final View touchView = view.findViewById(R.id.viewPager_account);
-        touchView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
+//        final View touchView = view.findViewById(R.id.viewPager_account);
+//        touchView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return true;
+//            }
+//        });
 
         return view;
     }

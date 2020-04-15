@@ -32,8 +32,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
-import static com.example.wannahouse.Activity.LoginActivity.liveDataHouse;
 import static com.example.wannahouse.Activity.LoginActivity.valueEventListener;
 
 public class ExploreActivity extends AppCompatActivity {
@@ -53,17 +51,17 @@ public class ExploreActivity extends AppCompatActivity {
         query.addValueEventListener(valueEventListener);
 
         gridViewHouse = findViewById(R.id.gridView_house);
-        houseAdapter = new HouseAdapter( liveDataHouse.getValue() , this);
+        houseAdapter = new HouseAdapter( Data.liveDataHouse.getValue() , this);
         gridViewHouse.setAdapter(houseAdapter);
 
         numberHouse = findViewById(R.id.numberHouse);
-        numberHouse.setText( liveDataHouse.getValue().size() + "" );
+        numberHouse.setText( Data.liveDataHouse.getValue().size() + "" );
 
-        liveDataHouse.observe(this, new Observer<ArrayList<House>>() {
+        Data.liveDataHouse.observe(this, new Observer<ArrayList<House>>() {
             @Override
             public void onChanged(ArrayList<House> houses) {
                 houseAdapter.notifyDataSetChanged();
-                numberHouse.setText( liveDataHouse.getValue().size() + "" );
+                numberHouse.setText( Data.liveDataHouse.getValue().size() + "" );
             }
         });
 
@@ -71,7 +69,7 @@ public class ExploreActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent( ExploreActivity.this , HouseDetailsActivity.class);
-                intent.putExtra("Position_", liveDataHouse.getValue().get(position));
+                intent.putExtra("Position_", Data.liveDataHouse.getValue().get(position));
                 startActivity(intent);
             }
         });

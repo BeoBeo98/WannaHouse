@@ -5,6 +5,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
         <LinearLayout
@@ -12,15 +13,20 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-            <TextView
-                android:background="@drawable/border2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Chat ✉" />
             <LinearLayout
-                android:clickable="true"
+                android:id="@+id/viewGroup_report"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <TextView
+                    android:layout_weight="1"
+                    android:background="@drawable/border2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Report !" />
+            </LinearLayout>
+            <LinearLayout
                 android:id="@+id/viewGroupCall"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -32,6 +38,19 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Call ✆" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/viewGroup_verify"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <TextView
+                    android:layout_weight="1"
+                    android:background="@drawable/border2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Verify" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

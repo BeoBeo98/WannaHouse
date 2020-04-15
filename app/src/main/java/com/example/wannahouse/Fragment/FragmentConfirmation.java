@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,11 +16,12 @@ import com.example.wannahouse.Activity.EditHouseActivity;
 import com.example.wannahouse.Class_Java.Account;
 import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,12 +30,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.wannahouse.Activity.ListYourSpaceActivity.houseNew;
 import static com.example.wannahouse.Activity.MainActivity.accountNew;
+import static com.example.wannahouse.Activity.MainActivity.notifyNew;
 import static com.example.wannahouse.Fragment.FragmentInformation.houseEdit;
 
 public class FragmentConfirmation extends Fragment {
@@ -48,7 +47,8 @@ public class FragmentConfirmation extends Fragment {
     private Button button_save;
 
     public static int FINISH_REQUEST_CODE = 1003;
-    long maxID = 0;
+    long maxID_house = 0;
+    public static long maxID_notify = 0;
 
     View view;
     @Nullable
@@ -58,12 +58,12 @@ public class FragmentConfirmation extends Fragment {
 
         textInput_phoneNumber = view.findViewById(R.id.text_input_phoneNumber);
         textInput_titleOfThePost = view.findViewById(R.id.text_input_titleOfThePost);
-        textInput_titleOfThePost.getEditText().setText( houseNew.getRoomStyle() + " " + houseNew.getWard() + " " + houseNew.getDistrict() );
         textInput_roomDescription = view.findViewById(R.id.text_input_roomDescription);
         button_next4 = view.findViewById(R.id.button_next4);
         button_save = view.findViewById(R.id.button_save);
 
-        takeTotalItem();
+        takeTotalHouse();
+        takeTotalNotify();
         button_next4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,6 +137,7 @@ public class FragmentConfirmation extends Fragment {
                 savingData(houseNew);
                 upNewOwner(accountNew);
                 upNewHouse(houseNew);
+                upNewNofify(houseNew);
                 Intent intent = new Intent(getActivity(), EditHouseActivity.class);
                 intent.putExtra("Position_", houseNew);
                 getActivity().startActivityForResult(intent, FINISH_REQUEST_CODE);
@@ -157,7 +158,7 @@ public class FragmentConfirmation extends Fragment {
 
     private void savingData(House houseNew){
         if( houseNew.getRoom_id().isEmpty() ) {
-            houseNew.setRoom_id("house00" + Long.valueOf(maxID+1));
+            houseNew.setRoom_id("house00" + Long.valueOf(maxID_house +1));
         }
         houseNew.setPhone(  textInput_phoneNumber.getEditText().getText().toString().trim() );
         houseNew.setTitleOfTheRoom(  textInput_titleOfThePost.getEditText().getText().toString().trim() );
@@ -253,19 +254,45 @@ public class FragmentConfirmation extends Fragment {
         houseDB.updateChildren(postValues);
     }
 
-    void takeTotalItem() {
+    void takeTotalHouse() {
         final DatabaseReference houseDB = FirebaseDatabase.getInstance().getReference().child("house");
         houseDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                maxID = dataSnapshot.getChildrenCount();
-                Log.d("KEYQQ", "maxId ddd " + maxID );
+                maxID_house = dataSnapshot.getChildrenCount();
+                Log.d("KEYQQ", "maxId ddd " + maxID_house);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+    }
+
+    public static void takeTotalNotify() {
+        final DatabaseReference notifyDB = FirebaseDatabase.getInstance().getReference().child("notify").child("odVJNPmzGHXSdjX7jpkxTf2ipfA2");
+        notifyDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                maxID_notify = dataSnapshot.getChildrenCount();
+                Log.d("KEYQQ", "maxId notify " + maxID_notify);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    void upNewNofify(House house) {
+        notifyNew.setNotify_id("notify00" + Long.valueOf(maxID_notify+1));
+        notifyNew.setHouse_id(house.getRoom_id());
+        notifyNew.setOwner_id(house.getOwner_id());
+        notifyNew.setType(1);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final DatabaseReference notifyAdmin = FirebaseDatabase.getInstance().getReference()
+                .child("notify").child("odVJNPmzGHXSdjX7jpkxTf2ipfA2").child(notifyNew.getNotify_id());
+        notifyAdmin.setValue(notifyNew);
     }
 
     void editConfirmation(House houseEdit) {

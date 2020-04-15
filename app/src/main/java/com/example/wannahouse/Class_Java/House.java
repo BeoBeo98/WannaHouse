@@ -31,7 +31,6 @@ public class House implements Serializable {
     private String roomDescription;
     private String titleOfTheRoom;
     private ArrayList<String> image = new ArrayList<>();
-    private ArrayList<String> report = new ArrayList<>();
     private String name;
     private String phone;
     private String avatar;
@@ -78,7 +77,6 @@ public class House implements Serializable {
         roomDescription = "";
         titleOfTheRoom = "";
         image = null;
-        report = null;
         name = "";
         phone = "";
         avatar = "";
@@ -128,7 +126,6 @@ public class House implements Serializable {
         image.add("https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/3_1.jpg?alt=media&token=be12f2e5-3849-481c-99d7-04e927942c13");
         image.add("https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/3_1.jpg?alt=media&token=be12f2e5-3849-481c-99d7-04e927942c13");
         image.add("https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/3_1.jpg?alt=media&token=be12f2e5-3849-481c-99d7-04e927942c13");
-        report = null;
         name = "Quân Hồng";
         phone = "0359217728";
         avatar = "https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/avatar_quan.JPG?alt=media&token=e468e241-27fc-4823-b370-53c0906676a9";
@@ -154,7 +151,7 @@ public class House implements Serializable {
         publicRoom = true;
     }
 
-    public House(String room_id, String owner_id, String roomStyle, int numberOfRoom, int capacity, int gender, int roomArea, int rentalPrice, int deposit, float electricityCost, int waterCost, int internetCost, int parkingCost, String city, String district, String ward, String street, String houseNumber, String roomDescription, String titleOfTheRoom, ArrayList<String> image, ArrayList<String> report, String name, String phone, String avatar, String postingDate, boolean parkingLot, boolean privateWC, boolean window, boolean security, boolean internet, boolean noCurfew, boolean noOwner, boolean airConditioner, boolean waterHeater, boolean cook, boolean fridge, boolean washing, boolean loft, boolean bed, boolean wardrobe, boolean television, boolean verify, boolean publicRoom) {
+    public House(String room_id, String owner_id, String roomStyle, int numberOfRoom, int capacity, int gender, int roomArea, int rentalPrice, int deposit, float electricityCost, int waterCost, int internetCost, int parkingCost, String city, String district, String ward, String street, String houseNumber, String roomDescription, String titleOfTheRoom, ArrayList<String> image, String name, String phone, String avatar, String postingDate, boolean parkingLot, boolean privateWC, boolean window, boolean security, boolean internet, boolean noCurfew, boolean noOwner, boolean airConditioner, boolean waterHeater, boolean cook, boolean fridge, boolean washing, boolean loft, boolean bed, boolean wardrobe, boolean television, boolean verify, boolean publicRoom) {
         this.room_id = room_id;
         this.owner_id = owner_id;
         this.roomStyle = roomStyle;
@@ -176,7 +173,6 @@ public class House implements Serializable {
         this.roomDescription = roomDescription;
         this.titleOfTheRoom = titleOfTheRoom;
         this.image = image;
-        this.report = report;
         this.name = name;
         this.phone = phone;
         this.avatar = avatar;
@@ -505,14 +501,6 @@ public class House implements Serializable {
         this.television = television;
     }
 
-    public ArrayList<String> getReport() {
-        return report;
-    }
-
-    public void setReport(ArrayList<String> report) {
-        this.report = report;
-    }
-
     public String getName() {
         return name;
     }
@@ -607,7 +595,6 @@ public class House implements Serializable {
         result.put("wardrobe", wardrobe);
         result.put("television", television);
         result.put("postingDate", postingDate);
-        result.put("report", report);
         result.put("verify", verify);
         result.put("publicRoom", publicRoom);
         return result;
