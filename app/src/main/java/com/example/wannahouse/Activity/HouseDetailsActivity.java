@@ -8,12 +8,12 @@ import androidx.fragment.app.DialogFragment;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,9 +32,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import static com.example.wannahouse.Activity.EditHouseActivity.progressDialog;
-import static com.example.wannahouse.Fragment.FragmentConfirmation.maxID_notify;
-import static com.example.wannahouse.Fragment.FragmentConfirmation.takeTotalNotify;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+
+import static com.example.wannahouse.Fragment.FragmentConfirmation.maxID_notifyAdmin;
+import static com.example.wannahouse.Fragment.FragmentConfirmation.takeTotalNotify_Admin;
+import static com.example.wannahouse.Fragment.FragmentConfirmation.updateHouse;
 
 public class HouseDetailsActivity extends AppCompatActivity implements SingleChoiceDialog.SingleChoiceListener {
 
@@ -60,9 +64,13 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
     private ViewGroup vgCall;
     private ViewGroup vgReport;
     private ViewGroup vgVerify;
+    private TextView txVerify;
+    private ViewGroup vgPublic;
+    private TextView txPublic;
     private ImageButton imageButton_back;
     private House house = new House();
     private Notify notifyReport = new Notify();
+    int maxID_notifyUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +85,19 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
         setVgCall(house);
         back();
 
-        takeTotalNotify();
-        setUpVerify();
+        takeTotalNotify_Owner(house);
+
+        takeTotalNotify_Admin();
+        validateAdmin();
+        
         setVgReport(house);
+        setVgPublic(house);
+        setVgVerify(house);
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    protected void onResume() {
+        super.onResume();
     }
 
     @SuppressLint("WrongViewCast")
@@ -112,6 +125,9 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
         vgCall = findViewById(R.id.viewGroupCall);
         vgReport = findViewById(R.id.viewGroup_report);
         vgVerify = findViewById(R.id.viewGroup_verify);
+        vgPublic = findViewById(R.id.viewGroup_public);
+        txVerify = findViewById(R.id.textView_valueVerify);
+        txPublic = findViewById(R.id.textView_valuePublic);
 
         imageButton_back = findViewById(R.id.imageButton_back);
     }
@@ -128,7 +144,13 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
         capacity.setText(house.getCapacity() + gender );
         rentalPrice.setText( String.valueOf(house.getRentalPrice()));
         roomArea.setText(house.getRoomArea() + "m2");
-        deposit.setText(house.getDeposit() + " month");
+        if( house.getDeposit() <= 12 ) {
+            deposit.setText(house.getDeposit() + " month");
+        }
+        else {
+            deposit.setText(house.getDeposit() + " VND");
+        }
+
         electricCost.setText(house.getElectricityCost() + "k");
 
         waterCost.setText(house.getWaterCost() + "k");
@@ -283,14 +305,35 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
         if( !house.isTelevision() ) television.setAlpha(alpha);
     }
 
-    void setUpVerify() {
+    void validateAdmin() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if( user.getUid().equals("odVJNPmzGHXSdjX7jpkxTf2ipfA2")) {
             vgVerify.setVisibility(View.VISIBLE);
+            vgPublic.setVisibility(View.VISIBLE);
         }
         else {
             vgVerify.setVisibility(View.GONE);
+            vgPublic.setVisibility(View.GONE);
         }
+
+        if( house.isVerify() == true ) {
+            txVerify.setText("TRUE");
+            txVerify.setTextColor(Color.parseColor("#009933"));
+        }
+        else {
+            txVerify.setText("FALSE");
+            txVerify.setTextColor(Color.parseColor("#ff0000"));
+        }
+
+        if( house.isPublicRoom() == true ) {
+            txPublic.setText("TRUE");
+            txPublic.setTextColor(Color.parseColor("#009933"));
+        }
+        else {
+            txPublic.setText("FALSE");
+            txPublic.setTextColor(Color.parseColor("#ff0000"));
+        }
+
     }
 
     void setVgReport(final House house) {
@@ -304,15 +347,169 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
         });
     }
 
+    void verify(final House house) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Verify this Room");
+        alertDialog.setMessage("You really want to VERIFY " + house.getTitleOfTheRoom() );
+        alertDialog.setNegativeButton("FALSE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                house.setVerify(false);
+                updateHouse(house);
+
+                if( house.isVerify() == true ) {
+                    txVerify.setText("TRUE");
+                    txVerify.setTextColor(Color.parseColor("#009933"));
+                }
+                else {
+                    txVerify.setText("FALSE");
+                    txVerify.setTextColor(Color.parseColor("#ff0000"));
+                }
+            }
+        });
+        alertDialog.setPositiveButton("TRUE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                house.setVerify(true);
+                updateHouse(house);
+
+                if( house.isVerify() == true ) {
+                    txVerify.setText("TRUE");
+                    txVerify.setTextColor(Color.parseColor("#009933"));
+                }
+                else {
+                    txVerify.setText("FALSE");
+                    txVerify.setTextColor(Color.parseColor("#ff0000"));
+                }
+
+                Notify notifyApproved = new Notify();
+                notifyApproved.setNotify_id("notify00" + Integer.valueOf(maxID_notifyUser+1));
+                notifyApproved.setType(-2);
+                notifyApproved.setOwner_id(house.getOwner_id());
+                notifyApproved.setHouse_id(house.getRoom_id());
+
+                Calendar calendar = Calendar.getInstance();
+                String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+
+                notifyApproved.setTime(hour + ":" + minute + " " + date);
+
+                DatabaseReference notifyUser = FirebaseDatabase.getInstance().getReference()
+                        .child("notify").child(house.getOwner_id())
+                        .child(notifyApproved.getNotify_id().replace("notify00",""));
+                notifyUser.setValue(notifyApproved);
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    void setVgVerify(final House house ) {
+        vgVerify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verify(house);
+            }
+        });
+    }
+
+    void publicRoom(final House house) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Public this Room");
+        alertDialog.setMessage("You want to Public this room " + house.getTitleOfTheRoom() );
+        alertDialog.setNegativeButton("FALSE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                house.setPublicRoom(false);
+                updateHouse(house);
+
+                if( house.isPublicRoom() == true ) {
+                    txPublic.setText("TRUE");
+                    txPublic.setTextColor(Color.parseColor("#009933"));
+                }
+                else {
+                    txPublic.setText("FALSE");
+                    txPublic.setTextColor(Color.parseColor("#ff0000"));
+                }
+
+                Notify notifyUnpublicRoom = new Notify();
+                notifyUnpublicRoom.setNotify_id("notify00" + Integer.valueOf(maxID_notifyUser+1));
+                notifyUnpublicRoom.setType(0);
+                notifyUnpublicRoom.setOwner_id(house.getOwner_id());
+                notifyUnpublicRoom.setHouse_id(house.getRoom_id());
+
+                Calendar calendar = Calendar.getInstance();
+                String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+
+                notifyUnpublicRoom.setTime(hour + ":" + minute + " " + date);
+
+                DatabaseReference notifyUser = FirebaseDatabase.getInstance().getReference()
+                        .child("notify").child(house.getOwner_id())
+                        .child(notifyUnpublicRoom.getNotify_id().replace("notify00",""));
+                notifyUser.setValue(notifyUnpublicRoom);
+
+                house.setReport( house.getReport()+1 );
+
+                DatabaseReference accountDB = FirebaseDatabase.getInstance().getReference()
+                        .child("account").child("roomOwner").child(house.getOwner_id());
+
+                HashMap<String, Object> result = new HashMap<>();
+                result.put("report", house.getReport() );
+                accountDB.updateChildren(result);
+
+                Log.d("TEMM", house.getReport() + "");
+            }
+        });
+        alertDialog.setPositiveButton("TRUE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                house.setPublicRoom(true);
+                updateHouse(house);
+
+                if( house.isPublicRoom() == true ) {
+                    txPublic.setText("TRUE");
+                    txPublic.setTextColor(Color.parseColor("#009933"));
+                }
+                else {
+                    txPublic.setText("FALSE");
+                    txPublic.setTextColor(Color.parseColor("#ff0000"));
+                }
+
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    void setVgPublic(final House house ) {
+        vgPublic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                publicRoom(house);
+            }
+        });
+    }
+
     @Override
     public void onPositiveButtonClicked(String[] list, int position) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        notifyReport.setNotify_id("notify00" + Long.valueOf(maxID_notify+1));
-        notifyReport.setType(0);
+        notifyReport.setNotify_id("notify00" + Long.valueOf(maxID_notifyAdmin + 1));
+        notifyReport.setType(1);
         notifyReport.setOwner_id(house.getOwner_id());
         notifyReport.setReport_id(user.getUid());
         notifyReport.setReason(list[position]);
         notifyReport.setHouse_id(house.getRoom_id());
+
+        Calendar calendar = Calendar.getInstance();
+        String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        notifyReport.setTime(hour + ":" + minute + " " + date);
+
         final DatabaseReference notifyAdmin = FirebaseDatabase.getInstance().getReference()
                 .child("notify").child("odVJNPmzGHXSdjX7jpkxTf2ipfA2")
                 .child(notifyReport.getNotify_id().replace("notify00",""));
@@ -322,5 +519,20 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
     @Override
     public void onNegativeButtonClicked() {
 
+    }
+
+    void takeTotalNotify_Owner(House house) {
+        DatabaseReference notifyUser = FirebaseDatabase.getInstance().getReference().child("notify").child(house.getOwner_id());
+        notifyUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                maxID_notifyUser = (int) dataSnapshot.getChildrenCount();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

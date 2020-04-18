@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.wannahouse.Class_Java.Account;
+import com.example.wannahouse.Class_Java.Data;
 import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
 import com.squareup.picasso.Picasso;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class AccountAdapter extends BaseAdapter {
     ArrayList<Account> accounts;
     Context context;
+    int totalRoom = 0;
 
     public AccountAdapter(ArrayList<Account> accounts, Context context) {
         this.accounts = accounts;
@@ -61,6 +63,7 @@ public class AccountAdapter extends BaseAdapter {
         viewHolder.roomOwnerName.setText(accounts.get(position).getName());
         viewHolder.phoneNumber.setText(accounts.get(position).getPhone());
         viewHolder.report.setText("report: " + accounts.get(position).getReport()+"");
+        viewHolder.totalRoom.setText("Total unit: " + calculateTotalRoom(accounts.get(position)) );
 
         return convertView;
     }
@@ -71,5 +74,15 @@ public class AccountAdapter extends BaseAdapter {
         TextView phoneNumber;
         TextView report;
         TextView totalRoom;
+    }
+
+    int calculateTotalRoom(Account account) {
+        totalRoom = 0;
+        for(House house : Data.liveDataHouse.getValue() ) {
+            if( house.isVerify() == true && house.getOwner_id().equals(account.getId())) {
+                ++totalRoom;
+            }
+        }
+        return totalRoom;
     }
 }

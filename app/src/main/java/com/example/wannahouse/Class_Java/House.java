@@ -55,6 +55,7 @@ public class House implements Serializable {
 
     private boolean verify;
     private boolean publicRoom;
+    private int report;
 
     public House() {
         room_id= "";
@@ -102,99 +103,12 @@ public class House implements Serializable {
         publicRoom = true;
     }
 
-    public House(int abc) {
-        room_id = "house00999";
-        owner_id = "2562885550667569";
-        roomStyle = "ROOM FOR RENT";
-        numberOfRoom = 2;
-        capacity = 2;
-        gender = 2;
-        roomArea = 3;
-        rentalPrice = 3;
-        deposit = 3;
-        electricityCost = 3;
-        waterCost = 3;
-        parkingCost = 3;
-        city = "Hà Nội";
-        district = "Cầu Giấy";
-        ward = "Dịch Vọng Hậu";
-        street = "Xuân Thủy";
-        houseNumber = "số 999 ngõ 999";
-        roomDescription = "đéo care nhà test";
-        titleOfTheRoom = "đéo care nhà test title";
-        image.add("https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/3_1.jpg?alt=media&token=be12f2e5-3849-481c-99d7-04e927942c13");
-        image.add("https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/3_1.jpg?alt=media&token=be12f2e5-3849-481c-99d7-04e927942c13");
-        image.add("https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/3_1.jpg?alt=media&token=be12f2e5-3849-481c-99d7-04e927942c13");
-        image.add("https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/3_1.jpg?alt=media&token=be12f2e5-3849-481c-99d7-04e927942c13");
-        name = "Quân Hồng";
-        phone = "0359217728";
-        avatar = "https://firebasestorage.googleapis.com/v0/b/wannahouse-ff628.appspot.com/o/avatar_quan.JPG?alt=media&token=e468e241-27fc-4823-b370-53c0906676a9";
-        postingDate = "Thứ hai là ngày đầu tuần";
-        parkingLot = true;
-        privateWC = false;
-        window = false;
-        security = false;
-        internet = true;
-        noCurfew = false;
-        noOwner = false;
-        airConditioner = false;
-        waterHeater = false;
-        cook = false;
-        fridge = true;
-        washing =false;
-        loft = false;
-        bed = false;
-        wardrobe = true;
-        television = false;
-
-        verify = false;
-        publicRoom = true;
+    public int getReport() {
+        return report;
     }
 
-    public House(String room_id, String owner_id, String roomStyle, int numberOfRoom, int capacity, int gender, int roomArea, int rentalPrice, int deposit, float electricityCost, int waterCost, int internetCost, int parkingCost, String city, String district, String ward, String street, String houseNumber, String roomDescription, String titleOfTheRoom, ArrayList<String> image, String name, String phone, String avatar, String postingDate, boolean parkingLot, boolean privateWC, boolean window, boolean security, boolean internet, boolean noCurfew, boolean noOwner, boolean airConditioner, boolean waterHeater, boolean cook, boolean fridge, boolean washing, boolean loft, boolean bed, boolean wardrobe, boolean television, boolean verify, boolean publicRoom) {
-        this.room_id = room_id;
-        this.owner_id = owner_id;
-        this.roomStyle = roomStyle;
-        this.numberOfRoom = numberOfRoom;
-        this.capacity = capacity;
-        this.gender = gender;
-        this.roomArea = roomArea;
-        this.rentalPrice = rentalPrice;
-        this.deposit = deposit;
-        this.electricityCost = electricityCost;
-        this.waterCost = waterCost;
-        this.internetCost = internetCost;
-        this.parkingCost = parkingCost;
-        this.city = city;
-        this.district = district;
-        this.ward = ward;
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.roomDescription = roomDescription;
-        this.titleOfTheRoom = titleOfTheRoom;
-        this.image = image;
-        this.name = name;
-        this.phone = phone;
-        this.avatar = avatar;
-        this.postingDate = postingDate;
-        this.parkingLot = parkingLot;
-        this.privateWC = privateWC;
-        this.window = window;
-        this.security = security;
-        this.internet = internet;
-        this.noCurfew = noCurfew;
-        this.noOwner = noOwner;
-        this.airConditioner = airConditioner;
-        this.waterHeater = waterHeater;
-        this.cook = cook;
-        this.fridge = fridge;
-        this.washing = washing;
-        this.loft = loft;
-        this.bed = bed;
-        this.wardrobe = wardrobe;
-        this.television = television;
-        this.verify = verify;
-        this.publicRoom = publicRoom;
+    public void setReport(int report) {
+        this.report = report;
     }
 
     public String getRoomStyle() {

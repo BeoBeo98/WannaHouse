@@ -11,7 +11,7 @@
 
     <string-array name="choose_city">
         <item>Hà Nội</item>
-        <item>Hồ Chí Minh</item>
+        <item>HCM</item>
     </string-array>
     <string-array name="choose_district_HaNoi">
         <item>Ba Đình</item>
@@ -69,6 +69,30 @@
         <item>Củ Chi</item>
         <item>Hóc Môn</item>
         <item>Nhà Bè</item>
+    </string-array>
+
+    <string-array name="district_HaNoi">
+        <item>"Bắc Từ Liêm"</item>
+        <item>"Cầu Giấy"</item>
+        <item>"Đống Đa"</item>
+        <item>"Hà Đông"</item>
+        <item>"Hai Bà Trưng"</item>
+        <item>"Hoàng Mai"</item>
+        <item>"Hoàn Kiếm"</item>
+        <item>"Nam Từ Liêm"</item>
+        <item>"Tây Hồ"</item>
+    </string-array>
+
+    <string-array name="district_HCM">
+        <item>"Bình Thạnh"</item>
+        <item>"Hóc Môn"</item>
+        <item>"Quận 1"</item>
+        <item>"Quận 2"</item>
+        <item>"Quận 3"</item>
+        <item>"Quận 4"</item>
+        <item>"Quận 7"</item>
+        <item>"Quận 10"</item>
+        <item>"Thủ Đức"</item>
     </string-array>
 
     <string name="action_settings">Settings</string>

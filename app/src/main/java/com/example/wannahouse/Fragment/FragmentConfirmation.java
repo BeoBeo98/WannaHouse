@@ -16,9 +16,7 @@ import com.example.wannahouse.Activity.EditHouseActivity;
 import com.example.wannahouse.Class_Java.Account;
 import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,7 +46,7 @@ public class FragmentConfirmation extends Fragment {
 
     public static int FINISH_REQUEST_CODE = 1003;
     long maxID_house = 0;
-    public static long maxID_notify = 0;
+    public static long maxID_notifyAdmin = 0;
 
     View view;
     @Nullable
@@ -63,7 +61,8 @@ public class FragmentConfirmation extends Fragment {
         button_save = view.findViewById(R.id.button_save);
 
         takeTotalHouse();
-        takeTotalNotify();
+        takeTotalNotify_Admin();
+        takeIDforHouse(houseNew);
         button_next4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,11 +199,28 @@ public class FragmentConfirmation extends Fragment {
         });
     }
 
+    void takeIDforHouse(final House house) {
+        final DatabaseReference houseDB = FirebaseDatabase.getInstance().getReference().child("house");
+        houseDB.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                while( dataSnapshot.hasChild( maxID_house + "" ) ) {
+                    ++maxID_house;
+                }
+                house.setRoom_id("house00" + maxID_house);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     void upNewHouse(final House house) {
-        final DatabaseReference houseDB = FirebaseDatabase.getInstance().getReference().child("house")
-                .child(house.getRoom_id().replace("house00",""));
+        final DatabaseReference houseDB = FirebaseDatabase.getInstance().getReference().child("house");
         Map<String, Object> postValues = house.toMap();
-        houseDB.setValue(postValues);
+        houseDB.child(house.getRoom_id().replace("house00","")).setValue(postValues);
 //        houseDB.child("room_id").setValue(houseNew.getRoom_id());
 //        houseDB.child("owner_id").setValue(houseNew.getOwner_id());
 //        houseDB.child("roomStyle").setValue(houseNew.getRoomStyle());
@@ -248,7 +264,7 @@ public class FragmentConfirmation extends Fragment {
 //        houseDB.child("publicRoom").setValue(houseNew.isPublicRoom());
     }
 
-    void updateHouse(House house) {
+    public static void updateHouse(House house) {
         Log.d("QWE", house.getRoom_id() );
         final DatabaseReference houseDB = FirebaseDatabase.getInstance().getReference().child("house")
                 .child(house.getRoom_id().replace("house00",""));
@@ -271,13 +287,13 @@ public class FragmentConfirmation extends Fragment {
         });
     }
 
-    public static void takeTotalNotify() {
+    public static void takeTotalNotify_Admin() {
         final DatabaseReference notifyDB = FirebaseDatabase.getInstance().getReference().child("notify").child("odVJNPmzGHXSdjX7jpkxTf2ipfA2");
         notifyDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                maxID_notify = dataSnapshot.getChildrenCount();
-                Log.d("KEYQQ", "maxId notify " + maxID_notify);
+                maxID_notifyAdmin = dataSnapshot.getChildrenCount();
+                Log.d("KEYQQ", "maxId notify " + maxID_notifyAdmin);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -287,10 +303,18 @@ public class FragmentConfirmation extends Fragment {
     }
 
     void upNewNofify(House house) {
-        notifyNew.setNotify_id("notify00" + Long.valueOf(maxID_notify+1));
+        notifyNew.setNotify_id("notify00" + Long.valueOf(maxID_notifyAdmin +1));
         notifyNew.setHouse_id(house.getRoom_id());
         notifyNew.setOwner_id(house.getOwner_id());
-        notifyNew.setType(1);
+        notifyNew.setType(2);
+
+        Calendar calendar = Calendar.getInstance();
+        String date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        notifyNew.setTime(hour + ":" + minute + " " + date);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference notifyAdmin = FirebaseDatabase.getInstance().getReference()
                 .child("notify").child("odVJNPmzGHXSdjX7jpkxTf2ipfA2")

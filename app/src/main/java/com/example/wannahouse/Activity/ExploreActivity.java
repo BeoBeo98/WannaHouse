@@ -78,6 +78,12 @@ public class ExploreActivity extends AppCompatActivity {
         gridViewHouse.setFocusable(false);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void setGridViewHeightBasedOnChildren(HouseAdapter matchAdapter, GridView gridView) {
 
         if (matchAdapter == null) {
@@ -94,9 +100,15 @@ public class ExploreActivity extends AppCompatActivity {
             view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             totalHeight += view.getMeasuredHeight();
         }
-        totalHeight /= 2 ;
+        if( matchAdapter.getCount() % 2 == 0) {
+            totalHeight /= 2;
+        }
+        else {
+            totalHeight /= 2;
+            totalHeight += view.getMeasuredHeight();
+        }
         ViewGroup.LayoutParams params = gridView.getLayoutParams();
-        params.height = totalHeight + (gridView.getVerticalSpacing() * matchAdapter.getCount() + 200);
+        params.height = totalHeight + (gridView.getVerticalSpacing() * matchAdapter.getCount() /2);
         gridView.setLayoutParams(params);
     }
 }

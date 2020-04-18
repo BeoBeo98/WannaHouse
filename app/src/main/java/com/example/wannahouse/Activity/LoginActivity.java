@@ -1,18 +1,27 @@
 package com.example.wannahouse.Activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.wannahouse.Adapter.NotificationAdapter;
 import com.example.wannahouse.Class_Java.Account;
 import com.example.wannahouse.Class_Java.Data;
 import com.example.wannahouse.Class_Java.House;
+import com.example.wannahouse.Class_Java.Notify;
 import com.example.wannahouse.R;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -24,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.example.wannahouse.Activity.MainActivity.AUTHENTICATION_REQUEST_CODE;
@@ -101,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                             house.setName(account.getName());
                             house.setPhone(account.getPhone());
                             house.setAvatar(account.getAvatar());
+                            house.setReport(account.getReport());
                             Log.d("KEYNAME", account.getName());
                         }
                     }

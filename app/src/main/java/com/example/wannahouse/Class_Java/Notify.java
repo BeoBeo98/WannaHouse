@@ -7,6 +7,7 @@ public class Notify {
     private String report_id;
     private String reason;
     private String house_id;
+    private String time;
 
     public Notify() {
         notify_id = "";
@@ -15,15 +16,17 @@ public class Notify {
         report_id = "";
         reason = "";
         house_id = "";
+        time = "";
     }
 
-    public Notify(String notify_id, int type, String owner_id, String report_id, String reason, String house_id) {
+    public Notify(String notify_id, int type, String owner_id, String report_id, String reason, String house_id, String time) {
         this.notify_id = notify_id;
         this.type = type;
         this.owner_id = owner_id;
         this.report_id = report_id;
         this.reason = reason;
         this.house_id = house_id;
+        this.time = time;
     }
 
     public String getNotify_id() {
@@ -72,5 +75,13 @@ public class Notify {
 
     public void setHouse_id(String house_id) {
         this.house_id = house_id;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

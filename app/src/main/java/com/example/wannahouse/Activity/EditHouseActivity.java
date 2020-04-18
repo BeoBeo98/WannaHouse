@@ -88,7 +88,7 @@ public class EditHouseActivity extends HouseDetailsActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 DatabaseReference houseDB = FirebaseDatabase.getInstance().getReference().child("house");
-                houseDB.child(house.getRoom_id()).removeValue();
+                houseDB.child(house.getRoom_id().replace("house00", "")).removeValue();
                 finish();
             }
         });

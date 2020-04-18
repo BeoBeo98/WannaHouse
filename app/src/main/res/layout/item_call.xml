@@ -39,18 +39,51 @@
                     android:gravity="center"
                     android:text="Call ✆" />
             </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
             <LinearLayout
+                android:gravity="center"
+                android:background="@drawable/border2"
                 android:id="@+id/viewGroup_verify"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
                 <TextView
-                    android:layout_weight="1"
-                    android:background="@drawable/border2"
-                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Verify: " />
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/textView_valueVerify"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="boolean" />
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:background="@drawable/border2"
+                android:id="@+id/viewGroup_public"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Verify" />
+                    android:text="Public: " />
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/textView_valuePublic"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="boolean" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

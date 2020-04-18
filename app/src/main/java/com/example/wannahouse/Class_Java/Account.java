@@ -17,14 +17,6 @@ public class Account {
         report = 0;
     }
 
-    public Account(int Bon4so9) {
-        id = "cvafaskfasf";
-        name = "DDitj mej mayu";
-        phone = "9999";
-        avatar = "adfhasdflpsafhnlnasdfddfb;s";
-        report = 0;
-    }
-
     public Account(String id, String name, String phone, String avatar, int report) {
         this.id = id;
         this.name = name;

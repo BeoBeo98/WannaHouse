@@ -4,52 +4,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.example.wannahouse.Adapter.HouseAdapter;
 import com.example.wannahouse.Adapter.ViewPagerAdapter;
 import com.example.wannahouse.Class_Java.Account;
 import com.example.wannahouse.Class_Java.Data;
 import com.example.wannahouse.Class_Java.House;
-import com.example.wannahouse.Class_Java.HouseViewModel;
 import com.example.wannahouse.Class_Java.Notify;
 import com.example.wannahouse.Fragment.FragmentAccount;
-import com.example.wannahouse.Fragment.FragmentAmenities;
 import com.example.wannahouse.Fragment.FragmentHome;
 import com.example.wannahouse.Fragment.FragmentListAccount;
 import com.example.wannahouse.Fragment.FragmentNotification;
-import com.example.wannahouse.Fragment.Fragment_Profile;
 import com.example.wannahouse.R;
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
@@ -61,18 +37,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.URL;
-import java.security.Provider;
-import java.util.Arrays;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import static com.example.wannahouse.Activity.ListYourSpaceActivity.houseNew;
-import static com.example.wannahouse.Activity.LoginActivity.isOwner;
 import static com.example.wannahouse.Fragment.Fragment_Profile.changeImageToHighQuality;
 
 public class MainActivity extends AppCompatActivity {
@@ -88,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
 
     private String s;
+    public static String cityName = "Hà Nội";
 
     public static CallbackManager callbackManager;
     public static Boolean isLogin = false;
@@ -99,7 +67,9 @@ public class MainActivity extends AppCompatActivity {
     FragmentAccount account = new FragmentAccount();
     FragmentListAccount listAccount = new FragmentListAccount();
     FragmentNotification notification = new FragmentNotification();
-    ViewPagerAdapter adapter;
+    public ViewPagerAdapter adapter_main;
+
+    TextView textViewHere;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -109,19 +79,20 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tabLayout_home);
         viewPager = findViewById(R.id.viewPager_home);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), 1000);
 
-        adapter.addFragment(home, "HOME");
-        adapter.addFragment(account, "ACCOUNT");
+        adapter_main = new ViewPagerAdapter(getSupportFragmentManager(), 1000);
+
+        adapter_main.addFragment(home, "HOME");
+        adapter_main.addFragment(account, "ACCOUNT");
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if( user.getUid().equals("odVJNPmzGHXSdjX7jpkxTf2ipfA2")) {
-            adapter.addFragment(listAccount, "LISTACCOUNT");
+            adapter_main.addFragment(listAccount, "LISTACCOUNT");
         }
 
-        adapter.addFragment(notification, "NOTIFICATION");
-        Log.d("KEYBB", adapter.toString() + "");
-        viewPager.setAdapter(adapter);
+        adapter_main.addFragment(notification, "NOTIFICATION");
+        Log.d("KEYBB", adapter_main.toString() + "");
+        viewPager.setAdapter(adapter_main);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(2);
 //        final View touchView = findViewById(R.id.viewPager_home);

@@ -40,31 +40,31 @@
                         android:id="@+id/rb_roomStyle1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Room for rent" />
+                        android:text="ROOM FOR RENT" />
 
                     <RadioButton
                         android:id="@+id/rb_roomStyle2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Room for share" />
+                        android:text="ROOM FOR SHARE" />
 
                     <RadioButton
                         android:id="@+id/rb_roomStyle3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Apartment" />
+                        android:text="APARTMENT" />
 
                     <RadioButton
                         android:id="@+id/rb_roomStyle4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="House" />
+                        android:text="HOUSE" />
 
                     <RadioButton
                         android:id="@+id/rb_roomStyle5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Dormitory" />
+                        android:text="DORMITORY" />
                 </RadioGroup>
             </com.google.android.material.textfield.TextInputLayout>
 

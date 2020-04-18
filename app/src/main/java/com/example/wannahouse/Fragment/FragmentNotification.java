@@ -1,6 +1,11 @@
 package com.example.wannahouse.Fragment;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,9 +14,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -33,6 +43,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static androidx.core.content.ContextCompat.getSystemService;
 import static com.example.wannahouse.Adapter.NotificationAdapter.liveDataNotify_House;
 
 public class FragmentNotification extends Fragment {
@@ -77,11 +88,44 @@ public class FragmentNotification extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent( getActivity() , HouseDetailsActivity.class);
-                intent.putExtra("Position_", liveDataNotify_House.getValue().get(position)
+                if( liveDataNotify_House.getValue().get(position).getOwner_id().isEmpty() ) {
+                    Toast.makeText(getActivity(), "Oop, this unit is not available ", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent intent = new Intent(getActivity(), HouseDetailsActivity.class);
+                    intent.putExtra("Position_", liveDataNotify_House.getValue().get(position)
 
-                );
-                startActivity(intent);
+                    );
+                    startActivity(intent);
+                }
+            }
+        });
+
+        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+//                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+//                alertDialog.setTitle("Delete Notify");
+//                alertDialog.setMessage("You want to delete this notify" );
+//                alertDialog.setNegativeButton("NOT NOW", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                });
+//                alertDialog.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//                        DatabaseReference notifyDB = FirebaseDatabase.getInstance().getReference()
+//                                .child("notify").child(user.getUid());
+//                        notifyDB.child(listNotify.get(position).getNotify_id().replace("notify00","")).removeValue();
+//                    }
+//                });
+//
+//                alertDialog.show();
+//                return true;
+                return false;
             }
         });
 
@@ -131,4 +175,39 @@ public class FragmentNotification extends Fragment {
 
         }
     };
+
+
+    // android 8 tro len
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void notification(Notify notify) {
+        NotificationChannel channel = new NotificationChannel("notifyId","notifyName", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationManager manager = getSystemService(getActivity(), NotificationManager.class);
+        manager.createNotificationChannel(channel);
+
+        NotificationCompat.Builder builder =  new NotificationCompat.Builder(getActivity(), "notifyId");
+        if( notify.getType() == 2) {
+            builder.setContentText("WannaHouse")
+                    .setSmallIcon(R.drawable.home512px)
+                    .setAutoCancel(true)
+                    .setContentText("just add a unit");
+        } else if( notify.getType() == -2 ) {
+            builder.setContentText("WannaHouse")
+                    .setSmallIcon(R.drawable.home512px)
+                    .setAutoCancel(true)
+                    .setContentText("Approved a unit");
+        } else if( notify.getType() == 1 ) {
+            builder.setContentText("WannaHouse")
+                    .setSmallIcon(R.drawable.home512px)
+                    .setAutoCancel(true)
+                    .setContentText("just reported a unit:" + "\nReaseon: " + notify.getReason());
+        } else if( notify.getType() == 0 ) {
+            builder.setContentText("WannaHouse")
+                    .setSmallIcon(R.drawable.home512px)
+                    .setAutoCancel(true)
+                    .setContentText("some one report about unit:" + "\nReason" + notify.getReason());
+        }
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getActivity());
+        managerCompat.notify(999, builder.build() );
+    }
 }

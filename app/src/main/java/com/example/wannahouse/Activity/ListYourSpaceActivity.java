@@ -65,6 +65,8 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_your_space);
 
+        houseNew = new House();
+
         tabLayout = findViewById(R.id.tabLayout_listYourSpace);
         viewPager = findViewById(R.id.viewPager_listYourSpace);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), 1000);
