@@ -53,6 +53,7 @@
         <activity android:name=".Activity.ImageDetailActivity"></activity>
         <activity android:name=".Activity.ListYourSpaceActivity"></activity>
         <activity android:name=".Activity.EditHouseActivity"></activity>
+        <activity android:name=".Activity.FilterActivity"></activity>
         <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

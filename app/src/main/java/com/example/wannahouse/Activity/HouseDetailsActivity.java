@@ -56,6 +56,7 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
     private TextView internetCost;
     private TextView phoneNumber;
     private TextView postingDate;
+    private TextView availableDate;
     private TextView roomDescription;
     private TextView capacity;
     private TextView roomOwnerName;
@@ -117,6 +118,7 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
         internetCost = findViewById(R.id.internetCost);
         phoneNumber = findViewById(R.id.phoneNumber);
         postingDate = findViewById(R.id.postingDate);
+        availableDate = findViewById(R.id.availableDate);
         roomDescription = findViewById(R.id.roomDescription);
 
         roomOwnerName = findViewById(R.id.roomOwnerName);
@@ -159,6 +161,7 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
         address.setText( house.getHouseNumber() + ", " + house.getStreet() + ", " + house.getWard() + ", " + house.getDistrict());
         phoneNumber.setText( "✆ " + house.getPhone());
         postingDate.setText( "" + house.getPostingDate());
+        availableDate.setText("" + house.getAvailableDate());
         roomDescription.setText(( "" + house.getRoomDescription()));
 
         roomOwnerName.setText( house.getName() );
@@ -310,10 +313,15 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
         if( user.getUid().equals("odVJNPmzGHXSdjX7jpkxTf2ipfA2")) {
             vgVerify.setVisibility(View.VISIBLE);
             vgPublic.setVisibility(View.VISIBLE);
+            vgReport.setVisibility(View.GONE);
+            vgCall.setVisibility(View.GONE);
         }
         else {
             vgVerify.setVisibility(View.GONE);
             vgPublic.setVisibility(View.GONE);
+
+            vgReport.setVisibility(View.VISIBLE);
+            vgCall.setVisibility(View.VISIBLE);
         }
 
         if( house.isVerify() == true ) {

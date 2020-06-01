@@ -35,6 +35,7 @@ public class House implements Serializable {
     private String phone;
     private String avatar;
     private String postingDate;
+    private String availableDate;
 
     private boolean parkingLot;
     private boolean privateWC;
@@ -82,6 +83,7 @@ public class House implements Serializable {
         phone = "";
         avatar = "";
         postingDate = "";
+        availableDate = "";
         parkingLot = false;
         privateWC = false;
         window = false;
@@ -455,6 +457,14 @@ public class House implements Serializable {
         this.room_id = room_id;
     }
 
+    public String getAvailableDate() {
+        return availableDate;
+    }
+
+    public void setAvailableDate(String availableDate) {
+        this.availableDate = availableDate;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -509,6 +519,7 @@ public class House implements Serializable {
         result.put("wardrobe", wardrobe);
         result.put("television", television);
         result.put("postingDate", postingDate);
+        result.put("availableDate", availableDate);
         result.put("verify", verify);
         result.put("publicRoom", publicRoom);
         return result;

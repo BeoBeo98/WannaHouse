@@ -1,5 +1,6 @@
 package com.example.wannahouse.Fragment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -40,6 +44,9 @@ public class FragmentConfirmation extends Fragment {
     private TextInputLayout textInput_phoneNumber;
     private TextInputLayout textInput_titleOfThePost;
     private TextInputLayout textInput_roomDescription;
+    private TextInputLayout textInput_availableDate;
+
+    private TextView textView_availableDate;
 
     private Button button_next4;
     private Button button_save;
@@ -57,6 +64,8 @@ public class FragmentConfirmation extends Fragment {
         textInput_phoneNumber = view.findViewById(R.id.text_input_phoneNumber);
         textInput_titleOfThePost = view.findViewById(R.id.text_input_titleOfThePost);
         textInput_roomDescription = view.findViewById(R.id.text_input_roomDescription);
+        textInput_availableDate = view.findViewById(R.id.textInput_availableDate);
+        textView_availableDate = view.findViewById(R.id.textView_availableDate);
         button_next4 = view.findViewById(R.id.button_next4);
         button_save = view.findViewById(R.id.button_save);
 
@@ -77,6 +86,13 @@ public class FragmentConfirmation extends Fragment {
             }
         });
 
+        textView_availableDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickDate();
+            }
+        });
+
         if( houseEdit != null ) {
             Log.d("QWE", "Result confirm " + houseEdit.getRoom_id());
             button_save.setVisibility(View.VISIBLE);
@@ -89,6 +105,23 @@ public class FragmentConfirmation extends Fragment {
         }
 
         return view;
+    }
+
+    private void pickDate() {
+        final Calendar calendar = Calendar.getInstance();
+        final int d = calendar.get(calendar.DATE);
+        int m = calendar.get(calendar.MONTH);
+        int y = calendar.get(calendar.YEAR);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calendar.set(year,month,dayOfMonth);
+
+                String datePick = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+                textView_availableDate.setText(datePick);
+            }
+        }, y,m,d);
+        datePickerDialog.show();
     }
 
     private boolean validate_phoneNumber() {
@@ -127,8 +160,20 @@ public class FragmentConfirmation extends Fragment {
         }
     }
 
+    private boolean validate_availableDate() {
+        String roomAvailableDate = textView_availableDate.getText().toString().trim();
+        if (roomAvailableDate.isEmpty()) {
+            textInput_availableDate.setError("Detailed description...");
+            textInput_availableDate.setHintEnabled(false);
+            return false;
+        } else {
+            textInput_availableDate.setError(null);
+            return true;
+        }
+    }
+
     public void next4(View v) {
-        if( !validate_phoneNumber() | !validate_titleOfThePost() | !validate_roomDescription() ) {
+        if( !validate_phoneNumber() | !validate_titleOfThePost() | !validate_roomDescription() | !validate_availableDate() ) {
             return;
         }
         else {
@@ -167,6 +212,8 @@ public class FragmentConfirmation extends Fragment {
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
         houseNew.setPostingDate( currentDate );
+
+        houseNew.setAvailableDate(textView_availableDate.getText().toString().trim());
 
         Log.d("ZZZ", "maxId " + houseNew.getOwner_id() );
         Log.d("ZZZ", "maxId " + houseNew.getName() );

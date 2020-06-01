@@ -100,15 +100,8 @@ public class ExploreActivity extends AppCompatActivity {
             view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
             totalHeight += view.getMeasuredHeight();
         }
-        if( matchAdapter.getCount() % 2 == 0) {
-            totalHeight /= 2;
-        }
-        else {
-            totalHeight /= 2;
-            totalHeight += view.getMeasuredHeight();
-        }
         ViewGroup.LayoutParams params = gridView.getLayoutParams();
-        params.height = totalHeight + (gridView.getVerticalSpacing() * matchAdapter.getCount() /2);
+        params.height = totalHeight + (gridView.getVerticalSpacing() * matchAdapter.getCount());
         gridView.setLayoutParams(params);
     }
 }

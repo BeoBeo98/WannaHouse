@@ -35,6 +35,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,8 +76,13 @@ public class FragmentAccount extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), 1000);
 
         adapter.addFragment(profile, "PROFILE");
-        adapter.addFragment(approved, "APPROVED");
-        adapter.addFragment(pending, "PENDING");
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if( !user.getUid().equals("odVJNPmzGHXSdjX7jpkxTf2ipfA2") ) {
+            adapter.addFragment(approved, "APPROVED");
+            adapter.addFragment(pending, "PENDING");
+        }
 
         Log.d("KEYBB", adapter.getCount() + "");
         viewPager.setAdapter(adapter);

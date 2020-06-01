@@ -1,6 +1,8 @@
 package com.example.wannahouse.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.view.LayoutInflater;
@@ -49,7 +51,13 @@ public class DistrictAdapter extends BaseAdapter {
         ImageView image_district = convertView.findViewById(R.id.image_district);
         TextView name_district = convertView.findViewById(R.id.name_district);
 
-        image_district.setBackground(context.getResources().getDrawable(image.get(position)));
+//        image_district.setBackground(context.getResources().getDrawable(image.get(position)));
+
+        Drawable d = context.getResources().getDrawable(image.get(position));
+        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+
+        image_district.setImageBitmap(bitmap);
+
         name_district.setText(name.get(position));
 
         return convertView;

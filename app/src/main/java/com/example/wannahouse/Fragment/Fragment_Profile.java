@@ -21,6 +21,8 @@ import com.bumptech.glide.Glide;
 import com.example.wannahouse.Activity.ListYourSpaceActivity;
 import com.example.wannahouse.Activity.LoginActivity;
 import com.example.wannahouse.Activity.MainActivity;
+import com.example.wannahouse.Class_Java.Data;
+import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.ui.auth.AuthUI;
@@ -45,6 +47,8 @@ public class Fragment_Profile extends Fragment {
     View view;
     CircleImageView circleImageView;
     TextView txtName;
+    TextView txtReport;
+    TextView txtApproved;
 
     Button button_signOut;
 
@@ -55,11 +59,23 @@ public class Fragment_Profile extends Fragment {
         button_signOut = view.findViewById(R.id.button_signOut);
 
         txtName = view.findViewById(R.id.profile_name2);
+        txtReport = view.findViewById(R.id.textView_totalReport);
+        txtApproved = view.findViewById(R.id.textView_totalApproved);
         circleImageView = view.findViewById(R.id.profile_pic2);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         txtName.setText(user.getDisplayName());
+        txtReport.setText("Total unit Report: " + accountNew.getReport());
+
+        int totalApproved = 0;
+        for(House house : Data.arrayListHouse) {
+            if( house.getOwner_id().equals(user.getUid()) && house.isVerify() == true ) {
+                totalApproved++;
+            }
+        }
+
+        txtApproved.setText("Total unit approved: " + totalApproved);
         Glide.with(this).load(changeImageToHighQuality(user.getPhotoUrl())).into(circleImageView);
 
 

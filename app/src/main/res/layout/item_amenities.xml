@@ -6,13 +6,6 @@
     android:paddingTop="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <TextView
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="15dp"
-        android:textColor="#000000"
-        android:text="Amenities"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
     <LinearLayout
         android:id="@+id/AMENITIES"
         android:layout_width="match_parent"
@@ -41,7 +34,7 @@
                         android:textSize="12sp"
                         android:gravity="center"
                         android:layout_marginTop="5dp"
-                        android:text="Air conditioner"
+                        android:text="Refresher"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>

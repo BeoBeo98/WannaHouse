@@ -4,11 +4,13 @@
     android:layout_height="match_parent">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginTop="20dp"
         android:layout_width="175dp"
         android:layout_height="175dp"
         android:layout_gravity="center_horizontal"
         android:id="@+id/profile_pic2" />
     <TextView
+        android:text="name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
@@ -18,16 +20,32 @@
         android:id="@+id/profile_name2" />
 
     <TextView
-        android:layout_gravity="center_horizontal"
-        android:text="TEST"
-        android:id="@+id/test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textColor="#28a428"
+        android:text="totalUnitApproved"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/textView_totalApproved" />
+
+    <TextView
+        android:textColor="#ff1919"
+        android:text="totalUnitreport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/textView_totalReport" />
+
     <Button
+        android:background="@drawable/border2"
+        android:layout_marginTop="20dp"
         android:id="@+id/button_signOut"
         android:text="SIGN OUT"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

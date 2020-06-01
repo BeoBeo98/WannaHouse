@@ -1,6 +1,271 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <Spinner
+                    android:id="@+id/spinner_cityHere"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <AutoCompleteTextView
+                    android:text="adsfdsafaf"
+                    android:hint="District or ward, street..."
+                    android:imeOptions="actionSearch"
+                    android:id="@+id/editText_searchHere"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:clickable="true"
+                    android:id="@+id/tv_cancelHere"
+                    android:textSize="18sp"
+                    android:text="Cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <ToggleButton
+                        android:id="@+id/tg_roomStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textOff="Room type ▼"
+                        android:textOn="Room type ▲" />
+
+                    <ToggleButton
+                        android:id="@+id/tg_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textOff="Price ▼"
+                        android:textOn="Price ▲" />
+
+                    <ToggleButton
+                        android:id="@+id/tg_amenities"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textOff="Amenities ▼"
+                        android:textOn="Amenities ▲" />
+
+                    <ToggleButton
+                        android:id="@+id/tg_sort"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textOff="Sort by ▼"
+                        android:textOn="Sort by ▲" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:id="@+id/vg_roomStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <RadioGroup
+                    android:background="@drawable/border2"
+                    android:id="@+id/rg_roomStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/rb_roomStyle1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ROOM FOR RENT" />
+
+                    <RadioButton
+                        android:id="@+id/rb_roomStyle2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ROOM FOR SHARE" />
+
+                    <RadioButton
+                        android:id="@+id/rb_roomStyle3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="APARTMENT" />
+
+                    <RadioButton
+                        android:id="@+id/rb_roomStyle4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="HOUSE" />
+
+                    <RadioButton
+                        android:id="@+id/rb_roomStyle5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="DORMITORY" />
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/vg_price"
+                android:orientation="vertical"
+                android:background="@drawable/border2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:textColor="#000000"
+                        android:id="@+id/minVND"
+                        android:gravity="left"
+                        android:text="Min VND"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textColor="#000000"
+                        android:id="@+id/maxVND"
+                        android:gravity="right"
+                        android:text="Max VND"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                    app:bar_highlight_color="#0099ff"
+                    app:bar_color="#e6f5ff"
+                    app:left_thumb_color="#007acc"
+                    app:right_thumb_color="#007acc"
+                    app:left_thumb_color_pressed="#0099ff"
+                    app:right_thumb_color_pressed="#0099ff"
+                    android:id="@+id/rangeSeekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:min_value="500"
+                    app:max_value="15000"
+                    app:steps="500"
+                    app:gap="500"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+            <LinearLayout
+                android:id="@+id/vg_amenities"
+                android:orientation="vertical"
+                android:background="@drawable/border2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <include layout="@layout/item_amenities" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/vg_sort"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <RadioGroup
+                    android:id="@+id/rg_sort"
+                    android:background="@drawable/border2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/rb_latest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Latest" />
+
+                    <RadioButton
+                        android:id="@+id/rb_lowToHigh"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Descending price" />
+
+                    <RadioButton
+                        android:id="@+id/rb_highToLow"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ascending prices" />
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_apply"
+                android:background="@drawable/border2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="#0099ff"
+                android:text="APPLY"
+                android:textColor="#ffffff" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <TextView
+                    android:id="@+id/tv_totalResult"
+                    android:layout_weight="1"
+                    android:textColor="#000000"
+                    android:textSize="15sp"
+                    android:text="Total Result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_sort"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:textSize="15sp"
+                    android:text="Sort: "
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <GridView
+                android:id="@+id/gridView_filter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <TextView
+                android:textStyle="italic"
+                android:textSize="15dp"
+                android:id="@+id/tv_noRoomFound"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="Oop, No room found"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

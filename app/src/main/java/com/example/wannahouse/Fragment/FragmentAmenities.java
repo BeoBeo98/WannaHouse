@@ -332,7 +332,7 @@ public class FragmentAmenities extends Fragment {
         }
     }
 
-    private void iconViewGroupClick(final ViewGroup viewGroup) {
+    public static void iconViewGroupClick(final ViewGroup viewGroup) {
         viewGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

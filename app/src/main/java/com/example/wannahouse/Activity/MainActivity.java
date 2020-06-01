@@ -87,10 +87,10 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if( user.getUid().equals("odVJNPmzGHXSdjX7jpkxTf2ipfA2")) {
-            adapter_main.addFragment(listAccount, "LISTACCOUNT");
+            adapter_main.addFragment(listAccount, "MANAGE");
         }
 
-        adapter_main.addFragment(notification, "NOTIFICATION");
+        adapter_main.addFragment(notification, "NOTIFY");
         Log.d("KEYBB", adapter_main.toString() + "");
         viewPager.setAdapter(adapter_main);
         tabLayout.setupWithViewPager(viewPager);
