@@ -68,7 +68,7 @@ public class Fragment_Profile extends Fragment {
         txtName.setText(user.getDisplayName());
         txtReport.setText("Total unit Report: " + accountNew.getReport());
 
-        if( user.getUid().equals("odVJNPmzGHXSdjX7jpkxTf2ipfA2") ) {
+        if( user.getUid().equals(Data.ADMIN) ) {
             txtApproved.setVisibility(View.GONE);
             txtReport.setVisibility(View.GONE);
         }

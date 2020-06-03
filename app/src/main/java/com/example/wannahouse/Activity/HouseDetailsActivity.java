@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.wannahouse.Class_Java.Data;
 import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.Class_Java.Notify;
 import com.example.wannahouse.Dialog.SingleChoiceDialog;
@@ -316,7 +317,7 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
 
     void validateAdmin() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if( user.getUid().equals("odVJNPmzGHXSdjX7jpkxTf2ipfA2")) {
+        if( user.getUid().equals(Data.ADMIN)) {
             vgVerify.setVisibility(View.VISIBLE);
             vgPublic.setVisibility(View.VISIBLE);
             vgReport.setVisibility(View.GONE);
@@ -525,7 +526,7 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
         notifyReport.setTime(hour + ":" + minute + " " + date);
 
         final DatabaseReference notifyAdmin = FirebaseDatabase.getInstance().getReference()
-                .child("notify").child("odVJNPmzGHXSdjX7jpkxTf2ipfA2")
+                .child("notify").child(Data.ADMIN)
                 .child(notifyReport.getNotify_id().replace("notify00",""));
         notifyAdmin.setValue(notifyReport);
     }

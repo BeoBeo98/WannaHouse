@@ -11,4 +11,5 @@ public class Data {
     public static MutableLiveData<ArrayList<House>> liveDataHouse = new MutableLiveData<>();
     public static MutableLiveData<ArrayList<Account>> liveDataOwner = new MutableLiveData<>();
     public static int index = 0;
+    public static String ADMIN = "odVJNPmzGHXSdjX7jpkxTf2ipfA2";
 }

@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.wannahouse.Activity.MainActivity;
 import com.example.wannahouse.Adapter.ViewPagerAdapter;
+import com.example.wannahouse.Class_Java.Data;
 import com.example.wannahouse.R;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -79,7 +80,7 @@ public class FragmentAccount extends Fragment {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if( !user.getUid().equals("odVJNPmzGHXSdjX7jpkxTf2ipfA2") ) {
+        if( !user.getUid().equals(Data.ADMIN) ) {
             adapter.addFragment(approved, "APPROVED");
             adapter.addFragment(pending, "PENDING");
         }

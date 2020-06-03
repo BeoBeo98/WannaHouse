@@ -29,6 +29,8 @@ import com.example.wannahouse.Adapter.HouseAdapter;
 import com.example.wannahouse.Class_Java.Data;
 import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,6 +106,11 @@ public class FragmentHome extends Fragment implements AdapterView.OnItemSelected
                 getActivity().startActivity(intent);
             }
         });
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if( user.getUid().equals(Data.ADMIN)) {
+            viewGroup_listYourSpace.setVisibility(View.GONE);
+        }
 
         viewGroup_location = view.findViewById(R.id.viewGroup_location);
         viewGroup_location.setOnClickListener(new View.OnClickListener() {

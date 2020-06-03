@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.wannahouse.Activity.EditHouseActivity;
 import com.example.wannahouse.Class_Java.Account;
+import com.example.wannahouse.Class_Java.Data;
 import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -347,7 +348,7 @@ public class FragmentConfirmation extends Fragment {
     }
 
     public static void takeTotalNotify_Admin() {
-        final DatabaseReference notifyDB = FirebaseDatabase.getInstance().getReference().child("notify").child("odVJNPmzGHXSdjX7jpkxTf2ipfA2");
+        final DatabaseReference notifyDB = FirebaseDatabase.getInstance().getReference().child("notify").child(Data.ADMIN);
         notifyDB.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         adapter_main.addFragment(account, "ACCOUNT");
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if( user.getUid().equals("odVJNPmzGHXSdjX7jpkxTf2ipfA2")) {
+        if( user.getUid().equals(Data.ADMIN)) {
             adapter_main.addFragment(listAccount, "MANAGE");
         }
 
