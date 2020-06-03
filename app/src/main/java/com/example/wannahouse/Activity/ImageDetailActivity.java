@@ -26,4 +26,10 @@ public class ImageDetailActivity extends AppCompatActivity {
         int current = intent.getIntExtra("PositionImage_", 0);
         viewPager.setCurrentItem(current);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

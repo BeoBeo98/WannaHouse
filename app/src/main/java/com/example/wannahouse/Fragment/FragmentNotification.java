@@ -93,9 +93,7 @@ public class FragmentNotification extends Fragment {
                 }
                 else {
                     Intent intent = new Intent(getActivity(), HouseDetailsActivity.class);
-                    intent.putExtra("Position_", liveDataNotify_House.getValue().get(position)
-
-                    );
+                    intent.putExtra("Position_", liveDataNotify_House.getValue().get(position));
                     startActivity(intent);
                 }
             }

@@ -70,7 +70,7 @@ public class FilterActivity extends AppCompatActivity implements AdapterView.OnI
     TextView tv_maxVND;
 
     Button button_apply;
-    int minVND = 500;
+    int minVND = 0;
     int maxVND = 15000;
 
     ArrayList<House> listHouseFilter = new ArrayList<>();

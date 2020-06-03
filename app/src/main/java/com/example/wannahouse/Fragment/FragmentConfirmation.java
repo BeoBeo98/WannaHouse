@@ -1,7 +1,9 @@
 package com.example.wannahouse.Fragment;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -177,6 +179,13 @@ public class FragmentConfirmation extends Fragment {
             return;
         }
         else {
+            ProgressDialog progressDialog = new ProgressDialog( getContext());
+            progressDialog.show();
+
+            progressDialog.setContentView(R.layout.progress);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
             if( houseEdit == null) {
                 savingData(houseNew);
                 upNewOwner(accountNew);
@@ -204,9 +213,12 @@ public class FragmentConfirmation extends Fragment {
         if( houseNew.getRoom_id().isEmpty() ) {
             houseNew.setRoom_id("house00" + Long.valueOf(maxID_house +1));
         }
+
+    //    houseNew.setOwner_id( FirebaseAuth.getInstance().getUid() );
+
         houseNew.setPhone(  textInput_phoneNumber.getEditText().getText().toString().trim() );
         houseNew.setTitleOfTheRoom(  textInput_titleOfThePost.getEditText().getText().toString().trim() );
-        Log.d("KEYAA", houseNew.getTitleOfTheRoom());
+        Log.d("ZZZ", "Ownerid " + houseNew.getOwner_id());
         houseNew.setRoomDescription(  textInput_roomDescription.getEditText().getText().toString().trim() );
 
         Calendar calendar = Calendar.getInstance();
@@ -373,5 +385,6 @@ public class FragmentConfirmation extends Fragment {
         textInput_phoneNumber.getEditText().setText(houseEdit.getPhone() + "");
         textInput_titleOfThePost.getEditText().setText(houseEdit.getTitleOfTheRoom() + "");
         textInput_roomDescription.getEditText().setText(houseEdit.getRoomDescription() + "");
+        textView_availableDate.setText(houseEdit.getAvailableDate());
     }
 }

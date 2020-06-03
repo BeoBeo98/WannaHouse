@@ -65,22 +65,26 @@ public class ListYourSpaceActivity extends AppCompatActivity implements SingleCh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_your_space);
 
-        houseNew = new House();
-
         tabLayout = findViewById(R.id.tabLayout_listYourSpace);
         viewPager = findViewById(R.id.viewPager_listYourSpace);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), 1000);
 
-        adapter.addFragment(information, "INFORMATION");
+        adapter.addFragment(information, "INFO");
         adapter.addFragment(address, "ADDRESS");
         adapter.addFragment(amenities, "AMENITIES");
-        adapter.addFragment(confirmation, "CONFIRMATION");
+        adapter.addFragment(confirmation, "CONFIRM");
         Log.d("KEYBB", adapter.toString() + "");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
 
         foder = FirebaseStorage.getInstance().getReference().child("ImageHouse");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     @Override

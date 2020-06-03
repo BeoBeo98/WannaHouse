@@ -97,6 +97,12 @@ public class HouseDetailsActivity extends AppCompatActivity implements SingleCho
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
     }

@@ -16,6 +16,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp" />
         <LinearLayout
+            android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center"
             android:orientation="vertical"
@@ -37,5 +38,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
+        <ImageView
+            android:layout_gravity="center"
+            android:background="@drawable/tick"
+            android:id="@+id/image_tick"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
     </LinearLayout>
 </LinearLayout>

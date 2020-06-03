@@ -30,6 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:background="@drawable/border_no_padding"
                     android:clickable="true"
                     android:id="@+id/tv_cancelHere"
                     android:textSize="18sp"
@@ -43,6 +44,8 @@
                 android:layout_height="wrap_content" >
 
                 <LinearLayout
+                    android:gravity="center"
+                    android:layout_gravity="center"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >

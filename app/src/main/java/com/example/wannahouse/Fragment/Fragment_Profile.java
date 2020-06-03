@@ -68,6 +68,11 @@ public class Fragment_Profile extends Fragment {
         txtName.setText(user.getDisplayName());
         txtReport.setText("Total unit Report: " + accountNew.getReport());
 
+        if( user.getUid().equals("odVJNPmzGHXSdjX7jpkxTf2ipfA2") ) {
+            txtApproved.setVisibility(View.GONE);
+            txtReport.setVisibility(View.GONE);
+        }
+
         int totalApproved = 0;
         for(House house : Data.arrayListHouse) {
             if( house.getOwner_id().equals(user.getUid()) && house.isVerify() == true ) {

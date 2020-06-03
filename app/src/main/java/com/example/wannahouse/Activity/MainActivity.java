@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         houseNew.setName(accountNew.getName());
         houseNew.setAvatar(accountNew.getAvatar());
         Log.d("ABC", user.getUid() + " " + user.getDisplayName() + " " + user.getPhotoUrl());
+        Log.d("ABC", houseNew.getOwner_id());
         final DatabaseReference guestDB = FirebaseDatabase.getInstance().getReference().child("account").child("guest");
         guestDB.addValueEventListener(new ValueEventListener() {
             @Override

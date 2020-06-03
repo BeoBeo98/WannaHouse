@@ -72,6 +72,7 @@ public class EditHouseActivity extends HouseDetailsActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        finish();
     }
 
     void delete(final House house) {

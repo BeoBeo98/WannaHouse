@@ -23,6 +23,7 @@ import com.example.wannahouse.Activity.ExploreActivity;
 import com.example.wannahouse.Activity.FilterActivity;
 import com.example.wannahouse.Activity.HouseDetailsActivity;
 import com.example.wannahouse.Activity.ListYourSpaceActivity;
+import com.example.wannahouse.Activity.LocationActivity;
 import com.example.wannahouse.Adapter.DistrictAdapter;
 import com.example.wannahouse.Adapter.HouseAdapter;
 import com.example.wannahouse.Class_Java.Data;
@@ -40,6 +41,7 @@ public class FragmentHome extends Fragment implements AdapterView.OnItemSelected
 
     ViewGroup viewGroup_listYourSpace;
     ViewGroup viewGroup_nearBy;
+    ViewGroup viewGroup_location;
 
     Button button_explore;
     Button button_filter;
@@ -99,6 +101,15 @@ public class FragmentHome extends Fragment implements AdapterView.OnItemSelected
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ListYourSpaceActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+
+        viewGroup_location = view.findViewById(R.id.viewGroup_location);
+        viewGroup_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LocationActivity.class);
                 getActivity().startActivity(intent);
             }
         });

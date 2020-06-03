@@ -197,7 +197,7 @@
                 <TextView
                     android:textColor="@color/colorAccent"
                     android:textSize="20sp"
-                    android:text=" VND"
+                    android:text="k VND"
                     android:layout_toRightOf="@+id/rentalPriceDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

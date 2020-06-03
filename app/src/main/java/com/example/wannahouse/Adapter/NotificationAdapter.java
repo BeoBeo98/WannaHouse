@@ -21,9 +21,6 @@ import java.util.ArrayList;
 
 public class NotificationAdapter extends BaseAdapter {
 
-    public static ArrayList<Account> listNotify_Account = new ArrayList<>();
-    public static MutableLiveData<ArrayList<House>> liveDataNotify_Account = new MutableLiveData<>();
-
     public static ArrayList<House> listNotify_House = new ArrayList<>();
     public static MutableLiveData<ArrayList<House>> liveDataNotify_House = new MutableLiveData<>();
 
@@ -61,6 +58,7 @@ public class NotificationAdapter extends BaseAdapter {
             viewHolder.image_styleNotification = convertView.findViewById(R.id.image_styleNotification);
             viewHolder.textView_reason = convertView.findViewById(R.id.textView_reason);
             viewHolder.textView_time = convertView.findViewById(R.id.textView_time);
+            viewHolder.imageView_tick = convertView.findViewById(R.id.image_tick);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolderNotify) convertView.getTag();
@@ -92,6 +90,17 @@ public class NotificationAdapter extends BaseAdapter {
             viewHolder.textView_reason.setText( "Reason: " + arrayListNotify.get(position).getReason());
         }
 
+        if( listNotify_House.get(position).isVerify() == true && arrayListNotify.get(position).getType() == 2 ) {
+            viewHolder.imageView_tick.setVisibility(View.VISIBLE);
+        }
+        else {
+            viewHolder.imageView_tick.setVisibility(View.GONE);
+        }
+
+        if( listNotify_House.get(position).isPublicRoom() == false && arrayListNotify.get(position).getType() == 1 ) {
+            viewHolder.imageView_tick.setVisibility(View.VISIBLE);
+        }
+
         viewHolder.textView_time.setText(arrayListNotify.get(position).getTime());
         Log.d("YYY", "index " + listNotify_House.size());
         return convertView;
@@ -102,6 +111,7 @@ public class NotificationAdapter extends BaseAdapter {
         TextView textView_notify;
         TextView textView_reason;
         TextView textView_time;
+        ImageView imageView_tick;
     }
 
     void mapingNotify_House() {
