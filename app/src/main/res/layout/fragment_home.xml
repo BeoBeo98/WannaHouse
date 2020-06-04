@@ -38,6 +38,7 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:background="?attr/selectableItemBackground"
                         android:layout_weight="1"
                         android:id="@+id/viewGroup_location"
                         android:orientation="vertical"
