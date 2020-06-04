@@ -22,7 +22,9 @@ import com.example.wannahouse.Class_Java.Account;
 import com.example.wannahouse.Class_Java.Data;
 import com.example.wannahouse.Class_Java.House;
 import com.example.wannahouse.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -189,7 +191,6 @@ public class FragmentConfirmation extends Fragment {
             progressDialog.setCanceledOnTouchOutside(false);
             if( houseEdit == null) {
                 savingData(houseNew);
-                upNewOwner(accountNew);
                 upNewHouse(houseNew);
                 upNewNofify(houseNew);
                 Intent intent = new Intent(getActivity(), EditHouseActivity.class);
@@ -207,6 +208,9 @@ public class FragmentConfirmation extends Fragment {
                 getActivity().finish();
                 Log.d("KEYBB", houseEdit.toString());
             }
+            accountNew.setPhone(textInput_phoneNumber.getEditText().getText().toString());
+            updateOwner(accountNew);
+            updateGuest(accountNew);
         }
     }
 
@@ -232,12 +236,12 @@ public class FragmentConfirmation extends Fragment {
         Log.d("ZZZ", "maxId " + houseNew.getName() );
     }
 
-    void upNewOwner(final Account account) {
+    void updateOwner(final Account account) {
         final DatabaseReference databaseAccount = FirebaseDatabase.getInstance().getReference().child("account").child("roomOwner");
         databaseAccount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if( !dataSnapshot.hasChild( account.getId() ) ) {
+             //   if( !dataSnapshot.hasChild( account.getId() ) ) {
                     DatabaseReference newOwner = databaseAccount.child(account.getId());
 
                     newOwner.setValue(account).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -246,10 +250,32 @@ public class FragmentConfirmation extends Fragment {
                         //    Toast.makeText( getActivity(), "New Owner ", Toast.LENGTH_SHORT).show();
                         }
                     });
-                }
-                else {
-                //    Toast.makeText( getActivity(), "Owner Exist ", Toast.LENGTH_SHORT).show();
-                }
+//                }
+//                else {
+//                //    Toast.makeText( getActivity(), "Owner Exist ", Toast.LENGTH_SHORT).show();
+//                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    void updateGuest(final Account account) {
+        final DatabaseReference databaseAccount = FirebaseDatabase.getInstance().getReference().child("account").child("guest");
+        databaseAccount.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DatabaseReference newOwner = databaseAccount.child(account.getId());
+
+                newOwner.setValue(account).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //    Toast.makeText( getActivity(), "New Owner ", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
