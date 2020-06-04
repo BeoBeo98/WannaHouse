@@ -58,6 +58,7 @@ public class EditHouseActivity extends HouseDetailsActivity {
                 progressDialog.setCancelable(false);
                 progressDialog.setCanceledOnTouchOutside(false);
                 edit(posHouse);
+                finish();
             }
         });
     }
