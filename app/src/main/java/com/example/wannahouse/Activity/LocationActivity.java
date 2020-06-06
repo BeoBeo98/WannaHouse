@@ -49,7 +49,9 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
 
     private GoogleMap mMap;
     ArrayList<LatLng> arrayListLatLng = new ArrayList<LatLng>();
-    LatLng current;
+
+    //school
+    LatLng current = new LatLng(21.036779,105.782272);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,9 +84,6 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                 }
             }
         });
-
-        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapLocation);
-        supportMapFragment.getMapAsync(this);
     }
 
     @Override
@@ -97,12 +96,10 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng school = new LatLng(21.036779,105.782272);
-
-        mMap.addMarker(new MarkerOptions().position(school)
+        mMap.addMarker(new MarkerOptions().position(current)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
         .title("I'm here"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(school));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
         Log.d("ZOOM", "ZOOm " + mMap.getMaxZoomLevel());
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
 
@@ -162,13 +159,13 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                         Log.d("LOCAAA", "L 0");
                         if (location != null) {
                             current = new LatLng(location.getLatitude(), location.getLongitude());
-                            Log.d("LOCAAA", "L 1" + current.latitude + " " + current.longitude);
-                            Toast.makeText(LocationActivity.this, "L 1" + current.latitude + " " + current.longitude, Toast.LENGTH_SHORT).show();
+                            Log.d("LOCAAA", "L " + current.latitude + " " + current.longitude);
+                            Toast.makeText(LocationActivity.this, "L " + current.latitude + " " + current.longitude, Toast.LENGTH_SHORT).show();
                             SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapLocation);
                             supportMapFragment.getMapAsync(LocationActivity.this);
                         } else {
                             Toast.makeText(LocationActivity.this, "Not have location", Toast.LENGTH_SHORT).show();
-                            Log.d("LOCAAA", "L 2");
+                            Log.d("LOCAAA", "L ");
                         }
                     }
                 });
